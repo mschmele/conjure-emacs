@@ -1,0 +1,10 @@
+# transient files
+smex-items
+recentf
+*.*~
+projectile-bookmarks.eld
+
+# directories
+auto-save-list
+elpa
+transient

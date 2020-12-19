@@ -1,6 +1,9 @@
 ;;; init.el --- basic emacs initialization
 ;;; Commentary:
 ;;; Code:
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(defconst *is-a-mac* (eq system-type 'darwin))
+
 (setq inhibit-startup-message t)
 
 (scroll-bar-mode -1)
@@ -12,6 +15,7 @@
 
 (setq visible-bell t)
 
+;; Install Fira Code to the system first
 (set-face-attribute 'default nil :font "Fira Code Retina" :height 140)
 
 (load-theme 'tango-dark)
@@ -37,69 +41,121 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
-(use-package command-log-mode)
+(use-package exec-path-from-shell
+  :config
+  (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE"))
+    (add-to-list 'exec-path-from-shell-variables var)))
+
+;;;; UI Elements
+(column-number-mode)
+(global-display-line-numbers-mode t)
+;; Disable line numbers for certain modes
+(dolist (mode '(eshell-mode-hook
+		org-mode-hook
+		shell-mode-hook
+		term-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+(use-package all-the-icons)
 
 (use-package diminish)
 
-(use-package ivy
-  :diminish
-  :bind(("C-s" . swiper)
-	:map ivy-minibuffer-map
-	("TAB" . ivy-alt-done)
-	("C-l" . ivy-alt-done)
-	("C-j" . ivy-next-line)
-	("C-k" . ivy-previous-line)
-	:map ivy-switch-buffer-map
-	("C-k" . ivy-previous-line)
-	("C-l" . ivy-done)
-	("C-d" . ivy-switch-buffer-kill)
-	:map ivy-reverse-i-search-map
-	("C-k" . ivy-previous-line)
-	("C-d" . ivy-revers-i-search-kill))
-  :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)
-  (setq ivy-wrap t)
-  (setq ivy-count-format "(%d/%d) ")
-  (setq enable-recursive-minibuffers t)
+(require 'init-ivy)
 
-  (push '(completion-at-point . ivy--regex-fuzzy) ivy-re-builders-alist)
-  (push '(swiper . ivy--regex-ignore-order) ivy-re-builders-alist)
-  (push '(counsel-M-x . ivy--regex-ignore-order) ivy-re-builders-alist)
-
-  (setf (alist-get 'swiper ivy-height-alist) 15)
-  (setf (alist-get 'counsel-switch-buffer ivy-height-alist) 7))
-
-(use-package counsel
-  :bind (("M-x" . counsel-M-x)
-	 ("C-x b" . counsel-ibuffer)
-	 ("C-x C-f" . counsel-find-file)
-	 :map minibuffer-local-map
-	 ("C-r" . 'counsel-minibuffer-history))
-  :config
-  (setq ivy-initial-inputs-alist nil))
-
-;; Improve fuzzy searching in Ivy
-(use-package flx
-  :defer t
-  :init
-  (setq ivy-flx-limit 10000))
+(require 'init-counsel)
 
 ;; Adds M-x recent command sorting for counsel-M-x
 (use-package smex
   :defer 1
   :after counsel)
 
-;; (use-package doom-modeline
-;;   :ensure t
-;;   :init (doom-modeline-mode 1)
-;;   :custom ((doom-modeline-height 15)))
-
 (use-package simple-modeline
   :hook (after-init . simple-modeline-mode))
 
-(use-package paredit)
-(use-package rainbow-delimiters)
+(use-package paredit
+  :hook (prog-mode . paredit-mode))
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package which-key
+  :init (which-key-mode)
+  :diminish which-key-mode
+  :config
+  (setq which-key-idle-delay 0.3))
+
+(use-package helpful
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-varaible-function #'helpful-variable)
+  :bind
+  ([remap describe-function] . counsel-describe-function)
+  ([remap describe-command] . helpful-command)
+  ([remap describe-variable] . counsel-describe-variable)
+  ([remap describe-key] . helpful-key))
+
+(use-package hydra)
+(defhydra hydra-text-scale (:timeout 4)
+  "scale text"
+  ("j" text-scale-increase "in")
+  ("k" text-scale-increase "out")
+  ("f" nil "finished" :exit t))
+
+(use-package magit
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+(use-package gitignore-mode)
+(use-package git-timemachine)
+(use-package git-messenger)
+(use-package git-gutter
+  :hook (after-init . global-git-gutter-mode))
+
+(use-package fullframe)
+
+(use-package clojure-mode)
+(use-package cljsbuild-mode)
+(use-package elein)
+
+(use-package cider)
+
+(use-package flycheck-clojure
+  :init (flycheck-clojure-setup))
+
+(use-package ruby-mode)
+(use-package ruby-hash-syntax)
+(use-package rspec-mode)
+
+(use-package dockerfile-mode)
+(use-package docker-compose-mode)
+
+(use-package python-mode)
+
+(require 'init-osx-keys)
+(require 'init-exec-path)
+(require 'init-behaviors)
+(require 'init-flycheck)
+;;(require 'init-uniquify)
+(require 'init-projectile)
+
+(use-package uniquify-files)
+
+(use-package company
+  :diminish (company-mode)
+  :hook (after-init . global-company-mode))
+
+(use-package beacon
+  :hook (after-init . beacon-mode))
+
+(use-package ace-window
+  :bind (("M-p" . 'ace-window)))
+
+(use-package ibuffer
+  :bind (("C-x C-b" . ibuffer)))
+
+(use-package whitespace-cleanup-mode
+  :hook (after-init . whitespace-cleanup-mode))
+
+(use-package rg)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -107,7 +163,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(simple-modeline rainbow-delimiters paredit flx smex counsel ivy diminish command-log-mode use-package)))
+   '(rg whitespace-cleanup-mode git-messenger fullframe git-timemachine gitignore-mode python-mode uniquify-files exec-path-from-shell syntax-subword flycheck-clojure eldoc-mode subword-mode cider magit flycheck-color-mode-line flycheck counsel-projectile clojure-mode hydra projectile helpful ivy-rich which-key simple-modeline rainbow-delimiters paredit flx smex counsel ivy diminish command-log-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
