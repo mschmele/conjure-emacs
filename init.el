@@ -10,6 +10,7 @@
 (tool-bar-mode -1)
 (tooltip-mode -1)
 (menu-bar-mode -1)
+(blink-cursor-mode 0)
 
 (set-fringe-mode 10)
 
@@ -67,7 +68,7 @@
 (use-package diminish)
 
 (use-package ivy
-  :diminish
+  :diminish ivy-mode
   :bind(("C-s" . swiper)
 	:map ivy-minibuffer-map
 	("TAB" . ivy-alt-done)
@@ -96,7 +97,7 @@
   (setq ivy-flx-limit 10000))
 
 (use-package counsel
-  :diminish
+  :diminish counsel-mode
   :bind (("C-M-j" . 'counsel-switch-buffer)
 	 :map minibuffer-local-map
 	 ("C-r" . 'counsel-minibuffer-history))
@@ -145,7 +146,7 @@
 (use-package git-timemachine)
 (use-package git-messenger)
 (use-package git-gutter
-  :diminish
+  :diminish git-gutter-mode
   :hook (after-init . global-git-gutter-mode))
 
 (use-package fullframe)
@@ -208,7 +209,7 @@
 (use-package uniquify-files)
 
 (use-package company
-  :diminish (company-mode)
+  :diminish company-mode
   :hook (after-init . global-company-mode))
 
 (use-package beacon
@@ -221,7 +222,12 @@
   :bind (("C-x C-b" . ibuffer)))
 
 (use-package whitespace-cleanup-mode
-  :hook (after-init . whitespace-cleanup-mode))
+  :hook (prog-mode . whitespace-cleanup-mode)
+  :custom
+  (add-hook 'before-save-hook #'whitespace-cleanup))
+
+(use-package aggressive-indent
+  :hook (prog-mode . aggressive-indent-mode))
 
 (use-package rg)
 
@@ -229,8 +235,8 @@
   "Setup fonts for 'org-mode'."
   ;; Replace list hyphen with dot
   (font-lock-add-keywords 'org-mode
-                          '(("^ *\\([-]\\) "
-                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+			  '(("^ *\\([-]\\) "
+			     (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 
   ;; Set faces for headings
   (dolist (face '((org-level-1 . 1.2)
@@ -297,7 +303,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(fira-code-mode markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window)))
+   '(aggressive-indent aggressive-indent-mode fira-code-mode markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
