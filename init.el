@@ -18,14 +18,6 @@
 ;; Install Fira Code to the system first
 (set-face-attribute 'default nil :font "Fira Code Retina" :height 140)
 
-;;(load-theme 'tango-dark)
-(use-package doom-themes
-  :init (load-theme 'doom-one t))
-
-(use-package doom-modeline
-  :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 15)))
-
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
@@ -46,6 +38,14 @@
 
 (require 'use-package)
 (setq use-package-always-ensure t)
+
+(use-package doom-themes
+  :init (load-theme 'doom-one t))
+
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 15)))
+
 
 (use-package exec-path-from-shell
   :config
