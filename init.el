@@ -168,12 +168,41 @@
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
 
+(use-package transpose-frame)
+
 (use-package hydra)
 (defhydra hydra-text-scale (:timeout 4)
   "scale text"
   ("j" text-scale-increase "in")
   ("k" text-scale-increase "out")
   ("f" nil "finished" :exit t))
+
+(global-set-key
+ (kbd "C-M-o")
+ (defhydra hydra-window ()
+   "window"
+   ("h" windmove-left)
+   ("j" windmove-down)
+   ("k" windmove-up)
+   ("l" windmove-right)
+   ("v" (lambda ()
+	  (interactive)
+	  (split-window-right)
+	  (windmove-right))
+    "vert")
+   ("x" (lambda ()
+	  (interactive)
+	  (split-window-below)
+	  (windmove-down))
+    "horz")
+   ("t" transpose-frame "'")
+   ("o" delete-other-windows "one" :color blue)
+   ("a" ace-window "ace")
+   ("s" ace-swap-window "swap")
+   ("d" ace-delete-window "del")
+   ("i" ace-delete-other-windows "ace-one" :color blue)
+   ("b" counsel-switch-buffer "buf")
+   ("q" nil "cancel" :color blue)))
 
 (use-package ivy-hydra
   :after (ivy hydra))
@@ -353,7 +382,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(feature-mode fixture-mode ivy-hydra aggressive-indent aggressive-indent-mode fira-code-mode markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window))
+   '(transpose-frame feature-mode fixture-mode ivy-hydra aggressive-indent aggressive-indent-mode fira-code-mode markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
