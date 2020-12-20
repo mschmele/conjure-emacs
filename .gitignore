@@ -3,8 +3,10 @@ smex-items
 recentf
 *.*~
 projectile-bookmarks.eld
+.cider-repl-history
 
 # directories
 auto-save-list
 elpa
 transient
+eshell
