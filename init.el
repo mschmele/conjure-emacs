@@ -18,6 +18,21 @@
 
 (setq visible-bell t)
 
+(if (display-graphic-p)
+    (progn
+      (setq initial-frame-alist `((left . 80)
+				  (top . 50)
+				  (height . 55)
+				  (width . 140)))
+
+      (setq default-frame-alist `((left . 80)
+				  (top . 50)
+				  (height . 55)
+				  (width . 140))))
+  (progn
+    (setq initial-frame-alist `((tool-bar-lines . 0)))
+    (setq default-frame-alist `((tool-bar-lines . 0)))))
+
 ;; Install Fira Code to the system first
 (set-face-attribute 'default nil :font "Fira Code Retina" :height 140)
 
@@ -140,6 +155,9 @@
   ("j" text-scale-increase "in")
   ("k" text-scale-increase "out")
   ("f" nil "finished" :exit t))
+
+(use-package ivy-hydra
+  :after (ivy hydra))
 
 (use-package magit
   :custom
@@ -305,7 +323,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(aggressive-indent aggressive-indent-mode fira-code-mode markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window)))
+   '(ivy-hydra aggressive-indent aggressive-indent-mode fira-code-mode markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
