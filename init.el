@@ -6,6 +6,8 @@
 
 (setq inhibit-startup-message t)
 
+(setq backup-directory-alist `(("" . "~/.emacs.d/backup")))
+
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
