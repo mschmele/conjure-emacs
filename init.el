@@ -66,17 +66,46 @@
 
 (use-package diminish)
 
-(require 'init-ivy)
+(use-package ivy
+  :diminish
+  :bind(("C-s" . swiper)
+	:map ivy-minibuffer-map
+	("TAB" . ivy-alt-done)
+	("C-l" . ivy-alt-done)
+	("C-j" . ivy-next-line)
+	("C-k" . ivy-previous-line)
+	:map ivy-switch-buffer-map
+	("C-k" . ivy-previous-line)
+	("C-l" . ivy-done)
+	("C-d" . ivy-switch-buffer-kill)
+	:map ivy-reverse-i-search-map
+	("C-k" . ivy-previous-line)
+	("C-d" . ivy-revers-i-search-kill))
+  :config
+  (ivy-mode 1))
 
-(require 'init-counsel)
+(use-package ivy-rich
+  :after (ivy counsel)
+  :init
+  (ivy-rich-mode 1))
 
-;; Adds M-x recent command sorting for counsel-M-x
+;; Improve fuzzy searching in Ivy
+(use-package flx
+  :defer t
+  :init
+  (setq ivy-flx-limit 10000))
+
+(use-package counsel
+  :diminish
+  :bind (("C-M-j" . 'counsel-switch-buffer)
+	 :map minibuffer-local-map
+	 ("C-r" . 'counsel-minibuffer-history))
+  :config
+  (counsel-mode 1))
+
 (use-package smex
   :defer 1
   :after counsel)
-
-;; (use-package simple-modeline
-;;   :hook (after-init . simple-modeline-mode))
 
 (use-package paredit
   :hook ((cider-mode . paredit-mode)
@@ -92,6 +121,7 @@
   (setq which-key-idle-delay 0.3))
 
 (use-package helpful
+  :after counsel
   :custom
   (counsel-describe-function-function #'helpful-callable)
   (counsel-describe-varaible-function #'helpful-variable)
@@ -154,17 +184,26 @@
 (use-package ruby-hash-syntax)
 (use-package rspec-mode)
 
-(use-package python-mode
-  :ensure nil
-  :custom
-  (python-shell-interpreter "python3"))
-
 (use-package dockerfile-mode)
 (use-package docker-compose-mode)
 
 (require 'init-exec-path)
 (require 'init-behaviors)
-(require 'init-projectile)
+
+(use-package projectile
+  :diminish projectile-mode
+  :config (projectile-mode)
+  :custom ((projectile-completion-system 'ivy))
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  (when (file-directory-p "~/workspace")
+    (setq projectile-project-search-path '("~/workspace")))
+  (setq projectile-switch-project-action #'projectile-dired))
+
+(use-package counsel-projectile
+  :after projectile-mode
+  :config (counsel-projectile-mode))
 
 (use-package uniquify-files)
 
@@ -246,6 +285,10 @@
 
 (use-package fira-code-mode
   :custom (fira-code-mode-disabled-ligatures '("[]" "x" "#_"))
+  :hook prog-mode)
+
+(use-package visual-line-mode
+  :ensure nil
   :hook prog-mode)
 
 (custom-set-variables
