@@ -293,7 +293,7 @@
   :custom (fira-code-mode-disabled-ligatures '("[]" "x" "#_"))
   :hook prog-mode)
 
-(use-package visual-line-mode
+(use-package display-fill-column-indicator-mode
   :ensure nil
   :hook prog-mode)
 
