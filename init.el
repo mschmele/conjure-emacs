@@ -244,13 +244,17 @@
 
 (use-package markdown-mode)
 
+(use-package fira-code-mode
+  :custom (fira-code-mode-disabled-ligatures '("[]" "x" "#_"))
+  :hook prog-mode)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window)))
+   '(fira-code-mode markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
