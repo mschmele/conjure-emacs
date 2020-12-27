@@ -262,36 +262,36 @@
 (use-package erlang)
 (use-package elixir-mode)
 
-(use-package lsp-mode
-  :ensure t
-  :hook ((clojure-mode . lsp)
-	 (clojurec-mode . lsp)
-	 (clojurescript-mode . lsp))
-  :config
-  (setenv "PATH" (concat
-		  "/usr/local/bin" path-separator
-		  (getenv "PATH")))
-  (dolist (m '(clojure-mode
-	       clojurec-mode
-	       clojurescript-mode
-	       clojureex-mode))
-    (add-to-list 'lsp-language-id-configuration `(,m . "clojure"))))
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :hook ((clojure-mode . lsp)
+;; 	 (clojurec-mode . lsp)
+;; 	 (clojurescript-mode . lsp))
+;;   :config
+;;   (setenv "PATH" (concat
+;; 		  "/usr/local/bin" path-separator
+;; 		  (getenv "PATH")))
+;;   (dolist (m '(clojure-mode
+;; 	       clojurec-mode
+;; 	       clojurescript-mode
+;; 	       clojureex-mode))
+;;     (add-to-list 'lsp-language-id-configuration `(,m . "clojure"))))
 
-(use-package lsp-ui
-  :commands lsp-ui-mode)
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp)
-(use-package lsp-haskell)
+;; (use-package lsp-ui
+;;   :commands lsp-ui-mode)
+;; (use-package company-lsp
+;;   :ensure t
+;;   :commands company-lsp)
+;; (use-package lsp-haskell)
 
-(use-package lsp-python-ms
-  :ensure t
-  :init (setq lsp-python-ms-auto-install-server t)
-  :config
-  (setq lsp-python-ms-python-executable "/usr/local/bin/python3")
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-python-ms)
-                         (lsp))))
+;; (use-package lsp-python-ms
+;;   :ensure t
+;;   :init (setq lsp-python-ms-auto-install-server t)
+;;   :config
+;;   (setq lsp-python-ms-python-executable "/usr/local/bin/python3")
+;;   :hook (python-mode . (lambda ()
+;;                          (require 'lsp-python-ms)
+;;                          (lsp))))
 
 (require 'init-exec-path)
 (require 'init-behaviors)
