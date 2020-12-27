@@ -277,12 +277,14 @@
 ;; 	       clojureex-mode))
 ;;     (add-to-list 'lsp-language-id-configuration `(,m . "clojure"))))
 
-;; (use-package lsp-ui
-;;   :commands lsp-ui-mode)
-;; (use-package company-lsp
-;;   :ensure t
-;;   :commands company-lsp)
 ;; (use-package lsp-haskell)
+
+(use-package lsp-mode)
+(use-package lsp-ui
+  :commands lsp-ui-mode)
+(use-package company-lsp
+  :ensure t
+  :commands company-lsp)
 
 ;; (use-package lsp-python-ms
 ;;   :ensure t
