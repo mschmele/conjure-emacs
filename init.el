@@ -262,6 +262,28 @@
 (use-package erlang)
 (use-package elixir-mode)
 
+(use-package lsp-mode
+  :ensure t
+  :hook ((clojure-mode . lsp)
+	 (clojurec-mode . lsp)
+	 (clojurescript-mode . lsp))
+  :config
+  (setenv "PATH" (concat
+		  "/usr/local/bin" path-separator
+		  (getenv "PATH")))
+  (dolist (m '(clojure-mode
+	       clojurec-mode
+	       clojurescript-mode
+	       clojureex-mode))
+    (add-to-list 'lsp-language-id-configuration `(,m . "clojure"))))
+
+(use-package lsp-ui
+  :commands lsp-ui-mode)
+(use-package company-lsp
+  :ensure t
+  :commands company-lsp)
+(use-package lsp-haskell)
+
 (require 'init-exec-path)
 (require 'init-behaviors)
 
@@ -388,7 +410,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(elixir-mode erlang lsp-haskell lsp-ui lsp-mode haskell-mode ibuffer-vc ibuffer-projectile transpose-frame feature-mode fixture-mode ivy-hydra aggressive-indent aggressive-indent-mode fira-code-mode markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window))
+   '(company-lsp elixir-mode erlang lsp-haskell lsp-ui lsp-mode haskell-mode ibuffer-vc ibuffer-projectile transpose-frame feature-mode fixture-mode ivy-hydra aggressive-indent aggressive-indent-mode fira-code-mode markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])

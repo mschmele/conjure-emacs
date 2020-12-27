@@ -5,6 +5,7 @@ recentf
 projectile-bookmarks.eld
 .cider-repl-history
 *.log
+.lsp-session*
 
 # directories
 auto-save-list
@@ -12,3 +13,4 @@ elpa
 transient
 eshell
 backup
+.cache
