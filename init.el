@@ -267,24 +267,23 @@
 ;;   :hook ((clojure-mode . lsp)
 ;; 	 (clojurec-mode . lsp)
 ;; 	 (clojurescript-mode . lsp))
-;;   :config
-;;   (setenv "PATH" (concat
-;; 		  "/usr/local/bin" path-separator
-;; 		  (getenv "PATH")))
+;;   :config(setenv "PATH" (concat
+;; 			 "/usr/local/bin" path-separator
+;; 			 (getenv "PATH")))
 ;;   (dolist (m '(clojure-mode
-;; 	       clojurec-mode
-;; 	       clojurescript-mode
-;; 	       clojureex-mode))
+;;                clojurec-mode
+;;                clojurescript-mode
+;;                clojurex-mode))
 ;;     (add-to-list 'lsp-language-id-configuration `(,m . "clojure"))))
 
-;; (use-package lsp-haskell)
+;; (use-package lsp-ui
+;;   :ensure t
+;;   :hook (lsp-mode . lsp-ui-mode))
 
-(use-package lsp-mode)
-(use-package lsp-ui
-  :commands lsp-ui-mode)
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp)
+;; (use-package company-lsp
+;;   :ensure t
+;;   :config
+;;   (push 'company-capf company-backends))
 
 ;; (use-package lsp-python-ms
 ;;   :ensure t
@@ -294,6 +293,8 @@
 ;;   :hook (python-mode . (lambda ()
 ;;                          (require 'lsp-python-ms)
 ;;                          (lsp))))
+
+;; (use-package lsp-haskell)
 
 (require 'init-exec-path)
 (require 'init-behaviors)
@@ -399,7 +400,7 @@
 (use-package markdown-mode)
 
 (use-package fira-code-mode
-  :custom (fira-code-mode-disabled-ligatures '("[]" "x" "#_"))
+  :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x"))
   :hook (prog-mode . fira-code-mode))
 
 (use-package display-fill-column-indicator-mode
