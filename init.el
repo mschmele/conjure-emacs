@@ -7,7 +7,9 @@
 (setq inhibit-startup-message t)
 
 (setq backup-directory-alist `(("" . "~/.emacs.d/backup")))
+(setq default-directory "~/workspace/")
 
+;; Basic UI tweaks
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
@@ -15,6 +17,9 @@
 (blink-cursor-mode 0)
 
 (set-fringe-mode 10)
+
+(setq-default tab-width 2)
+(setq-default indent-tabs-mode nil)
 
 (setq visible-bell t)
 
@@ -32,7 +37,6 @@
   (progn
     (setq initial-frame-alist `((tool-bar-lines . 0)))
     (setq default-frame-alist `((tool-bar-lines . 0)))))
-
 
 (defun disable-active-themes ()
   "Disable themes before switching."
@@ -210,6 +214,7 @@
 (use-package magit
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
 (use-package gitignore-mode)
 (use-package git-timemachine)
 (use-package git-messenger)
@@ -219,17 +224,21 @@
 
 (use-package fullframe)
 
-(use-package clojure-mode)
+(use-package clojure-mode
+  :config
+  (setq clojure-indent-style 'align-arguments))
+
 (use-package cljsbuild-mode)
 
 (use-package cider
   :ensure t
   :defer t
   :config
-  (setq cider-repl-history-file ".cider-repl-history")
+  (setq cider-repl-history-file ".cider-repl-history"
+	nrepl-log-messages t)
   (flycheck-clojure-setup))
 
-(use-package flycheck-clojure
+(use-package flycheck-clojure 
   :defer t
   :commands (flycheck-clojure-setup)
   :config
@@ -240,6 +249,7 @@
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
+
 (setq-default flycheck-emacs-lisp-load-path 'inherit)
 
 (use-package flycheck-pos-tip
@@ -262,40 +272,6 @@
 (use-package erlang)
 (use-package elixir-mode)
 
-;; (use-package lsp-mode
-;;   :ensure t
-;;   :hook ((clojure-mode . lsp)
-;; 	 (clojurec-mode . lsp)
-;; 	 (clojurescript-mode . lsp))
-;;   :config(setenv "PATH" (concat
-;; 			 "/usr/local/bin" path-separator
-;; 			 (getenv "PATH")))
-;;   (dolist (m '(clojure-mode
-;;                clojurec-mode
-;;                clojurescript-mode
-;;                clojurex-mode))
-;;     (add-to-list 'lsp-language-id-configuration `(,m . "clojure"))))
-
-;; (use-package lsp-ui
-;;   :ensure t
-;;   :hook (lsp-mode . lsp-ui-mode))
-
-;; (use-package company-lsp
-;;   :ensure t
-;;   :config
-;;   (push 'company-capf company-backends))
-
-;; (use-package lsp-python-ms
-;;   :ensure t
-;;   :init (setq lsp-python-ms-auto-install-server t)
-;;   :config
-;;   (setq lsp-python-ms-python-executable "/usr/local/bin/python3")
-;;   :hook (python-mode . (lambda ()
-;;                          (require 'lsp-python-ms)
-;;                          (lsp))))
-
-;; (use-package lsp-haskell)
-
 (require 'init-exec-path)
 (require 'init-behaviors)
 
@@ -307,7 +283,7 @@
   ("C-c p" . projectile-command-map)
   :init
   (when (file-directory-p "~/workspace")
-    (setq projectile-project-search-path '("~/workspace")))
+    (setq projectile-project-search-path '("~/workspace" "~/workspace/cmr")))
   (setq projectile-switch-project-action #'projectile-dired))
 
 (use-package counsel-projectile
@@ -330,7 +306,9 @@
   :bind (("C-x C-b" . ibuffer)))
 
 (use-package ibuffer-vc
-  :after ibuffer)
+  :ensure t
+  :after ibuffer
+  :hook ((ibuffer-mode . hl-line-mode)))
 
 (use-package whitespace-cleanup-mode
   :hook (prog-mode . whitespace-cleanup-mode)
@@ -387,8 +365,8 @@
   (setq org-log-done 'time)
   (setq org-log-into-drawer t)
 
-  (setq org-agenda-files
-	'(~/workspace/organization/todo.org))
+  (setq org-directory "~/Documents/org")
+  (setq org-agenda-files (list org-directory))
 
   (ds/org-font-setup))
 
@@ -415,14 +393,16 @@
  '(ansi-color-names-vector
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
  '(custom-safe-themes
-   '("c4bdbbd52c8e07112d1bfd00fee22bf0f25e727e95623ecb20c4fa098b74c1bd" "99ea831ca79a916f1bd789de366b639d09811501e8c092c85b2cb7d697777f93" default))
+   '("e074be1c799b509f52870ee596a5977b519f6d269455b84ed998666cf6fc802a" "4a8d4375d90a7051115db94ed40e9abb2c0766e80e228ecad60e06b3b397acab" "c086fe46209696a2d01752c0216ed72fd6faeabaaaa40db9fc1518abebaf700d" "7b3d184d2955990e4df1162aeff6bfb4e1c3e822368f0359e15e2974235d9fa8" "2cdc13ef8c76a22daa0f46370011f54e79bae00d5736340a5ddfe656a767fddf" "fce3524887a0994f8b9b047aef9cc4cc017c5a93a5fb1f84d300391fba313743" "c4bdbbd52c8e07112d1bfd00fee22bf0f25e727e95623ecb20c4fa098b74c1bd" "99ea831ca79a916f1bd789de366b639d09811501e8c092c85b2cb7d697777f93" default))
  '(fci-rule-color "#383a42")
  '(jdee-db-active-breakpoint-face-colors (cons "#f0f0f0" "#4078f2"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#f0f0f0" "#50a14f"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
+ '(org-agenda-files
+   '("/Users/jbarra/Documents/org/Birthdays.org" "/Users/jbarra/Documents/org/20200724.org" "/Users/jbarra/Documents/org/cicd.org" "/Users/jbarra/Documents/org/cmr-stac.org" "/Users/jbarra/Documents/org/cmr.org" "/Users/jbarra/Documents/org/cmr_6827.org" "/Users/jbarra/Documents/org/graphql_talk.org" "/Users/jbarra/Documents/org/legacy_build.org" "/Users/jbarra/Documents/org/org_mode.org" "/Users/jbarra/Documents/org/todo.org" "/Users/jbarra/Documents/org/xml_parsing_errors.org"))
  '(package-selected-packages
-   '(lsp-python-ms company-lsp elixir-mode erlang lsp-haskell lsp-ui lsp-mode haskell-mode ibuffer-vc ibuffer-projectile transpose-frame feature-mode fixture-mode ivy-hydra aggressive-indent aggressive-indent-mode fira-code-mode markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window))
+   '(markdown-preview-mode kibit-helper kaocha-runner lsp-python-ms company-lsp elixir-mode erlang lsp-haskell lsp-ui lsp-mode haskell-mode ibuffer-vc ibuffer-projectile transpose-frame feature-mode fixture-mode ivy-hydra aggressive-indent aggressive-indent-mode fira-code-mode markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
