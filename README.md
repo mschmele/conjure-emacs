@@ -16,6 +16,11 @@ Run the following and restart emacs.
 	
 	<M-x> all-the-icons-install-fonts
 	<M-x> fira-code-mode-install-fonts
+    
+    
+### Directory Customization
+
+You will need to modify the init.el script to point to your specific directory in the `(setq default-directory ...)` command.
 
 ## Prerequisites
 

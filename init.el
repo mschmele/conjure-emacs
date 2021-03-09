@@ -4,6 +4,9 @@
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (defconst *is-a-mac* (eq system-type 'darwin))
 
+;; Set where your projects lives here
+(defconst workspace-dir "~/workspace/")
+
 (setq inhibit-startup-message t)
 
 (setq backup-directory-alist `(("" . "~/.emacs.d/backup")))
@@ -284,7 +287,7 @@
   ("C-c p" . projectile-command-map)
   :init
   (when (file-directory-p "~/workspace")
-    (setq projectile-project-search-path '("~/workspace" "~/workspace/cmr")))
+    (setq projectile-project-search-path '("~/workspace/" "~/workspace/cmr")))
   (setq projectile-switch-project-action #'projectile-dired))
 
 (use-package counsel-projectile
@@ -366,7 +369,7 @@
   (setq org-log-done 'time)
   (setq org-log-into-drawer t)
 
-  (setq org-directory "~/Documents/org")
+  (setq org-directory "~/workspace/org/")
   (setq org-agenda-files (list org-directory))
 
   (ds/org-font-setup))
