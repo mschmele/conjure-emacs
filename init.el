@@ -72,7 +72,7 @@
 (setq use-package-always-ensure t)
 
 (use-package doom-themes
-  :init (load-theme 'doom-dracula t))
+  :init (load-theme 'doom-gruvbox t))
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
@@ -81,12 +81,12 @@
 (defun light ()
   "Set a light theme."
   (interactive)
-  (load-theme 'doom-one-light t))
+  (load-theme 'doom-tomorrow-day t))
 
 (defun dark ()
   "Set a dark theme."
   (interactive)
-  (load-theme 'doom-dracula t))
+  (load-theme 'doom-gruvbox t))
 
 (use-package exec-path-from-shell
   :config
@@ -211,9 +211,7 @@
 (use-package ivy-hydra
   :after (ivy hydra))
 
-(use-package magit
-  :custom
-  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+(use-package magit)
 
 (use-package gitignore-mode)
 (use-package git-timemachine)
@@ -223,11 +221,9 @@
   :hook (after-init . global-git-gutter-mode))
 
 (use-package fullframe)
+(fullframe magit-status magit-mode-quit-window nil)
 
-(use-package clojure-mode
-  :config
-  (setq clojure-indent-style 'align-arguments))
-
+(use-package clojure-mode)
 (use-package cljsbuild-mode)
 
 (use-package cider
@@ -235,16 +231,16 @@
   :defer t
   :config
   (setq cider-repl-history-file ".cider-repl-history"
-	nrepl-log-messages t)
-  (flycheck-clojure-setup))
+	      nrepl-log-messages t))
 
-(use-package flycheck-clojure 
+(use-package flycheck-clojure
   :defer t
-  :commands (flycheck-clojure-setup)
+  :after cider
   :config
+  (message "Initialzing flycheck-clojure")
+  (flycheck-clojure-setup)
   (eval-after-load 'flycheck
-    '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+    '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
 (use-package flycheck
   :ensure t
@@ -259,6 +255,9 @@
 (use-package flycheck-color-mode-line
   :after flycheck)
 
+
+
+;;; Languages and Syntax Highlighting
 (use-package ruby-mode)
 (use-package ruby-hash-syntax)
 (use-package rspec-mode)
@@ -271,6 +270,8 @@
 (use-package haskell-mode)
 (use-package erlang)
 (use-package elixir-mode)
+
+(use-package terraform-mode)
 
 (require 'init-exec-path)
 (require 'init-behaviors)
@@ -402,7 +403,7 @@
  '(org-agenda-files
    '("/Users/jbarra/Documents/org/Birthdays.org" "/Users/jbarra/Documents/org/20200724.org" "/Users/jbarra/Documents/org/cicd.org" "/Users/jbarra/Documents/org/cmr-stac.org" "/Users/jbarra/Documents/org/cmr.org" "/Users/jbarra/Documents/org/cmr_6827.org" "/Users/jbarra/Documents/org/graphql_talk.org" "/Users/jbarra/Documents/org/legacy_build.org" "/Users/jbarra/Documents/org/org_mode.org" "/Users/jbarra/Documents/org/todo.org" "/Users/jbarra/Documents/org/xml_parsing_errors.org"))
  '(package-selected-packages
-   '(markdown-preview-mode kibit-helper kaocha-runner lsp-python-ms company-lsp elixir-mode erlang lsp-haskell lsp-ui lsp-mode haskell-mode ibuffer-vc ibuffer-projectile transpose-frame feature-mode fixture-mode ivy-hydra aggressive-indent aggressive-indent-mode fira-code-mode markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window))
+   '(terraform-mode markdown-preview-mode kibit-helper kaocha-runner lsp-python-ms company-lsp elixir-mode erlang lsp-haskell lsp-ui lsp-mode haskell-mode ibuffer-vc ibuffer-projectile transpose-frame feature-mode fixture-mode ivy-hydra aggressive-indent aggressive-indent-mode fira-code-mode markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
