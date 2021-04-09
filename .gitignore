@@ -6,6 +6,7 @@ projectile-bookmarks.eld
 .cider-repl-history
 *.log
 .lsp-session*
+bookmarks
 
 # directories
 auto-save-list

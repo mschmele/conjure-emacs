@@ -75,7 +75,7 @@
 (setq use-package-always-ensure t)
 
 (use-package doom-themes
-  :init (load-theme 'doom-gruvbox t))
+  :init (load-theme 'doom-one t))
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
@@ -84,12 +84,12 @@
 (defun light ()
   "Set a light theme."
   (interactive)
-  (load-theme 'doom-tomorrow-day t))
+  (load-theme 'doom-one-light t))
 
 (defun dark ()
   "Set a dark theme."
   (interactive)
-  (load-theme 'doom-gruvbox t))
+  (load-theme 'doom-one))
 
 (use-package exec-path-from-shell
   :config
@@ -228,22 +228,23 @@
 
 (use-package clojure-mode)
 (use-package cljsbuild-mode)
+(use-package kaocha-runner)
 
 (use-package cider
   :ensure t
   :defer t
   :config
   (setq cider-repl-history-file ".cider-repl-history"
-	      nrepl-log-messages t))
+	      nrepl-log-messages t)
+  (flycheck-clojure-setup))
 
 (use-package flycheck-clojure
   :defer t
-  :after cider
+  :commands (flycheck-clojure-setup)
   :config
-  (message "Initialzing flycheck-clojure")
-  (flycheck-clojure-setup)
   (eval-after-load 'flycheck
-    '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
+    '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+  (add-hook 'after-init-hook #'global-flycheck-mode))
 
 (use-package flycheck
   :ensure t
@@ -258,9 +259,15 @@
 (use-package flycheck-color-mode-line
   :after flycheck)
 
-
-
 ;;; Languages and Syntax Highlighting
+(use-package elpy
+  :ensure t
+  :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable))
+
+(setq python-shell-interpreter "python3")
+
 (use-package ruby-mode)
 (use-package ruby-hash-syntax)
 (use-package rspec-mode)
@@ -268,6 +275,7 @@
 (use-package dockerfile-mode)
 (use-package docker-compose-mode)
 
+;; Cucumber/gherkin
 (use-package feature-mode)
 
 (use-package haskell-mode)
@@ -320,26 +328,27 @@
   (add-hook 'before-save-hook #'whitespace-cleanup))
 
 (use-package aggressive-indent
-  :hook (prog-mode . aggressive-indent-mode))
+  :hook ((clojure-mode lisp-mode) . aggressive-indent-mode))
 
+;; Rip-grep
 (use-package rg)
 
 (defun ds/org-font-setup ()
   "Setup fonts for 'org-mode'."
   ;; Replace list hyphen with dot
   (font-lock-add-keywords 'org-mode
-			  '(("^ *\\([-]\\) "
-			     (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+			                    '(("^ *\\([-]\\) "
+			                       (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 
   ;; Set faces for headings
   (dolist (face '((org-level-1 . 1.2)
-		  (org-level-2 . 1.1)
-		  (org-level-3 . 1.05)
-		  (org-level-4 . 1.0)
-		  (org-level-5 . 1.1)
-		  (org-level-6 . 1.1)
-		  (org-level-7 . 1.1)
-		  (org-level-8 . 1.1)))
+		              (org-level-2 . 1.1)
+		              (org-level-3 . 1.05)
+		              (org-level-4 . 1.0)
+		              (org-level-5 . 1.1)
+		              (org-level-6 . 1.1)
+		              (org-level-7 . 1.1)
+		              (org-level-8 . 1.1)))
     (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
 
   ;; Fix fixed-pitch in Org
@@ -397,7 +406,7 @@
  '(ansi-color-names-vector
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
  '(custom-safe-themes
-   '("e074be1c799b509f52870ee596a5977b519f6d269455b84ed998666cf6fc802a" "4a8d4375d90a7051115db94ed40e9abb2c0766e80e228ecad60e06b3b397acab" "c086fe46209696a2d01752c0216ed72fd6faeabaaaa40db9fc1518abebaf700d" "7b3d184d2955990e4df1162aeff6bfb4e1c3e822368f0359e15e2974235d9fa8" "2cdc13ef8c76a22daa0f46370011f54e79bae00d5736340a5ddfe656a767fddf" "fce3524887a0994f8b9b047aef9cc4cc017c5a93a5fb1f84d300391fba313743" "c4bdbbd52c8e07112d1bfd00fee22bf0f25e727e95623ecb20c4fa098b74c1bd" "99ea831ca79a916f1bd789de366b639d09811501e8c092c85b2cb7d697777f93" default))
+   '("77113617a0642d74767295c4408e17da3bfd9aa80aaa2b4eeb34680f6172d71a" "f4876796ef5ee9c82b125a096a590c9891cec31320569fc6ff602ff99ed73dca" "e074be1c799b509f52870ee596a5977b519f6d269455b84ed998666cf6fc802a" "4a8d4375d90a7051115db94ed40e9abb2c0766e80e228ecad60e06b3b397acab" "c086fe46209696a2d01752c0216ed72fd6faeabaaaa40db9fc1518abebaf700d" "7b3d184d2955990e4df1162aeff6bfb4e1c3e822368f0359e15e2974235d9fa8" "2cdc13ef8c76a22daa0f46370011f54e79bae00d5736340a5ddfe656a767fddf" "fce3524887a0994f8b9b047aef9cc4cc017c5a93a5fb1f84d300391fba313743" "c4bdbbd52c8e07112d1bfd00fee22bf0f25e727e95623ecb20c4fa098b74c1bd" "99ea831ca79a916f1bd789de366b639d09811501e8c092c85b2cb7d697777f93" default))
  '(fci-rule-color "#383a42")
  '(jdee-db-active-breakpoint-face-colors (cons "#f0f0f0" "#4078f2"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#f0f0f0" "#50a14f"))
@@ -406,7 +415,7 @@
  '(org-agenda-files
    '("/Users/jbarra/Documents/org/Birthdays.org" "/Users/jbarra/Documents/org/20200724.org" "/Users/jbarra/Documents/org/cicd.org" "/Users/jbarra/Documents/org/cmr-stac.org" "/Users/jbarra/Documents/org/cmr.org" "/Users/jbarra/Documents/org/cmr_6827.org" "/Users/jbarra/Documents/org/graphql_talk.org" "/Users/jbarra/Documents/org/legacy_build.org" "/Users/jbarra/Documents/org/org_mode.org" "/Users/jbarra/Documents/org/todo.org" "/Users/jbarra/Documents/org/xml_parsing_errors.org"))
  '(package-selected-packages
-   '(terraform-mode markdown-preview-mode kibit-helper kaocha-runner lsp-python-ms company-lsp elixir-mode erlang lsp-haskell lsp-ui lsp-mode haskell-mode ibuffer-vc ibuffer-projectile transpose-frame feature-mode fixture-mode ivy-hydra aggressive-indent aggressive-indent-mode fira-code-mode markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window))
+   '(elpy kubernetes terraform-mode markdown-preview-mode kibit-helper kaocha-runner lsp-python-ms company-lsp elixir-mode erlang lsp-haskell lsp-ui lsp-mode haskell-mode ibuffer-vc ibuffer-projectile transpose-frame feature-mode fixture-mode ivy-hydra aggressive-indent aggressive-indent-mode fira-code-mode markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
