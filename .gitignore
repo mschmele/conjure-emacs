@@ -15,3 +15,7 @@ transient
 eshell
 backup
 .cache
+
+# backends
+# lsp
+eclipse.jdt.ls/

@@ -29,14 +29,14 @@
 (if (display-graphic-p)
     (progn
       (setq initial-frame-alist `((left . 80)
-				  (top . 50)
-				  (height . 55)
-				  (width . 140)))
+				                          (top . 50)
+				                          (height . 55)
+				                          (width . 140)))
 
       (setq default-frame-alist `((left . 80)
-				  (top . 50)
-				  (height . 55)
-				  (width . 140))))
+				                          (top . 50)
+				                          (height . 55)
+				                          (width . 140))))
   (progn
     (setq initial-frame-alist `((tool-bar-lines . 0)))
     (setq default-frame-alist `((tool-bar-lines . 0)))))
@@ -60,8 +60,8 @@
 (require 'package)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			 ("org" . "https://orgmode.org/elpa/")
-			 ("elpa" . "https://elpa.gnu.org/packages/")))
+			                   ("org" . "https://orgmode.org/elpa/")
+			                   ("elpa" . "https://elpa.gnu.org/packages/")))
 
 (package-initialize)
 (unless package-archive-contents
@@ -101,9 +101,9 @@
 (global-display-line-numbers-mode t)
 ;; Disable line numbers for certain modes
 (dolist (mode '(eshell-mode-hook
-		org-mode-hook
-		shell-mode-hook
-		term-mode-hook))
+		            org-mode-hook
+		            shell-mode-hook
+		            term-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (use-package all-the-icons)
@@ -113,25 +113,29 @@
 (use-package ivy
   :diminish ivy-mode
   :bind(("C-s" . swiper)
-	:map ivy-minibuffer-map
-	("TAB" . ivy-alt-done)
-	("C-l" . ivy-alt-done)
-	("C-j" . ivy-next-line)
-	("C-k" . ivy-previous-line)
-	:map ivy-switch-buffer-map
-	("C-k" . ivy-previous-line)
-	("C-l" . ivy-done)
-	("C-d" . ivy-switch-buffer-kill)
-	:map ivy-reverse-i-search-map
-	("C-k" . ivy-previous-line)
-	("C-d" . ivy-revers-i-search-kill))
+	      :map ivy-minibuffer-map
+	      ("TAB" . ivy-alt-done)
+	      ("C-l" . ivy-alt-done)
+	      ("C-j" . ivy-next-line)
+	      ("C-k" . ivy-previous-line)
+	      :map ivy-switch-buffer-map
+	      ("C-k" . ivy-previous-line)
+	      ("C-l" . ivy-done)
+	      ("C-d" . ivy-switch-buffer-kill)
+	      :map ivy-reverse-i-search-map
+	      ("C-k" . ivy-previous-line)
+	      ("C-d" . ivy-revers-i-search-kill))
   :config
   (ivy-mode 1))
 
+(use-package all-the-icons-ivy-rich
+  :ensure t
+  :init (all-the-icons-ivy-rich-mode 1))
+
 (use-package ivy-rich
+  :ensure t
   :after (ivy counsel)
-  :init
-  (ivy-rich-mode 1))
+  :init (ivy-rich-mode 1))
 
 ;; Improve fuzzy searching in Ivy
 (use-package flx
@@ -142,8 +146,8 @@
 (use-package counsel
   :diminish counsel-mode
   :bind (("C-M-j" . 'counsel-switch-buffer)
-	 :map minibuffer-local-map
-	 ("C-r" . 'counsel-minibuffer-history))
+	       :map minibuffer-local-map
+	       ("C-r" . 'counsel-minibuffer-history))
   :config
   (counsel-mode 1))
 
@@ -153,7 +157,7 @@
 
 (use-package paredit
   :hook ((cider-mode . paredit-mode)
-	 (prog-mode . paredit-mode)))
+	       (prog-mode . paredit-mode)))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -178,6 +182,8 @@
 (use-package transpose-frame)
 
 (use-package hydra)
+(require 'hydra)
+
 (defhydra hydra-text-scale (:timeout 4)
   "scale text"
   ("j" text-scale-increase "in")
@@ -193,14 +199,14 @@
    ("k" windmove-up)
    ("l" windmove-right)
    ("v" (lambda ()
-	  (interactive)
-	  (split-window-right)
-	  (windmove-right))
+	        (interactive)
+	        (split-window-right)
+	        (windmove-right))
     "vert")
    ("x" (lambda ()
-	  (interactive)
-	  (split-window-below)
-	  (windmove-down))
+	        (interactive)
+	        (split-window-below)
+	        (windmove-down))
     "horz")
    ("t" transpose-frame "'")
    ("o" delete-other-windows "one" :color blue)
@@ -255,6 +261,7 @@
 (use-package flycheck-pos-tip
   :ensure t
   :after flycheck)
+(require 'flycheck-pos-tip)
 
 (use-package flycheck-color-mode-line
   :after flycheck)
@@ -283,6 +290,17 @@
 (use-package elixir-mode)
 
 (use-package terraform-mode)
+(use-package company-terraform)
+
+(use-package lsp-mode
+  :commands (lsp lsp-deferred))
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom (lsp-ui-doc-position 'bottom))
+
+(use-package lsp-java
+  :config (add-hook 'java-mode-hook 'lsp))
 
 (require 'init-exec-path)
 (require 'init-behaviors)
@@ -308,6 +326,9 @@
   :diminish company-mode
   :hook (after-init . global-company-mode))
 
+(use-package company-box
+  :hook (company-mode . company-box-mode))
+
 (use-package beacon
   :hook (after-init . beacon-mode))
 
@@ -328,13 +349,14 @@
   (add-hook 'before-save-hook #'whitespace-cleanup))
 
 (use-package aggressive-indent
-  :hook ((clojure-mode lisp-mode) . aggressive-indent-mode))
+  :hook ((clojure-mode lisp-mode emacs-lisp-mode) . aggressive-indent-mode))
 
 ;; Rip-grep
 (use-package rg)
 
 (defun ds/org-font-setup ()
   "Setup fonts for 'org-mode'."
+  
   ;; Replace list hyphen with dot
   (font-lock-add-keywords 'org-mode
 			                    '(("^ *\\([-]\\) "
@@ -351,18 +373,20 @@
 		              (org-level-8 . 1.1)))
     (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
 
-  ;; Fix fixed-pitch in Org
-  (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
-  (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+  (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
   (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
   (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-table nil    :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-  (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch))
+  (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch)
+  (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
+  (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
 
-(defun ds/org-mode-setup()
+(defun ds/org-mode-setup ()
   "Setup 'org-mode'."
   (org-indent-mode)
   (variable-pitch-mode 1)
@@ -415,7 +439,7 @@
  '(org-agenda-files
    '("/Users/jbarra/Documents/org/Birthdays.org" "/Users/jbarra/Documents/org/20200724.org" "/Users/jbarra/Documents/org/cicd.org" "/Users/jbarra/Documents/org/cmr-stac.org" "/Users/jbarra/Documents/org/cmr.org" "/Users/jbarra/Documents/org/cmr_6827.org" "/Users/jbarra/Documents/org/graphql_talk.org" "/Users/jbarra/Documents/org/legacy_build.org" "/Users/jbarra/Documents/org/org_mode.org" "/Users/jbarra/Documents/org/todo.org" "/Users/jbarra/Documents/org/xml_parsing_errors.org"))
  '(package-selected-packages
-   '(elpy kubernetes terraform-mode markdown-preview-mode kibit-helper kaocha-runner lsp-python-ms company-lsp elixir-mode erlang lsp-haskell lsp-ui lsp-mode haskell-mode ibuffer-vc ibuffer-projectile transpose-frame feature-mode fixture-mode ivy-hydra aggressive-indent aggressive-indent-mode fira-code-mode markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window))
+   '(company-box all-the-icons-ivy-rich company-terraform lsp-java elpy kubernetes terraform-mode markdown-preview-mode kibit-helper kaocha-runner lsp-python-ms company-lsp elixir-mode erlang lsp-haskell lsp-ui lsp-mode haskell-mode ibuffer-vc ibuffer-projectile transpose-frame feature-mode fixture-mode ivy-hydra aggressive-indent aggressive-indent-mode fira-code-mode markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
