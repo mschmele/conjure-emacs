@@ -130,11 +130,14 @@
 (use-package hydra)
 (require 'hydra)
 
-(defhydra hydra-text-scale (:timeout 4)
-  "scale text"
-  ("j" text-scale-increase "in")
-  ("k" text-scale-decrease "out")
-  ("f" nil "finished" :exit t))
+(global-set-key
+ (kbd "<f2>")
+ (defhydra hydra-text-scale (:timeout 4)
+   "scale text"
+   ("j" text-scale-increase "in")
+   ("k" text-scale-decrease "out")
+   ("=" (text-scale-set 0) "reset")
+   ("q" nil "quit" :exit t)))
 
 (global-set-key
  (kbd "C-M-o")
@@ -179,7 +182,7 @@
 (use-package git-timemachine)
 
 (use-package git-gutter
-  :init (global-git-gutter-mode t))
+  :config (global-git-gutter-mode t))
 
 (use-package fullframe)
 (fullframe magit-status magit-mode-quit-window nil)
@@ -296,11 +299,6 @@
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
 (use-package markdown-mode)
-
-;; (use-package fira-code-mode
-;;   :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x"))
-;;   :hook (prog-mode . fira-code-mode))
-
 
 ;;; init.el ends here
 (custom-set-variables
