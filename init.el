@@ -133,13 +133,13 @@
 (defhydra hydra-text-scale (:timeout 4)
   "scale text"
   ("j" text-scale-increase "in")
-  ("k" text-scale-increase "out")
+  ("k" text-scale-decrease "out")
   ("f" nil "finished" :exit t))
 
 (global-set-key
  (kbd "C-M-o")
  (defhydra hydra-window ()
-   "window"
+   "Manage Window"
    ("h" windmove-left)
    ("j" windmove-down)
    ("k" windmove-up)
@@ -256,14 +256,15 @@
 (require 'init-projectile)
 
 (use-package counsel-projectile
-  :after projectile-mode
-  :config (counsel-projectile-mode))
+  :after projectile
+  :config (counsel-projectile-mode 1))
 
 (use-package uniquify-files)
 
 (use-package company
   :diminish
-  :hook (after-init . global-company-mode))
+  :defer t
+  :hook (prog-mode . global-company-mode))
 
 (use-package beacon
   :hook (after-init . beacon-mode))
@@ -289,67 +290,12 @@
 ;; Rip-grep
 (use-package rg)
 
-;; (defun ds/org-font-setup ()
-;;   "Setup fonts for 'org-mode'."
+(use-package org-bullets
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
-;;   ;; Replace list hyphen with dot
-;;   (font-lock-add-keywords 'org-mode
-;; 			                    '(("^ *\\([-]\\) "
-;; 			                       (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-
-;;   ;; Set faces for headings
-;;   (dolist (face '((org-level-1 . 1.2)
-;; 		              (org-level-2 . 1.1)
-;; 		              (org-level-3 . 1.05)
-;; 		              (org-level-4 . 1.0)
-;; 		              (org-level-5 . 1.1)
-;; 		              (org-level-6 . 1.1)
-;; 		              (org-level-7 . 1.1)
-;; 		              (org-level-8 . 1.1)))
-;;     (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
-
-;;   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
-;;   (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
-;;   (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
-;;   (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
-;;   (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
-;;   (set-face-attribute 'org-table nil    :inherit '(shadow fixed-pitch))
-;;   (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
-;;   (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-;;   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-;;   (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch)
-;;   (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
-;;   (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
-
-;; (defun ds/org-mode-setup ()
-;;   "Setup 'org-mode'."
-;;   (org-indent-mode)
-;;   (variable-pitch-mode 1)
-;;   (visual-line-mode 1))
-
-;; (use-package org
-;;   :pin org
-;;   :hook (org-mode . ds/org-mode-setup)
-;;   :config
-;;   (setq org-ellipsis " ▾")
-
-;;   (setq org-agenda-start-with-log-mode t)
-;;   (setq org-log-done 'time)
-;;   (setq org-log-into-drawer t)
-
-;;   (setq org-directory "~/workspace/org/")
-;;   (setq org-agenda-files (list org-directory))
-
-;;   ;; (ds/org-font-setup)
-;;   )
-
-;; (use-package org-bullets
-;;   :hook (org-mode . org-bullets-mode)
-;;   :custom
-;;   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
-
-;;(use-package markdown-mode)
-
+(use-package markdown-mode)
 
 ;; (use-package fira-code-mode
 ;;   :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x"))
@@ -363,7 +309,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(whitespace-cleanup-mode which-key use-package uniquify-files transpose-frame smex ruby-hash-syntax rspec-mode rg rainbow-delimiters paredit org-bullets magit lsp-ui lsp-java kaocha-runner ivy-hydra ibuffer-vc helpful haskell-mode gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-pos-tip flycheck-color-mode-line flycheck-clojure flx fira-code-mode feature-mode exec-path-from-shell erlang elpy elixir-mode doom-themes doom-modeline dockerfile-mode docker-compose-mode diminish counsel-projectile company-terraform company-box cljsbuild-mode beacon all-the-icons-ivy-rich aggressive-indent)))
+   '(all-the-icons-ivy whitespace-cleanup-mode which-key use-package uniquify-files transpose-frame smex ruby-hash-syntax rspec-mode rg rainbow-delimiters paredit org-bullets magit lsp-ui lsp-java kaocha-runner ivy-hydra ibuffer-vc helpful haskell-mode gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-pos-tip flycheck-color-mode-line flycheck-clojure flx fira-code-mode feature-mode exec-path-from-shell erlang elpy elixir-mode doom-themes doom-modeline dockerfile-mode docker-compose-mode diminish counsel-projectile company-terraform company-box cljsbuild-mode beacon all-the-icons-ivy-rich aggressive-indent)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

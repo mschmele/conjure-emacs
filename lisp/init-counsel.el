@@ -3,7 +3,7 @@
 ;;; Code:
 
 (use-package counsel
-  :diminish counsel-mode
+  :diminish
   :bind (("C-M-j" . 'counsel-switch-buffer)
          :map minibuffer-local-map
          ("C-r" . 'counsel-minibuffer-history))

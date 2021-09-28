@@ -4,7 +4,7 @@
 
 (use-package ivy
   :diminish
-  :bind(("C-s" . swiper)
+  :bind(("C-s" . counsel-grep-or-swiper)
         :map ivy-minibuffer-map
         ("TAB" . ivy-alt-done)
         ("C-l" . ivy-alt-done)
@@ -20,18 +20,17 @@
   :config (ivy-mode 1))
 
 (use-package all-the-icons-ivy-rich
-  :ensure t
+  :defer 2
   :init (all-the-icons-ivy-rich-mode 1))
 
 (use-package ivy-rich
-  :ensure t
   :after (ivy counsel)
   :init (ivy-rich-mode 1))
 
 (use-package smex
   :defer 1
-  :config (smex-initialize)
-  :after counsel)
+  :after counsel
+  :config (smex-initialize))
 
 ;; Improve fuzzy searching in Ivy
 (use-package flx
