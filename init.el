@@ -50,8 +50,8 @@
   "Update theme loading."
   (disable-active-themes))
 
-;; Install Fira Code to the system first
-(set-face-attribute 'default nil :font "Fira Code Retina" :height 140)
+;; Install MesloLGS to the system first
+(set-face-attribute 'default nil :font "MesloLGS NF" :height 140)
 
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -91,11 +91,6 @@
   (interactive)
   (load-theme 'doom-one))
 
-(use-package exec-path-from-shell
-  :config
-  (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE"))
-    (add-to-list 'exec-path-from-shell-variables var)))
-
 ;;;; UI Elements
 (column-number-mode)
 (global-display-line-numbers-mode t)
@@ -107,64 +102,15 @@
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (use-package all-the-icons)
-
 (use-package diminish)
 
-(use-package ivy
-  :diminish ivy-mode
-  :bind(("C-s" . swiper)
-	      :map ivy-minibuffer-map
-	      ("TAB" . ivy-alt-done)
-	      ("C-l" . ivy-alt-done)
-	      ("C-j" . ivy-next-line)
-	      ("C-k" . ivy-previous-line)
-	      :map ivy-switch-buffer-map
-	      ("C-k" . ivy-previous-line)
-	      ("C-l" . ivy-done)
-	      ("C-d" . ivy-switch-buffer-kill)
-	      :map ivy-reverse-i-search-map
-	      ("C-k" . ivy-previous-line)
-	      ("C-d" . ivy-revers-i-search-kill))
-  :config
-  (ivy-mode 1))
-
-(use-package all-the-icons-ivy-rich
-  :ensure t
-  :init (all-the-icons-ivy-rich-mode 1))
-
-(use-package ivy-rich
-  :ensure t
-  :after (ivy counsel)
-  :init (ivy-rich-mode 1))
-
-;; Improve fuzzy searching in Ivy
-(use-package flx
-  :defer t
-  :init
-  (setq ivy-flx-limit 10000))
-
-(use-package counsel
-  :diminish counsel-mode
-  :bind (("C-M-j" . 'counsel-switch-buffer)
-	       :map minibuffer-local-map
-	       ("C-r" . 'counsel-minibuffer-history))
-  :config
-  (counsel-mode 1))
-
-(use-package smex
-  :defer 1
-  :after counsel)
-
-(use-package paredit
-  :hook ((cider-mode . paredit-mode)
-	       (prog-mode . paredit-mode)))
-
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
+(require 'init-exec-path)
+(require 'init-ivy)
+(require 'init-counsel)
 
 (use-package which-key
   :init (which-key-mode)
-  :diminish which-key-mode
+  :diminish
   :config
   (setq which-key-idle-delay 0.8))
 
@@ -220,24 +166,28 @@
 (use-package ivy-hydra
   :after (ivy hydra))
 
-(use-package magit)
+(use-package paredit
+  :hook ((cider-mode . paredit-mode)
+	       (prog-mode . paredit-mode)))
 
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package magit)
 (use-package gitignore-mode)
+
 (use-package git-timemachine)
-(use-package git-messenger)
+
 (use-package git-gutter
-  :diminish git-gutter-mode
-  :hook (after-init . global-git-gutter-mode))
+  :init (global-git-gutter-mode t))
 
 (use-package fullframe)
 (fullframe magit-status magit-mode-quit-window nil)
 
 (use-package clojure-mode)
 (use-package cljsbuild-mode)
-(use-package kaocha-runner)
 
 (use-package cider
-  :ensure t
   :defer t
   :config
   (setq cider-repl-history-file ".cider-repl-history"
@@ -253,14 +203,13 @@
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 (use-package flycheck
-  :ensure t
   :init (global-flycheck-mode))
 
 (setq-default flycheck-emacs-lisp-load-path 'inherit)
 
 (use-package flycheck-pos-tip
-  :ensure t
   :after flycheck)
+
 (require 'flycheck-pos-tip)
 
 (use-package flycheck-color-mode-line
@@ -268,7 +217,6 @@
 
 ;;; Languages and Syntax Highlighting
 (use-package elpy
-  :ensure t
   :defer t
   :init
   (advice-add 'python-mode :before 'elpy-enable))
@@ -305,16 +253,7 @@
 (require 'init-exec-path)
 (require 'init-behaviors)
 
-(use-package projectile
-  :diminish projectile-mode
-  :config (projectile-mode)
-  :custom ((projectile-completion-system 'ivy))
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
-  :init
-  (when (file-directory-p "~/workspace")
-    (setq projectile-project-search-path '("~/workspace/" "~/workspace/cmr")))
-  (setq projectile-switch-project-action #'projectile-dired))
+(require 'init-projectile)
 
 (use-package counsel-projectile
   :after projectile-mode
@@ -323,11 +262,8 @@
 (use-package uniquify-files)
 
 (use-package company
-  :diminish company-mode
+  :diminish
   :hook (after-init . global-company-mode))
-
-(use-package company-box
-  :hook (company-mode . company-box-mode))
 
 (use-package beacon
   :hook (after-init . beacon-mode))
@@ -339,7 +275,6 @@
   :bind (("C-x C-b" . ibuffer)))
 
 (use-package ibuffer-vc
-  :ensure t
   :after ibuffer
   :hook ((ibuffer-mode . hl-line-mode)))
 
@@ -354,121 +289,84 @@
 ;; Rip-grep
 (use-package rg)
 
-(defun ds/org-font-setup ()
-  "Setup fonts for 'org-mode'."
-  
-  ;; Replace list hyphen with dot
-  (font-lock-add-keywords 'org-mode
-			                    '(("^ *\\([-]\\) "
-			                       (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+;; (defun ds/org-font-setup ()
+;;   "Setup fonts for 'org-mode'."
 
-  ;; Set faces for headings
-  (dolist (face '((org-level-1 . 1.2)
-		              (org-level-2 . 1.1)
-		              (org-level-3 . 1.05)
-		              (org-level-4 . 1.0)
-		              (org-level-5 . 1.1)
-		              (org-level-6 . 1.1)
-		              (org-level-7 . 1.1)
-		              (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
+;;   ;; Replace list hyphen with dot
+;;   (font-lock-add-keywords 'org-mode
+;; 			                    '(("^ *\\([-]\\) "
+;; 			                       (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 
-  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
-  (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
-  (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
-  (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
-  (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-table nil    :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-  (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-  (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch)
-  (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
-  (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
+;;   ;; Set faces for headings
+;;   (dolist (face '((org-level-1 . 1.2)
+;; 		              (org-level-2 . 1.1)
+;; 		              (org-level-3 . 1.05)
+;; 		              (org-level-4 . 1.0)
+;; 		              (org-level-5 . 1.1)
+;; 		              (org-level-6 . 1.1)
+;; 		              (org-level-7 . 1.1)
+;; 		              (org-level-8 . 1.1)))
+;;     (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
 
-(defun ds/org-mode-setup ()
-  "Setup 'org-mode'."
-  (org-indent-mode)
-  (variable-pitch-mode 1)
-  (visual-line-mode 1))
+;;   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+;;   (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
+;;   (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
+;;   (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
+;;   (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
+;;   (set-face-attribute 'org-table nil    :inherit '(shadow fixed-pitch))
+;;   (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+;;   (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+;;   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+;;   (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch)
+;;   (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
+;;   (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
 
-(use-package org
-  :pin org
-  :hook (org-mode . ds/org-mode-setup)
-  :config
-  (setq org-ellipsis " ▾")
+;; (defun ds/org-mode-setup ()
+;;   "Setup 'org-mode'."
+;;   (org-indent-mode)
+;;   (variable-pitch-mode 1)
+;;   (visual-line-mode 1))
 
-  (setq org-agenda-start-with-log-mode t)
-  (setq org-log-done 'time)
-  (setq org-log-into-drawer t)
+;; (use-package org
+;;   :pin org
+;;   :hook (org-mode . ds/org-mode-setup)
+;;   :config
+;;   (setq org-ellipsis " ▾")
 
-  (setq org-directory "~/workspace/org/")
-  (setq org-agenda-files (list org-directory))
+;;   (setq org-agenda-start-with-log-mode t)
+;;   (setq org-log-done 'time)
+;;   (setq org-log-into-drawer t)
 
-  (ds/org-font-setup))
+;;   (setq org-directory "~/workspace/org/")
+;;   (setq org-agenda-files (list org-directory))
 
-(use-package org-bullets
-  :hook (org-mode . org-bullets-mode)
-  :custom
-  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+;;   ;; (ds/org-font-setup)
+;;   )
 
-(use-package markdown-mode)
+;; (use-package org-bullets
+;;   :hook (org-mode . org-bullets-mode)
+;;   :custom
+;;   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
-(use-package fira-code-mode
-  :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x"))
-  :hook (prog-mode . fira-code-mode))
+;;(use-package markdown-mode)
 
-(use-package display-fill-column-indicator-mode
-  :ensure nil
-  :hook prog-mode)
 
+;; (use-package fira-code-mode
+;;   :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x"))
+;;   :hook (prog-mode . fira-code-mode))
+
+
+;;; init.el ends here
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
- '(custom-safe-themes
-   '("77113617a0642d74767295c4408e17da3bfd9aa80aaa2b4eeb34680f6172d71a" "f4876796ef5ee9c82b125a096a590c9891cec31320569fc6ff602ff99ed73dca" "e074be1c799b509f52870ee596a5977b519f6d269455b84ed998666cf6fc802a" "4a8d4375d90a7051115db94ed40e9abb2c0766e80e228ecad60e06b3b397acab" "c086fe46209696a2d01752c0216ed72fd6faeabaaaa40db9fc1518abebaf700d" "7b3d184d2955990e4df1162aeff6bfb4e1c3e822368f0359e15e2974235d9fa8" "2cdc13ef8c76a22daa0f46370011f54e79bae00d5736340a5ddfe656a767fddf" "fce3524887a0994f8b9b047aef9cc4cc017c5a93a5fb1f84d300391fba313743" "c4bdbbd52c8e07112d1bfd00fee22bf0f25e727e95623ecb20c4fa098b74c1bd" "99ea831ca79a916f1bd789de366b639d09811501e8c092c85b2cb7d697777f93" default))
- '(fci-rule-color "#383a42")
- '(jdee-db-active-breakpoint-face-colors (cons "#f0f0f0" "#4078f2"))
- '(jdee-db-requested-breakpoint-face-colors (cons "#f0f0f0" "#50a14f"))
- '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
- '(objed-cursor-color "#e45649")
- '(org-agenda-files
-   '("/Users/jbarra/Documents/org/Birthdays.org" "/Users/jbarra/Documents/org/20200724.org" "/Users/jbarra/Documents/org/cicd.org" "/Users/jbarra/Documents/org/cmr-stac.org" "/Users/jbarra/Documents/org/cmr.org" "/Users/jbarra/Documents/org/cmr_6827.org" "/Users/jbarra/Documents/org/graphql_talk.org" "/Users/jbarra/Documents/org/legacy_build.org" "/Users/jbarra/Documents/org/org_mode.org" "/Users/jbarra/Documents/org/todo.org" "/Users/jbarra/Documents/org/xml_parsing_errors.org"))
  '(package-selected-packages
-   '(company-box all-the-icons-ivy-rich company-terraform lsp-java elpy kubernetes terraform-mode markdown-preview-mode kibit-helper kaocha-runner lsp-python-ms company-lsp elixir-mode erlang lsp-haskell lsp-ui lsp-mode haskell-mode ibuffer-vc ibuffer-projectile transpose-frame feature-mode fixture-mode ivy-hydra aggressive-indent aggressive-indent-mode fira-code-mode markdown-mode org-bullets doom-modeline doom-themes flycheck-pos-tip whitespace-cleanup-mode which-key use-package uniquify-files smex simple-modeline ruby-hash-syntax rspec-mode rg rainbow-delimiters python-mode paredit magit ivy-rich hydra helpful gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-color-mode-line flycheck-clojure flx exec-path-from-shell elein dockerfile-mode docker-compose-mode diminish counsel-projectile company cljsbuild-mode beacon all-the-icons ace-window))
- '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
- '(rustic-ansi-faces
-   ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
- '(vc-annotate-background "#fafafa")
- '(vc-annotate-color-map
-   (list
-    (cons 20 "#50a14f")
-    (cons 40 "#688e35")
-    (cons 60 "#807b1b")
-    (cons 80 "#986801")
-    (cons 100 "#ae7118")
-    (cons 120 "#c37b30")
-    (cons 140 "#da8548")
-    (cons 160 "#c86566")
-    (cons 180 "#b74585")
-    (cons 200 "#a626a4")
-    (cons 220 "#ba3685")
-    (cons 240 "#cf4667")
-    (cons 260 "#e45649")
-    (cons 280 "#d2685f")
-    (cons 300 "#c07b76")
-    (cons 320 "#ae8d8d")
-    (cons 340 "#383a42")
-    (cons 360 "#383a42")))
- '(vc-annotate-very-old-color nil))
+   '(whitespace-cleanup-mode which-key use-package uniquify-files transpose-frame smex ruby-hash-syntax rspec-mode rg rainbow-delimiters paredit org-bullets magit lsp-ui lsp-java kaocha-runner ivy-hydra ibuffer-vc helpful haskell-mode gitignore-mode git-timemachine git-messenger git-gutter fullframe flycheck-pos-tip flycheck-color-mode-line flycheck-clojure flx fira-code-mode feature-mode exec-path-from-shell erlang elpy elixir-mode doom-themes doom-modeline dockerfile-mode docker-compose-mode diminish counsel-projectile company-terraform company-box cljsbuild-mode beacon all-the-icons-ivy-rich aggressive-indent)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-;;; init.el ends here
