@@ -176,19 +176,11 @@
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
-(use-package magit)
-(use-package gitignore-mode)
-
-(use-package git-timemachine)
-
 (use-package git-gutter
   :config (global-git-gutter-mode t))
 
 (use-package fullframe)
 (fullframe magit-status magit-mode-quit-window nil)
-
-(use-package clojure-mode)
-(use-package cljsbuild-mode)
 
 (use-package cider
   :defer t
@@ -225,23 +217,6 @@
   (advice-add 'python-mode :before 'elpy-enable))
 
 (setq python-shell-interpreter "python3")
-
-(use-package ruby-mode)
-(use-package ruby-hash-syntax)
-(use-package rspec-mode)
-
-(use-package dockerfile-mode)
-(use-package docker-compose-mode)
-
-;; Cucumber/gherkin
-(use-package feature-mode)
-
-(use-package haskell-mode)
-(use-package erlang)
-(use-package elixir-mode)
-
-(use-package terraform-mode)
-(use-package company-terraform)
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred))
@@ -290,10 +265,24 @@
 (use-package aggressive-indent
   :hook ((clojure-mode lisp-mode emacs-lisp-mode) . aggressive-indent-mode))
 
-;; Rip-grep
-(use-package rg)
-
+(use-package cljsbuild-mode)
+(use-package clojure-mode)
+(use-package company-terraform)
+(use-package dockerfile-mode)
+(use-package docker-compose-mode)
+(use-package elixir-mode)
+(use-package erlang)
+(use-package feature-mode)
+(use-package gitignore-mode)
+(use-package git-timemachine)
+(use-package haskell-mopde)
+(use-package magit)
 (use-package markdown-mode)
+(use-package rg)
+(use-package rspec-mode)
+(use-package ruby-hash-syntax)
+(use-package ruby-mode)
+(use-package terraform-mode)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
