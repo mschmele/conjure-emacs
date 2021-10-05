@@ -275,7 +275,7 @@
 (use-package feature-mode)
 (use-package gitignore-mode)
 (use-package git-timemachine)
-(use-package haskell-mopde)
+(use-package haskell-mode)
 (use-package magit)
 (use-package markdown-mode)
 (use-package pug-mode)
