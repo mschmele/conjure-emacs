@@ -7,7 +7,8 @@
 
 (setq inhibit-startup-message t
       display-time-24hr-format t
-      display-time-use-mail-icon t)
+      display-time-use-mail-icon t
+      visible-bell t)
 
 (scroll-bar-mode -1)   ; Disable visible scroll-bar
 (tool-bar-mode -1)     ; Disable the toolbar
@@ -15,9 +16,6 @@
 (set-fringe-mode 10)   ; Make space on the left
 
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-
-;; Set up visible bell
-(setq visible-bell t)
 
 (customize-set-variable 'global-auto-revert-non-file-buffers t)
 (global-auto-revert-mode 1)
@@ -114,7 +112,7 @@
 
 (use-package feature-mode)
 
-(use-package diminish) ; Enable hiding of minor modes
+(use-package diminish)
 
 (use-package magit
   :defer t)
@@ -156,6 +154,9 @@
   (rfn 2)
   (let-routes 1)
   (context 2))
+
+(use-package ibuffer
+  :bind (("C-x C-b" . ibuffer)))
 
 (setq python-shell-interpreter "python3")
 

@@ -14,7 +14,9 @@ any that require fonts and icons.
 
 Run the following and restart emacs.
 	
-	<M-x> all-the-icons-install-fonts
+    <M-x> install-package use-package
+    <M-x> install-pakcage paradox
+    <M-x> all-the-icons-install-fonts
     
     
 ### Directory Customization
