@@ -1,5 +1,6 @@
 ;;; init.el --- Emacs Initialization File
-;;
+;;; Commentary:
+;;; Code:
 (defconst emacs-start-time (current-time))
 (defconst *is-a-mac* (eq system-type 'darwin))
 (setq gc-cons-threshold 402653184 gc-cons-percentage 0.6)
@@ -146,6 +147,8 @@
   (rfn 2)
   (let-routes 1)
   (context 2))
+
+(setq python-shell-interpreter "python3")
 
 (use-package cider)
 (use-package aggressive-indent)
