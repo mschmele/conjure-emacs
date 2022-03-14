@@ -5,7 +5,9 @@
 (defconst *is-a-mac* (eq system-type 'darwin))
 (setq gc-cons-threshold 402653184 gc-cons-percentage 0.6)
 
-(setq inhibit-startup-message t)
+(setq inhibit-startup-message t
+      display-time-24hr-format t
+      display-time-use-mail-icon t)
 
 (scroll-bar-mode -1)   ; Disable visible scroll-bar
 (tool-bar-mode -1)     ; Disable the toolbar
@@ -51,7 +53,7 @@
 (defun light ()
   "Set a light theme."
   (interactive)
-  (load-theme 'tsdh-light t))
+  (load-theme 'doom-one-light t))
 
 (defun dark ()
   "Set a dark theme."
@@ -124,6 +126,13 @@
 (use-package zenburn-theme
   :config
   (load-theme 'zenburn t))
+
+(use-package doom-themes
+  :config
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
+  (doom-themes-visual-bell-config)
+  (doom-themes-org-config))
 
 (use-package rg
   :hook (after-init . rg-enable-default-bindings))
@@ -281,6 +290,30 @@
   :config
   (whitespace-cleanup-mode t))
 
+(use-package all-the-icons)
+
+(use-package all-the-icons-dired
+  :requires all-the-icons
+  :hook (dired-mode . all-the-icons-dired-mode))
+
+(use-package all-the-icons-ibuffer
+  :requires all-the-icons
+  :init (all-the-icons-ibuffer-mode 1))
+
+(use-package all-the-icons-ivy
+  :requires all-the-icons
+  :after (ivy all-the-icons)
+  :config (all-the-icons-ivy-setup))
+
+(use-package all-the-icons-ivy-rich
+  :requires all-the-icons
+  :after (ivy-rich all-the-icons)
+  :init (all-the-icons-ivy-rich-mode 1))
+
+(use-package all-the-icons-ivy-rich
+  :config
+  (all-the-icons-ivy-rich-mode 1))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -292,16 +325,28 @@
  '(company-quickhelp-color-background "#4F4F4F")
  '(company-quickhelp-color-foreground "#DCDCCC")
  '(custom-safe-themes
-   '("b77a00d5be78f21e46c80ce450e5821bdc4368abf4ffe2b77c5a66de1b648f10" default))
+   '("0d01e1e300fcafa34ba35d5cf0a21b3b23bc4053d388e352ae6a901994597ab1" "b77a00d5be78f21e46c80ce450e5821bdc4368abf4ffe2b77c5a66de1b648f10" default))
+ '(exwm-floating-border-color "#c8c8c8")
  '(fast-but-imprecise-scrolling t)
  '(fci-rule-color "#383838")
  '(global-auto-revert-non-file-buffers t)
+ '(highlight-tail-colors
+   ((("#e9f1e8" "#50a14f" "green")
+     . 0)
+    (("#e1eef3" "#0184bc" "brightcyan")
+     . 20)))
+ '(jdee-db-active-breakpoint-face-colors (cons "#f0f0f0" "#4078f2"))
+ '(jdee-db-requested-breakpoint-face-colors (cons "#f0f0f0" "#50a14f"))
+ '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(kill-do-not-save-duplicates t)
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
+ '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(beacon whitespace-cleanup-mode git-gutter vs-light-theme flycheck flymake-kondor lsp-java lsp-metals lsp-mode zenburn-theme typescript-mode markdown-mode dockerfile-mode yasnippet exec-path-from-shell rg company helpful ivy-rich paredit yaml-mode doom-modeline smex counsel flx projectile ivy cider editorconfig drag-stuff dired-quick-sort column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent clojure-mode magit diminish command-log-mode paradox use-package))
+   '(all-the-icons-ivy all-the-icons-ibuffer all-the-icons-dired all-the-icons-ivy-rich all-the-icons doom-themes beacon whitespace-cleanup-mode git-gutter vs-light-theme flycheck flymake-kondor lsp-java lsp-metals lsp-mode zenburn-theme typescript-mode markdown-mode dockerfile-mode yasnippet exec-path-from-shell rg company helpful ivy-rich paredit yaml-mode doom-modeline smex counsel flx projectile ivy cider editorconfig drag-stuff dired-quick-sort column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent clojure-mode magit diminish command-log-mode paradox use-package))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
+ '(rustic-ansi-faces
+   ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
  '(scroll-conservatively 101)
  '(scroll-margin 0)
  '(scroll-preserve-screen-position t)
