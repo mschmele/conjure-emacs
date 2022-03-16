@@ -158,6 +158,8 @@
 (use-package ibuffer
   :bind (("C-x C-b" . ibuffer)))
 
+(use-package ibuffer-vc)
+
 (setq python-shell-interpreter "python3")
 
 (use-package cider)
@@ -315,6 +317,12 @@
   :config
   (all-the-icons-ivy-rich-mode 1))
 
+(use-package terraform-mode)
+
+(defun format-xml ()
+  (interactive)
+  (shell-command-on-region 1 (point-max) "xmllint --format -" (current-buffer) t))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -326,7 +334,7 @@
  '(company-quickhelp-color-background "#4F4F4F")
  '(company-quickhelp-color-foreground "#DCDCCC")
  '(custom-safe-themes
-   '("0d01e1e300fcafa34ba35d5cf0a21b3b23bc4053d388e352ae6a901994597ab1" "b77a00d5be78f21e46c80ce450e5821bdc4368abf4ffe2b77c5a66de1b648f10" default))
+   '("835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "0d01e1e300fcafa34ba35d5cf0a21b3b23bc4053d388e352ae6a901994597ab1" "b77a00d5be78f21e46c80ce450e5821bdc4368abf4ffe2b77c5a66de1b648f10" default))
  '(exwm-floating-border-color "#c8c8c8")
  '(fast-but-imprecise-scrolling t)
  '(fci-rule-color "#383838")
@@ -344,7 +352,7 @@
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(all-the-icons-ivy all-the-icons-ibuffer all-the-icons-dired all-the-icons-ivy-rich all-the-icons doom-themes beacon whitespace-cleanup-mode git-gutter vs-light-theme flycheck flymake-kondor lsp-java lsp-metals lsp-mode zenburn-theme typescript-mode markdown-mode dockerfile-mode yasnippet exec-path-from-shell rg company helpful ivy-rich paredit yaml-mode doom-modeline smex counsel flx projectile ivy cider editorconfig drag-stuff dired-quick-sort column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent clojure-mode magit diminish command-log-mode paradox use-package))
+   '(ibuffer-vc terraform-mode all-the-icons-ivy all-the-icons-ibuffer all-the-icons-dired all-the-icons-ivy-rich all-the-icons doom-themes beacon whitespace-cleanup-mode git-gutter vs-light-theme flycheck flymake-kondor lsp-java lsp-metals lsp-mode zenburn-theme typescript-mode markdown-mode dockerfile-mode yasnippet exec-path-from-shell rg company helpful ivy-rich paredit yaml-mode doom-modeline smex counsel flx projectile ivy cider editorconfig drag-stuff dired-quick-sort column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent clojure-mode magit diminish command-log-mode paradox use-package))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
