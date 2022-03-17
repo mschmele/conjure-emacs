@@ -319,6 +319,8 @@
 
 (use-package terraform-mode)
 
+(use-package darkroom)
+
 (defun format-xml ()
   (interactive)
   (shell-command-on-region 1 (point-max) "xmllint --format -" (current-buffer) t))
@@ -352,7 +354,7 @@
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(ibuffer-vc terraform-mode all-the-icons-ivy all-the-icons-ibuffer all-the-icons-dired all-the-icons-ivy-rich all-the-icons doom-themes beacon whitespace-cleanup-mode git-gutter vs-light-theme flycheck flymake-kondor lsp-java lsp-metals lsp-mode zenburn-theme typescript-mode markdown-mode dockerfile-mode yasnippet exec-path-from-shell rg company helpful ivy-rich paredit yaml-mode doom-modeline smex counsel flx projectile ivy cider editorconfig drag-stuff dired-quick-sort column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent clojure-mode magit diminish command-log-mode paradox use-package))
+   '(darkroom darkroom-mode ibuffer-vc terraform-mode all-the-icons-ivy all-the-icons-ibuffer all-the-icons-dired all-the-icons-ivy-rich all-the-icons doom-themes beacon whitespace-cleanup-mode git-gutter vs-light-theme flycheck flymake-kondor lsp-java lsp-metals lsp-mode zenburn-theme typescript-mode markdown-mode dockerfile-mode yasnippet exec-path-from-shell rg company helpful ivy-rich paredit yaml-mode doom-modeline smex counsel flx projectile ivy cider editorconfig drag-stuff dired-quick-sort column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent clojure-mode magit diminish command-log-mode paradox use-package))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
