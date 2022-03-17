@@ -5,6 +5,8 @@
 (defconst *is-a-mac* (eq system-type 'darwin))
 (setq gc-cons-threshold 402653184 gc-cons-percentage 0.6)
 
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+
 (setq inhibit-startup-message t
       display-time-24hr-format t
       display-time-use-mail-icon t
@@ -41,7 +43,7 @@
 (setq-default bidi-inhibit-bpa t)
 (global-so-long-mode 1)
 
-;; Make shebang (#!) file executable when saved
+;; Make shbang (#!) file executable when saved
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -135,25 +137,9 @@
 (use-package rg
   :hook (after-init . rg-enable-default-bindings))
 
-(use-package flycheck)
-(use-package flycheck-clj-kondo)
-(use-package clojure-mode
-  :config
-  (require 'flycheck-clj-kondo))
-
-(define-clojure-indent
-  (defroutes 'defun)
-  (GET 2)
-  (POST 2)
-  (PUT 2)
-  (DELETE 2)
-  (HEAD 2)
-  (ANY 2)
-  (OPTIONS 2)
-  (PATCH 2)
-  (rfn 2)
-  (let-routes 1)
-  (context 2))
+(use-package flycheck
+  :custom
+  (setq-default flycheck-emacs-lisp-load-path 'inherit))
 
 (use-package ibuffer
   :bind (("C-x C-b" . ibuffer)))
@@ -162,10 +148,16 @@
 
 (setq python-shell-interpreter "python3")
 
-(use-package cider)
 (use-package aggressive-indent)
 (use-package auto-compile)
-(use-package auto-highlight-symbol)
+(use-package auto-highlight-symbol
+  :commands (global-auto-highlight-symbol-mode auto-highlight-symbol-mode)
+  :bind (("C-x a h" . auto-highlight-symbol-mode)
+         :map
+         auto-highlight-symbol-mode-map)
+  :config
+  (add-to-list 'ahs-modes 'clojure-mode))
+
 (use-package centered-cursor-mode)
 (use-package clean-aindent-mode)
 (use-package column-enforce-mode)
@@ -255,7 +247,17 @@
   :config
   (setq ivy-format-function #'ivy-format-function-line))
 
-(use-package helpful)
+(use-package helpful
+  :after counsel
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable)
+  :bind
+  ([remap describe-function] . counsel-describe-function)
+  ([remap describe-command] . helpful-command)
+  ([remap describe-variable] . counsel-describe-variable)
+  ([remap describe-key] . helpful-key))
+
 (use-package company
   :diminish
   :config
@@ -264,7 +266,10 @@
 (column-number-mode)
 (global-display-line-numbers-mode t)
 
-(use-package yasnippet)
+(use-package yasnippet
+  :config
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+  (yas-global-mode 1))
 
 (use-package dockerfile-mode)
 (use-package markdown-mode)
@@ -324,6 +329,8 @@
 (defun format-xml ()
   (interactive)
   (shell-command-on-region 1 (point-max) "xmllint --format -" (current-buffer) t))
+
+(require 'init-clojure)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
