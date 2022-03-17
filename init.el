@@ -3,7 +3,8 @@
 ;;; Code:
 (defconst emacs-start-time (current-time))
 (defconst *is-a-mac* (eq system-type 'darwin))
-(setq gc-cons-threshold 402653184 gc-cons-percentage 0.6)
+(setq gc-cons-threshold 402653184
+      gc-cons-percentage 0.6)
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
@@ -94,6 +95,8 @@
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 
+(use-package diminish)
+
 (use-package hydra)
 (require 'hydra)
 
@@ -113,8 +116,6 @@
   :hook (after-init . beacon-mode))
 
 (use-package feature-mode)
-
-(use-package diminish)
 
 (use-package magit
   :defer t)
@@ -148,7 +149,11 @@
 
 (setq python-shell-interpreter "python3")
 
-(use-package aggressive-indent)
+(use-package aggressive-indent
+  :diminish
+  :defer t
+  :hook (prog-mode . aggressive-indent-mode))
+
 (use-package auto-compile)
 (use-package auto-highlight-symbol
   :commands (global-auto-highlight-symbol-mode auto-highlight-symbol-mode)
@@ -158,26 +163,46 @@
   :config
   (add-to-list 'ahs-modes 'clojure-mode))
 
+;; keeps cursor centered and moves the buffer, use as needed
 (use-package centered-cursor-mode)
-(use-package clean-aindent-mode)
+
 (use-package column-enforce-mode)
+
 (use-package dired-quick-sort)
+
 (use-package drag-stuff)
+
 (use-package editorconfig)
+
 (use-package golden-ratio)
+
 (use-package highlight-indentation)
-(use-package highlight-numbers)
-(use-package highlight-parentheses)
-(use-package hl-todo)
+
+(use-package highlight-numbers
+  :diminish
+  :hook (prog-mode . highlight-numbers-mode))
+
+(use-package hl-todo
+  :diminish
+  :hook (prog-mode . hl-todo-mode))
+
 (use-package lorem-ipsum)
-(use-package nameless)
-(use-package password-generator)
+
 (use-package rainbow-delimiters
   :diminish
   :hook (prog-mode . rainbow-delimiters-mode))
 (use-package uuidgen)
-(use-package undo-tree)
-(use-package winum)
+
+(use-package undo-tree
+  :diminish
+  :init
+  (global-undo-tree-mode 1))
+
+(use-package winum
+  :diminish
+  :init
+  (winum-mode))
+
 (use-package ivy
   :diminish
   :bind (("C-s" . swiper)
@@ -193,8 +218,10 @@
          :map ivy-reverse-i-search-map
          ("C-k" . ivy-previous-line)
          ("C-d" . ivy-reverse-i-search-kill))
+  :init
+  (ivy-mode 1)
   :config
-  (ivy-mode 1))
+  (setq ivy-count-format "(%d/%d) "))
 
 (use-package projectile
   :diminish
@@ -222,10 +249,6 @@
   (setq ivy-initial-inputs-alist nil)
   (counsel-mode 1))
 
-(use-package smex
-  :defer 1
-  :after counsel)
-
 (use-package yaml-mode)
 
 (use-package which-key
@@ -237,9 +260,7 @@
 
 (use-package paredit
   :diminish
-  :hook ((emacs-lisp-mode . paredit-mode)
-         (clojure-mode . paredit-mode)
-         (lisp-mode . paredit-mode)))
+  :hook (prog-mode . paredit-mode))
 
 (use-package ivy-rich
   :init
@@ -271,6 +292,9 @@
   (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
   (yas-global-mode 1))
 
+(use-package yasnippet-snippets
+  :after yasnippet)
+
 (use-package dockerfile-mode)
 (use-package markdown-mode)
 (use-package typescript-mode
@@ -295,6 +319,7 @@
   (lsp-enable-which-key-integration t))
 
 (use-package whitespace-cleanup-mode
+  :diminish
   :config
   (whitespace-cleanup-mode t))
 
@@ -361,7 +386,7 @@
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(darkroom darkroom-mode ibuffer-vc terraform-mode all-the-icons-ivy all-the-icons-ibuffer all-the-icons-dired all-the-icons-ivy-rich all-the-icons doom-themes beacon whitespace-cleanup-mode git-gutter vs-light-theme flycheck flymake-kondor lsp-java lsp-metals lsp-mode zenburn-theme typescript-mode markdown-mode dockerfile-mode yasnippet exec-path-from-shell rg company helpful ivy-rich paredit yaml-mode doom-modeline smex counsel flx projectile ivy cider editorconfig drag-stuff dired-quick-sort column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent clojure-mode magit diminish command-log-mode paradox use-package))
+   '(ivy-smex yasnippet-snippets highlight-numbers darkroom darkroom-mode ibuffer-vc terraform-mode all-the-icons-ivy all-the-icons-ibuffer all-the-icons-dired all-the-icons-ivy-rich all-the-icons doom-themes beacon whitespace-cleanup-mode git-gutter vs-light-theme flycheck flymake-kondor lsp-java lsp-metals lsp-mode zenburn-theme typescript-mode markdown-mode dockerfile-mode yasnippet exec-path-from-shell rg company helpful ivy-rich paredit yaml-mode doom-modeline smex counsel flx projectile ivy cider editorconfig drag-stuff dired-quick-sort column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent clojure-mode magit diminish command-log-mode paradox use-package))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
