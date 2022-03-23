@@ -1,7 +1,6 @@
 ;;; init-clojure.el -- clojure-mode initialization
 ;;; Commentary:
 ;;; Code:
-
 (use-package clojure-mode
   :config
   (require 'flycheck-clj-kondo))
@@ -27,6 +26,5 @@
   (context 2))
 
 (message "Loaded Clojure configs")
-
 (provide 'init-clojure)
 ;;; init-clojure.el ends here

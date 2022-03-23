@@ -8,10 +8,15 @@
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
+;; Save customization variables to a separate file
+(setq custom-file (locate-user-emacs-file "custom-vars.el"))
+(load custom-file 'noerror 'nomessage)
+
 (setq inhibit-startup-message t
       display-time-24hr-format t
       display-time-use-mail-icon t
-      visible-bell t)
+      visible-bell t
+      use-dialog-box nil)
 
 (scroll-bar-mode -1)   ; Disable visible scroll-bar
 (tool-bar-mode -1)     ; Disable the toolbar
@@ -117,12 +122,7 @@
 
 (use-package feature-mode)
 
-(use-package magit
-  :defer t)
 
-(use-package git-gutter
-  :diminish
-  :hook (prog-mode . git-gutter-mode))
 
 (use-package zenburn-theme
   :config
@@ -152,7 +152,8 @@
 (use-package aggressive-indent
   :diminish
   :defer t
-  :hook (prog-mode . aggressive-indent-mode))
+  :hook ((emacs-lisp-mode . aggressive-indent-mode)
+         (clojure-mode . aggressive-indent-mode)))
 
 (use-package auto-compile)
 (use-package auto-highlight-symbol
@@ -289,11 +290,9 @@
 
 (use-package yasnippet
   :config
-  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
   (yas-global-mode 1))
 
-(use-package yasnippet-snippets
-  :after yasnippet)
+(use-package yasnippet-snippets)
 
 (use-package dockerfile-mode)
 (use-package markdown-mode)
@@ -347,7 +346,6 @@
   :config
   (all-the-icons-ivy-rich-mode 1))
 
-(use-package terraform-mode)
 
 (use-package darkroom)
 
@@ -355,70 +353,10 @@
   (interactive)
   (shell-command-on-region 1 (point-max) "xmllint --format -" (current-buffer) t))
 
+(require 'init-git)
 (require 'init-clojure)
+(require 'init-org)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#DCDCCC"])
- '(cider-enlighten-mode t)
- '(company-quickhelp-color-background "#4F4F4F")
- '(company-quickhelp-color-foreground "#DCDCCC")
- '(custom-safe-themes
-   '("835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "0d01e1e300fcafa34ba35d5cf0a21b3b23bc4053d388e352ae6a901994597ab1" "b77a00d5be78f21e46c80ce450e5821bdc4368abf4ffe2b77c5a66de1b648f10" default))
- '(exwm-floating-border-color "#c8c8c8")
- '(fast-but-imprecise-scrolling t)
- '(fci-rule-color "#383838")
- '(global-auto-revert-non-file-buffers t)
- '(highlight-tail-colors
-   ((("#e9f1e8" "#50a14f" "green")
-     . 0)
-    (("#e1eef3" "#0184bc" "brightcyan")
-     . 20)))
- '(jdee-db-active-breakpoint-face-colors (cons "#f0f0f0" "#4078f2"))
- '(jdee-db-requested-breakpoint-face-colors (cons "#f0f0f0" "#50a14f"))
- '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
- '(kill-do-not-save-duplicates t)
- '(nrepl-message-colors
-   '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
- '(objed-cursor-color "#e45649")
- '(package-selected-packages
-   '(ivy-smex yasnippet-snippets highlight-numbers darkroom darkroom-mode ibuffer-vc terraform-mode all-the-icons-ivy all-the-icons-ibuffer all-the-icons-dired all-the-icons-ivy-rich all-the-icons doom-themes beacon whitespace-cleanup-mode git-gutter vs-light-theme flycheck flymake-kondor lsp-java lsp-metals lsp-mode zenburn-theme typescript-mode markdown-mode dockerfile-mode yasnippet exec-path-from-shell rg company helpful ivy-rich paredit yaml-mode doom-modeline smex counsel flx projectile ivy cider editorconfig drag-stuff dired-quick-sort column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent clojure-mode magit diminish command-log-mode paradox use-package))
- '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
- '(rustic-ansi-faces
-   ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
- '(scroll-conservatively 101)
- '(scroll-margin 0)
- '(scroll-preserve-screen-position t)
- '(vc-annotate-background "#2B2B2B")
- '(vc-annotate-color-map
-   '((20 . "#BC8383")
-     (40 . "#CC9393")
-     (60 . "#DFAF8F")
-     (80 . "#D0BF8F")
-     (100 . "#E0CF9F")
-     (120 . "#F0DFAF")
-     (140 . "#5F7F5F")
-     (160 . "#7F9F7F")
-     (180 . "#8FB28F")
-     (200 . "#9FC59F")
-     (220 . "#AFD8AF")
-     (240 . "#BFEBBF")
-     (260 . "#93E0E3")
-     (280 . "#6CA0A3")
-     (300 . "#7CB8BB")
-     (320 . "#8CD0D3")
-     (340 . "#94BFF3")
-     (360 . "#DC8CC3")))
- '(vc-annotate-very-old-color "#DC8CC3"))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(use-package terraform-mode)
 
 ;;; init.el ends here

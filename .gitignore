@@ -19,3 +19,5 @@ backup
 # backends
 # lsp
 eclipse.jdt.ls/
+
+custom-vars.el
