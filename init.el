@@ -29,6 +29,8 @@
 (global-auto-revert-mode 1)
 (setq-default indent-tabs-mode nil)
 (fset 'yes-or-no-p 'y-or-n-p)
+(column-number-mode)
+(global-display-line-numbers-mode t)
 
 (when *is-a-mac*
   (setq mouse-wheel-scroll-amount '(1
@@ -120,10 +122,6 @@
 (use-package beacon
   :hook (after-init . beacon-mode))
 
-(use-package feature-mode)
-
-
-
 (use-package zenburn-theme
   :config
   (load-theme 'zenburn t))
@@ -164,20 +162,22 @@
   :config
   (add-to-list 'ahs-modes 'clojure-mode))
 
-;; keeps cursor centered and moves the buffer, use as needed
-(use-package centered-cursor-mode)
-
-(use-package column-enforce-mode)
-
 (use-package dired-quick-sort)
 
 (use-package drag-stuff)
 
 (use-package editorconfig)
 
-(use-package golden-ratio)
+(use-package golden-ratio
+  :init
+  (golden-ratio-mode 1))
 
-(use-package highlight-indentation)
+(use-package hl-line
+  :hook (prog-mode . hl-line-mode))
+
+(use-package highlight-indentation
+  :hook ((python-mode . highlight-indentation-mode)
+         (yaml-mode . highlight-indentation-mode)))
 
 (use-package highlight-numbers
   :diminish
@@ -196,6 +196,9 @@
 
 (use-package undo-tree
   :diminish
+  :config
+  (setq undo-tree-auto-save-history t
+        undo-tree-history-directory-alist `(("." . ,(expand-file-name "undo-tree" user-emacs-directory))))
   :init
   (global-undo-tree-mode 1))
 
@@ -250,8 +253,6 @@
   (setq ivy-initial-inputs-alist nil)
   (counsel-mode 1))
 
-(use-package yaml-mode)
-
 (use-package which-key
   :diminish
   :init
@@ -285,17 +286,12 @@
   :config
   (global-company-mode t))
 
-(column-number-mode)
-(global-display-line-numbers-mode t)
-
 (use-package yasnippet
   :config
   (yas-global-mode 1))
 
 (use-package yasnippet-snippets)
 
-(use-package dockerfile-mode)
-(use-package markdown-mode)
 (use-package typescript-mode
   :mode "\\.ts\\'"
   :hook (typescript-mode . lsp-deferred)
@@ -346,9 +342,6 @@
   :config
   (all-the-icons-ivy-rich-mode 1))
 
-
-(use-package darkroom)
-
 (defun format-xml ()
   (interactive)
   (shell-command-on-region 1 (point-max) "xmllint --format -" (current-buffer) t))
@@ -357,6 +350,10 @@
 (require 'init-clojure)
 (require 'init-org)
 
+(use-package darkroom)
 (use-package terraform-mode)
-
+(use-package dockerfile-mode)
+(use-package markdown-mode)
+(use-package feature-mode)
+(use-package yaml-mode)
 ;;; init.el ends here
