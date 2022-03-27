@@ -18,6 +18,8 @@
       visible-bell t
       use-dialog-box nil)
 
+(setq-default electric-indent-inhibit t)
+
 (scroll-bar-mode -1)   ; Disable visible scroll-bar
 (tool-bar-mode -1)     ; Disable the toolbar
 (tooltip-mode -1)      ; Disable tooltips
@@ -89,11 +91,15 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
 (require 'use-package)
 (setq use-package-always-ensure t)
 
-(require 'paradox)
-(paradox-enable)
+(use-package paradox
+  :init (paradox-enable))
 
 (use-package exec-path-from-shell
   :config
@@ -167,10 +173,6 @@
 (use-package drag-stuff)
 
 (use-package editorconfig)
-
-(use-package golden-ratio
-  :init
-  (golden-ratio-mode 1))
 
 (use-package hl-line
   :hook (prog-mode . hl-line-mode))
