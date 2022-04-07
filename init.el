@@ -160,6 +160,8 @@
   :diminish
   :defer t
   :hook ((emacs-lisp-mode . aggressive-indent-mode)
+         (scheme-mode . aggressive-indent-mode)
+         (lisp-mode . aggressive-indent-mode)
          (clojure-mode . aggressive-indent-mode)))
 
 (use-package auto-compile)
@@ -197,6 +199,7 @@
 (use-package rainbow-delimiters
   :diminish
   :hook (prog-mode . rainbow-delimiters-mode))
+
 (use-package uuidgen)
 
 (use-package undo-tree
@@ -212,28 +215,8 @@
   :init
   (winum-mode))
 
-(use-package ivy
-  :diminish
-  :bind (("C-s" . swiper)
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-alt-done)
-         ("C-l" . ivy-alt-done)
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-K" . ivy-previous-line)
-         ("C-l" . ivy-done)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill))
-  :init
-  (ivy-mode 1)
-  :config
-  (setq ivy-count-format "(%d/%d) "))
-
-(use-package ivy-hydra
-  :after ivy)
+(use-package all-the-icons)
+(require 'init-ivy)
 
 (use-package projectile
   :diminish
@@ -275,11 +258,7 @@
 	 (scheme-mode . paredit-mode)
 	 (emacs-lisp-mode . paredit-mode)))
 
-(use-package ivy-rich
-  :init
-  (ivy-rich-mode 1)
-  :config
-  (setq ivy-format-function #'ivy-format-function-line))
+
 
 (use-package helpful
   :after counsel
@@ -345,8 +324,6 @@
   :config
   (whitespace-cleanup-mode t))
 
-(use-package all-the-icons)
-
 (use-package all-the-icons-dired
   :requires all-the-icons
   :hook (dired-mode . all-the-icons-dired-mode))
@@ -354,20 +331,6 @@
 (use-package all-the-icons-ibuffer
   :requires all-the-icons
   :init (all-the-icons-ibuffer-mode 1))
-
-(use-package all-the-icons-ivy
-  :requires all-the-icons
-  :after (ivy all-the-icons)
-  :config (all-the-icons-ivy-setup))
-
-(use-package all-the-icons-ivy-rich
-  :requires all-the-icons
-  :after (ivy-rich all-the-icons)
-  :init (all-the-icons-ivy-rich-mode 1))
-
-(use-package all-the-icons-ivy-rich
-  :config
-  (all-the-icons-ivy-rich-mode 1))
 
 (require 'init-git)
 (require 'init-clojure)
