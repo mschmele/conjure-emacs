@@ -21,3 +21,9 @@ backup
 eclipse.jdt.ls/
 
 custom-vars.el
+
+company-statistics-cache.el
+projectile.cache
+projects
+tutorial
+workspace

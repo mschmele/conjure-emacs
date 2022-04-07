@@ -6,7 +6,10 @@
   (require 'flycheck-clj-kondo))
 
 (use-package cider
-  :defer t)
+  :defer t
+  :config
+  (setq cider-repl-use-pretty-printing t
+        cider-repl-display-help-banner nil))
 
 (use-package flycheck-clj-kondo
   :requires flycheck)

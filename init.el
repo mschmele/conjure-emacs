@@ -57,6 +57,7 @@
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(global-set-key (kbd "<f5>") 'revert-buffer)
 
 (set-face-attribute 'default nil :font "MesloLGS NF" :height 140)
 
@@ -143,6 +144,8 @@
   :hook (after-init . rg-enable-default-bindings))
 
 (use-package flycheck
+  :init
+  (setq flycheck-highlighting-mode 'symbols)
   :custom
   (setq-default flycheck-emacs-lisp-load-path 'inherit))
 
@@ -229,6 +232,9 @@
   :config
   (setq ivy-count-format "(%d/%d) "))
 
+(use-package ivy-hydra
+  :after ivy)
+
 (use-package projectile
   :diminish
   :bind (("C-c p" . #'projectile-command-map))
@@ -237,7 +243,7 @@
   :custom
   (projectile-completion-system 'ivy)
   (projectile-switch-project-action #'projectile-dired)
-  (projectile-project-search-path '(("~/workspace" . 2))))
+  (projectile-project-search-path '("~/github" "~/workspace")))
 
 (use-package flx
   :defer t
@@ -264,7 +270,10 @@
 
 (use-package paredit
   :diminish
-  :hook (prog-mode . paredit-mode))
+  :hook ((lisp-mode . paredit-mode)
+	 (clojure-mode . paredit-mode)
+	 (scheme-mode . paredit-mode)
+	 (emacs-lisp-mode . paredit-mode)))
 
 (use-package ivy-rich
   :init
@@ -285,8 +294,16 @@
 
 (use-package company
   :diminish
+  :bind ("C-;" . company-complete-common)
   :config
-  (global-company-mode t))
+  (global-company-mode t)
+  (global-set-key (kbd "TAB") #'company-indent-or-complete-common))
+
+(use-package company-box
+  :hook (company-mode . company-box-mode))
+
+(use-package company-statistics
+  :hook (company-mode . company-statistics-mode))
 
 (use-package yasnippet
   :config
@@ -296,7 +313,6 @@
 
 (use-package typescript-mode
   :mode "\\.ts\\'"
-  :hook (typescript-mode . lsp-deferred)
   :config
   (setq typescript-indent-level 2))
 
@@ -310,10 +326,19 @@
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
+  :hook ((ruby-mode . lsp-deferred)
+         (go-mode . lsp-deferred)
+         (js-mode . lsp-deferred)
+         (typescript-mode . lsp-deferred))
   :init
   (setq lsp-keymap-prefix "C-c l")
   :config
   (lsp-enable-which-key-integration t))
+
+(use-package lsp-java)
+(use-package dap-mode
+  :after lsp-mode
+  :config (dap-auto-configure-mode))
 
 (use-package whitespace-cleanup-mode
   :diminish
@@ -344,10 +369,6 @@
   :config
   (all-the-icons-ivy-rich-mode 1))
 
-(defun format-xml ()
-  (interactive)
-  (shell-command-on-region 1 (point-max) "xmllint --format -" (current-buffer) t))
-
 (require 'init-git)
 (require 'init-clojure)
 (require 'init-org)
@@ -358,4 +379,11 @@
 (use-package markdown-mode)
 (use-package feature-mode)
 (use-package yaml-mode)
+(use-package scala-mode)
+(use-package go-mode
+  :hook (before-save-hook . 'gofmt-before-save)
+  :config
+  (setq tab-width 4
+        indent-tabs-mode 1))
+(use-package eglot)
 ;;; init.el ends here
