@@ -16,7 +16,8 @@
       display-time-24hr-format t
       display-time-use-mail-icon t
       visible-bell t
-      use-dialog-box nil)
+      use-dialog-box nil
+      cursor-type 'bar)
 
 (setq-default electric-indent-inhibit t)
 
@@ -139,6 +140,9 @@
         doom-themes-enable-italic t)
   (doom-themes-visual-bell-config)
   (doom-themes-org-config))
+
+(use-package doom-modeline
+  :init (doom-modeline-mode 1))
 
 (use-package rg
   :hook (after-init . rg-enable-default-bindings))
@@ -351,4 +355,5 @@
         indent-tabs-mode 1))
 (use-package eglot)
 (use-package vue-mode)
+(use-package async)
 ;;; init.el ends here
