@@ -308,6 +308,7 @@
   :hook ((ruby-mode . lsp-deferred)
          (go-mode . lsp-deferred)
          (js-mode . lsp-deferred)
+         (java-mode . lsp-deferred)
          (typescript-mode . lsp-deferred))
   :init
   (setq lsp-keymap-prefix "C-c l")
@@ -349,4 +350,5 @@
   (setq tab-width 4
         indent-tabs-mode 1))
 (use-package eglot)
+(use-package vue-mode)
 ;;; init.el ends here
