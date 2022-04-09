@@ -16,10 +16,10 @@
       display-time-24hr-format t
       display-time-use-mail-icon t
       visible-bell t
-      use-dialog-box nil
-      cursor-type 'bar)
+      use-dialog-box nil)
 
-(setq-default electric-indent-inhibit t)
+(setq-default electric-indent-inhibit t
+              cursor-type 'bar)
 
 (scroll-bar-mode -1)   ; Disable visible scroll-bar
 (tool-bar-mode -1)     ; Disable the toolbar
