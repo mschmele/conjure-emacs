@@ -19,7 +19,7 @@
       use-dialog-box nil)
 
 (setq-default electric-indent-inhibit t
-              cursor-type 'bar)
+              cursor-type 'box)
 
 (scroll-bar-mode -1)   ; Disable visible scroll-bar
 (tool-bar-mode -1)     ; Disable the toolbar
@@ -70,7 +70,7 @@
 (defun dark ()
   "Set a dark theme."
   (interactive)
-  (load-theme 'zenburn))
+  (load-theme 'doom-zenburn))
 
 (defun disable-active-themes ()
   "Disable themes before switching."
@@ -130,16 +130,16 @@
 (use-package beacon
   :hook (after-init . beacon-mode))
 
-(use-package zenburn-theme
-  :config
-  (load-theme 'zenburn t))
+(use-package zenburn-theme)
 
 (use-package doom-themes
   :config
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
   (doom-themes-visual-bell-config)
-  (doom-themes-org-config))
+  (doom-themes-org-config)
+  :init
+  (load-theme 'doom-zenburn t))
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1))
@@ -157,8 +157,6 @@
   :bind (("C-x C-b" . ibuffer)))
 
 (use-package ibuffer-vc)
-
-(setq python-shell-interpreter "python3")
 
 (use-package aggressive-indent
   :diminish
@@ -220,6 +218,24 @@
   (winum-mode))
 
 (use-package all-the-icons)
+
+(use-package counsel
+  :diminish
+  :bind (("M-x" . counsel-M-x)
+         ("C-x b" . counsel-ibuffer)
+         ("C-x C-f" . counsel-find-file)
+         ("C-c b" . counsel-bookmark)
+         ("C-c d" . counsel-descbinds)
+         ("C-c g" . counsel-git)
+         ("C-c o" . counsel-outline)
+         ("C-c t" . counsel-load-theme)
+         ("C-c F" . counsel-org-file)
+         ("C-c J" . counsel-file-jump)
+         :map minibuffer-local-map
+         ("C-r" . 'counsel-minibuffer-history))
+  :config
+  (counsel-mode 1))
+
 (require 'init-ivy)
 
 (use-package projectile
@@ -234,19 +250,8 @@
 
 (use-package flx
   :defer t
-  :init
-  (setq ivy-flx-limit 10000))
-
-(use-package counsel
-  :diminish
-  :bind (("M-x" . counsel-M-x)
-         ("C-x b" . counsel-ibuffer)
-         ("C-x C-f" . counsel-find-file)
-         :map minibuffer-local-map
-         ("C-r" . 'counsel-minibuffer-history))
   :config
-  (setq ivy-initial-inputs-alist nil)
-  (counsel-mode 1))
+  (setq ivy-flx-limit 200))
 
 (use-package which-key
   :diminish
@@ -261,8 +266,6 @@
 	 (clojure-mode . paredit-mode)
 	 (scheme-mode . paredit-mode)
 	 (emacs-lisp-mode . paredit-mode)))
-
-
 
 (use-package helpful
   :after counsel
@@ -283,10 +286,10 @@
   (global-set-key (kbd "TAB") #'company-indent-or-complete-common))
 
 (use-package company-box
-  :hook (company-mode . company-box-mode))
+  :after company-mode)
 
 (use-package company-statistics
-  :hook (company-mode . company-statistics-mode))
+  :after company-mode)
 
 (use-package yasnippet
   :config
@@ -338,6 +341,7 @@
   :init (all-the-icons-ibuffer-mode 1))
 
 (require 'init-git)
+(require 'init-java)
 (require 'init-clojure)
 (require 'init-org)
 
@@ -356,4 +360,9 @@
 (use-package eglot)
 (use-package vue-mode)
 (use-package async)
+
+(use-package python-mode
+  :hook (python-mode . lsp-deferred)
+  :custom
+  (python-shell-interpreter "python3"))
 ;;; init.el ends here

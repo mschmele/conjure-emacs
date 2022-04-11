@@ -19,7 +19,8 @@
   :init
   (ivy-mode 1)
   :config
-  (setq ivy-count-format "(%d/%d) "))
+  (setq ivy-count-format "(%d/%d) "
+        ivy-use-virtual-buffers t))
 
 (use-package ivy-rich
   :init
