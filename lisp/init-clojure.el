@@ -9,7 +9,8 @@
   :defer t
   :config
   (setq cider-repl-use-pretty-printing t
-        cider-repl-display-help-banner nil))
+        cider-repl-display-help-banner nil
+        cider-print-fn 'puget))
 
 (use-package flycheck-clj-kondo
   :requires flycheck)

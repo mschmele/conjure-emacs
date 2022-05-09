@@ -70,7 +70,7 @@
 (defun dark ()
   "Set a dark theme."
   (interactive)
-  (load-theme 'doom-zenburn))
+  (load-theme 'zenburn t))
 
 (defun disable-active-themes ()
   "Disable themes before switching."
@@ -105,7 +105,7 @@
 
 (use-package exec-path-from-shell
   :config
-  (dolist (var '("JAVA_HOME" "SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE"))
+  (dolist (var '("JAVA_HOME" "SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE" "SNYK_TOKEN"))
     (add-to-list 'exec-path-from-shell-variables var)))
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
@@ -130,16 +130,15 @@
 (use-package beacon
   :hook (after-init . beacon-mode))
 
-(use-package zenburn-theme)
-
+(use-package zenburn-theme
+  :init
+  (load-theme 'zenburn t))
 (use-package doom-themes
   :config
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
   (doom-themes-visual-bell-config)
-  (doom-themes-org-config)
-  :init
-  (load-theme 'doom-zenburn t))
+  (doom-themes-org-config))
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1))
@@ -203,14 +202,6 @@
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package uuidgen)
-
-(use-package undo-tree
-  :diminish
-  :config
-  (setq undo-tree-auto-save-history t
-        undo-tree-history-directory-alist `(("." . ,(expand-file-name "undo-tree" user-emacs-directory))))
-  :init
-  (global-undo-tree-mode 1))
 
 (use-package winum
   :diminish
@@ -281,15 +272,17 @@
 (use-package company
   :diminish
   :bind ("C-;" . company-complete-common)
-  :config
+  :init
   (global-company-mode t)
+  :config
   (global-set-key (kbd "TAB") #'company-indent-or-complete-common))
 
 (use-package company-box
-  :after company-mode)
+  :hook (company-mode . company-box-mode))
 
 (use-package company-statistics
-  :after company-mode)
+  :init
+  (company-statistics-mode 1))
 
 (use-package yasnippet
   :config
@@ -310,12 +303,20 @@
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
+(use-package elixir-mode)
+(use-package haskell-mode)
+(use-package python-mode
+  :custom
+  (python-shell-interpreter "python3"))
+
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :hook ((ruby-mode . lsp-deferred)
          (go-mode . lsp-deferred)
          (js-mode . lsp-deferred)
          (java-mode . lsp-deferred)
+         (python-mode . lsp-deferred)
+         (elixir-mode . lsp-deferred)
          (typescript-mode . lsp-deferred))
   :init
   (setq lsp-keymap-prefix "C-c l")
@@ -352,17 +353,18 @@
 (use-package feature-mode)
 (use-package yaml-mode)
 (use-package scala-mode)
+
 (use-package go-mode
-  :hook (before-save-hook . 'gofmt-before-save)
   :config
   (setq tab-width 4
         indent-tabs-mode 1))
+
 (use-package eglot)
 (use-package vue-mode)
 (use-package async)
 
-(use-package python-mode
-  :hook (python-mode . lsp-deferred)
-  :custom
-  (python-shell-interpreter "python3"))
+(use-package rust-mode
+  :config
+  (setq indent-tabs-mode nil))
+
 ;;; init.el ends here
