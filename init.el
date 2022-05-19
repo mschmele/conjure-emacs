@@ -311,13 +311,15 @@
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
-  :hook ((ruby-mode . lsp-deferred)
+  :hook ((clojure-mode . lsp-deferred)
+         (ruby-mode . lsp-deferred)
          (go-mode . lsp-deferred)
          (js-mode . lsp-deferred)
          (java-mode . lsp-deferred)
          (python-mode . lsp-deferred)
          (elixir-mode . lsp-deferred)
-         (typescript-mode . lsp-deferred))
+         (typescript-mode . lsp-deferred)
+         (terraform-mode . lsp-deferred))
   :init
   (setq lsp-keymap-prefix "C-c l")
   :config

@@ -28,7 +28,9 @@
   (PATCH 2)
   (rfn 2)
   (let-routes 1)
-  (context 2))
+  (context 2)
+  (are3 1)
+  (are2 1))
 
 (message "Loaded Clojure configs")
 (provide 'init-clojure)
