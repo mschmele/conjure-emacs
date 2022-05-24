@@ -372,4 +372,8 @@
   :config
   (setq indent-tabs-mode nil))
 
+(use-package dashboard
+  :config
+  (dashboard-setup-startup-hook))
+
 ;;; init.el ends here
