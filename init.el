@@ -12,6 +12,9 @@
 (setq custom-file (locate-user-emacs-file "custom-vars.el"))
 (load custom-file 'noerror 'nomessage)
 
+(when *is-a-mac*
+  (setq dired-use-ls-dired nil))
+
 (setq inhibit-startup-message t
       display-time-24hr-format t
       display-time-use-mail-icon t
