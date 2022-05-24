@@ -70,7 +70,7 @@
 (defun dark ()
   "Set a dark theme."
   (interactive)
-  (load-theme 'zenburn t))
+  (load-theme 'doom-zenburn t))
 
 (defun disable-active-themes ()
   "Disable themes before switching."
@@ -130,10 +130,10 @@
 (use-package beacon
   :hook (after-init . beacon-mode))
 
-(use-package zenburn-theme
-  :init
-  (load-theme 'zenburn t))
+(use-package zenburn-theme)
 (use-package doom-themes
+  :init
+  (load-theme 'doom-zenburn t)
   :config
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
