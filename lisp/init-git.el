@@ -2,7 +2,9 @@
 ;;; Commentary:
 ;;; Code:
 (use-package magit
-  :defer t)
+  :defer t
+  :config
+  (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
 
 (use-package git-gutter
   :diminish
