@@ -3,18 +3,33 @@
 ;;; Code:
 (defconst emacs-start-time (current-time))
 (defconst *is-a-mac* (eq system-type 'darwin))
-(setq gc-cons-threshold 402653184
+(setq gc-cons-threshold (* 100 1024 1024)
       gc-cons-percentage 0.6)
 
+;; Setup directory for splitting out individual configurations
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
 ;; Save customization variables to a separate file
 (setq custom-file (locate-user-emacs-file "custom-vars.el"))
 (load custom-file 'noerror 'nomessage)
 
+(require 'dired)
 (when *is-a-mac*
   (setq dired-use-ls-dired nil))
 
+(if (display-graphic-p)
+    (progn
+      (setq initial-frame-alist `((left . 80)
+				  (top . 50)
+				  (height . 50)
+				  (width . 240)))
+
+      (setq default-frame-alist `((left . 80)
+				  (top . 50)
+				  (height . 50)
+				  (width . 240)))))
+
+(require 'time)
 (setq inhibit-startup-message t
       display-time-24hr-format t
       display-time-use-mail-icon t
@@ -73,7 +88,7 @@
 (defun dark ()
   "Set a dark theme."
   (interactive)
-  (load-theme 'doom-zenburn t))
+  (load-theme 'doom-one t))
 
 (defun disable-active-themes ()
   "Disable themes before switching."
@@ -88,7 +103,6 @@
 (require 'package)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("org" . "https://orgmode.org/elpa/")
                          ("elpa" . "https://elpa.gnu.org/packages/")))
 
@@ -133,10 +147,9 @@
 (use-package beacon
   :hook (after-init . beacon-mode))
 
-(use-package zenburn-theme)
 (use-package doom-themes
   :init
-  (load-theme 'doom-zenburn t)
+  (load-theme 'doom-one t)
   :config
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
@@ -235,12 +248,12 @@
 (use-package projectile
   :diminish
   :bind (("C-c p" . #'projectile-command-map))
-  :config
+  :init
   (projectile-mode +1)
-  :custom
-  (projectile-completion-system 'ivy)
-  (projectile-switch-project-action #'projectile-dired)
-  (projectile-project-search-path '("~/github" "~/workspace")))
+  :config
+  (setq projectile-completion-system 'ivy
+        projectile-switch-project-action #'projectile-dired
+        projectile-project-search-path '("~/github" ("~/workspace" . 2))))
 
 (use-package flx
   :defer t
@@ -249,9 +262,8 @@
 
 (use-package which-key
   :diminish
-  :init
-  (which-key-mode)
   :config
+  (which-key-mode)
   (setq which-key-idle-delay 0.3))
 
 (use-package paredit
@@ -318,17 +330,20 @@
          (ruby-mode . lsp-deferred)
          (go-mode . lsp-deferred)
          (js-mode . lsp-deferred)
-         (java-mode . lsp-deferred)
+         (sgml-mode . lsp-deferred)
          (python-mode . lsp-deferred)
+         (java-mode . lsp-deferred)
          (elixir-mode . lsp-deferred)
-         (typescript-mode . lsp-deferred)
-         (terraform-mode . lsp-deferred))
+         (terraform-mode . lsp-deferred)
+         (c-mode-common . lsp-deferred)
+         (lsp-mode . lsp-enable-which-key-integration))
   :init
-  (setq lsp-keymap-prefix "C-c l")
-  :config
-  (lsp-enable-which-key-integration t))
+  (setq lsp-keymap-prefix "C-c l"))
 
 (use-package lsp-java)
+(use-package lsp-ivy
+  :commands lsp-ivy-workspace-symbol)
+
 (use-package dap-mode
   :after lsp-mode
   :config (dap-auto-configure-mode))
@@ -374,6 +389,7 @@
 
 (use-package dashboard
   :config
-  (dashboard-setup-startup-hook))
+  (dashboard-setup-startup-hook)
+  (setq dashboard-center-content t))
 
 ;;; init.el ends here

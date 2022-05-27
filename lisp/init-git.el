@@ -10,6 +10,8 @@
   :diminish
   :hook (prog-mode . git-gutter-mode))
 
+(use-package forge)
+
 (message "Loaded Git configs")
 (provide 'init-git)
 ;;; init-git.el ends here

@@ -11,7 +11,9 @@
    '((emacs-lisp . t)
      (clojure . t)
      (ruby . t)
-     (python . t))))
+     (python . t)))
+  :config
+  (setq org-babel-clojure-backend 'cider))
 
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode))

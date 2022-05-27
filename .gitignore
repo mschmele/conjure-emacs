@@ -32,3 +32,5 @@ pomm
 elfeed
 url
 .dap-*
+
+*.sqlite
