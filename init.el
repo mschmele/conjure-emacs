@@ -255,10 +255,15 @@
         projectile-switch-project-action #'projectile-dired
         projectile-project-search-path '("~/github" ("~/workspace" . 2))))
 
-(use-package flx
-  :defer t
+(use-package amx
+  :after ivy
   :config
-  (setq ivy-flx-limit 200))
+  (setq amx-backend 'auto
+        amx-save-file (expand-file-name "amx-items" user-emacs-directory)
+        amx-history-length 50
+        amx-show-key-bindings nil)
+  :init
+  (amx-mode 1))
 
 (use-package which-key
   :diminish
@@ -391,5 +396,19 @@
   :config
   (dashboard-setup-startup-hook)
   (setq dashboard-center-content t))
+
+(setq auto-mode-alist
+      (append '(("\\.native\\'" . nxml-mode)
+                ("\\.echo10\\'" . nxml-mode)
+                ("\\.dif\\'" . nxml-mode)
+                ("\\.dif10\\'" . nxml-mode)
+                ;; ISO may need pre-processing to not open in so-long-mode
+                ;; ("\\.iso\\'" . xml-mode)
+                ;; ("\\.iso19115\\'" . xml-mode)
+                ("\\.umm_json\\'" . js-mode))
+              auto-mode-alist))
+
+(use-package elfeed
+  :defer t)
 
 ;;; init.el ends here

@@ -10,6 +10,7 @@
    'org-babel-load-languages
    '((emacs-lisp . t)
      (clojure . t)
+     (shell . t)
      (ruby . t)
      (python . t)))
   :config

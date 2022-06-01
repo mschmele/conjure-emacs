@@ -41,5 +41,22 @@
 (use-package ivy-hydra
   :after ivy)
 
+(use-package ivy-posframe
+  :after ivy
+  :init
+  (ivy-posframe-mode)
+  :custom
+  (setq ivy-posframe-parameters
+        '((left-fringe . 8)
+          (right-fringe . 8))
+        ivy-posframe-height-alist
+        '((swiper . 20)
+          (t . 40))
+        ivy-posframe-display-functions-alist
+        '((complete-symbol . ivy-posframe-display-at-point)
+          (counsel-describe-function . nil)
+          (counsel-describe-variable . nil)
+          (t . ivy-posframe-display-at-frame-center))))
+
 (provide 'init-ivy)
 ;;; init-ivy.el ends here
