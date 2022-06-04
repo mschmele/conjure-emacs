@@ -38,20 +38,18 @@
   :after (ivy-rich all-the-icons)
   :init (all-the-icons-ivy-rich-mode 1))
 
-(use-package ivy-hydra
-  :after ivy)
-
 (use-package ivy-posframe
+  :diminish
   :after ivy
   :init
   (ivy-posframe-mode)
-  :custom
+  :config
   (setq ivy-posframe-parameters
         '((left-fringe . 8)
           (right-fringe . 8))
         ivy-posframe-height-alist
-        '((swiper . 20)
-          (t . 40))
+        '((swiper . 15)
+          (t . 10))
         ivy-posframe-display-functions-alist
         '((complete-symbol . ivy-posframe-display-at-point)
           (counsel-describe-function . nil)

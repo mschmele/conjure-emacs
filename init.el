@@ -115,15 +115,17 @@
   (package-install 'use-package))
 
 (require 'use-package)
-(setq use-package-always-ensure t)
+(setq use-package-always-ensure t
+      use-package-always-defer t)
 
 (use-package paradox
   :init (paradox-enable))
 
 (use-package exec-path-from-shell
   :config
-  (dolist (var '("JAVA_HOME" "SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE" "SNYK_TOKEN"))
+  (dolist (var '("JAVA_HOME" "SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE"))
     (add-to-list 'exec-path-from-shell-variables var)))
+
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 
@@ -140,9 +142,6 @@
    ("k" text-scale-decrease "out")
    ("=" (text-scale-set 0) "reset")
    ("q" nil "quit" :exit t)))
-
-;; See what commands were run
-(use-package command-log-mode)
 
 (use-package beacon
   :hook (after-init . beacon-mode))
@@ -165,7 +164,7 @@
 (use-package flycheck
   :init
   (setq flycheck-highlighting-mode 'symbols)
-  :custom
+  :config
   (setq-default flycheck-emacs-lisp-load-path 'inherit))
 
 (use-package ibuffer
@@ -173,31 +172,21 @@
 
 (use-package ibuffer-vc)
 
-(use-package aggressive-indent
-  :diminish
-  :defer t
-  :hook ((emacs-lisp-mode . aggressive-indent-mode)
-         (scheme-mode . aggressive-indent-mode)
-         (lisp-mode . aggressive-indent-mode)
-         (clojure-mode . aggressive-indent-mode)))
+;; (use-package aggressive-indent
+;;   :diminish
+;;   :defer t
+;;   :hook ((emacs-lisp-mode . aggressive-indent-mode)
+;;          (scheme-mode . aggressive-indent-mode)
+;;          (lisp-mode . aggressive-indent-mode)
+;;          (clojure-mode . aggressive-indent-mode)))
 
-(use-package auto-compile)
-(use-package auto-highlight-symbol
-  :commands (global-auto-highlight-symbol-mode auto-highlight-symbol-mode)
-  :bind (("C-x a h" . auto-highlight-symbol-mode)
-         :map
-         auto-highlight-symbol-mode-map)
-  :config
-  (add-to-list 'ahs-modes 'clojure-mode))
 
 (use-package dired-quick-sort)
 
-(use-package drag-stuff)
-
-(use-package editorconfig)
-
 (use-package hl-line
   :hook (prog-mode . hl-line-mode))
+
+(setq python-shell-interpreter "python3")
 
 (use-package highlight-indentation
   :hook ((python-mode . highlight-indentation-mode)
@@ -252,8 +241,7 @@
   (projectile-mode +1)
   :config
   (setq projectile-completion-system 'ivy
-        projectile-switch-project-action #'projectile-dired
-        projectile-project-search-path '("~/github" ("~/workspace" . 2))))
+        projectile-switch-project-action #'projectile-dired))
 
 (use-package amx
   :after ivy
@@ -325,9 +313,6 @@
 
 (use-package elixir-mode)
 (use-package haskell-mode)
-(use-package python-mode
-  :custom
-  (python-shell-interpreter "python3"))
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
@@ -384,7 +369,6 @@
   (setq tab-width 4
         indent-tabs-mode 1))
 
-(use-package eglot)
 (use-package vue-mode)
 (use-package async)
 
@@ -393,6 +377,7 @@
   (setq indent-tabs-mode nil))
 
 (use-package dashboard
+  :demand
   :config
   (dashboard-setup-startup-hook)
   (setq dashboard-center-content t))
@@ -403,12 +388,11 @@
                 ("\\.dif\\'" . nxml-mode)
                 ("\\.dif10\\'" . nxml-mode)
                 ;; ISO may need pre-processing to not open in so-long-mode
-                ;; ("\\.iso\\'" . xml-mode)
-                ;; ("\\.iso19115\\'" . xml-mode)
+                ;; ("\\.iso\\'" . nxml-mode)
+                ;; ("\\.iso19115\\'" . nxml-mode)
                 ("\\.umm_json\\'" . js-mode))
               auto-mode-alist))
 
-(use-package elfeed
-  :defer t)
+(use-package elfeed)
 
 ;;; init.el ends here
