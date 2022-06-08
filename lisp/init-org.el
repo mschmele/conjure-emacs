@@ -2,6 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 (use-package org
+  :demand
   :hook (org-mode . (lambda ()
                       (linum-mode 0)
                       (setq truncate-lines nil)))

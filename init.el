@@ -101,10 +101,10 @@
 
 ;; Initialize Package Sources
 (require 'package)
-
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("org" . "https://orgmode.org/elpa/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")))
+                         ("elpa" . "https://elpa.gnu.org/packages/"))
+      gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 (package-initialize)
 (unless package-archive-contents
@@ -122,6 +122,7 @@
   :init (paradox-enable))
 
 (use-package exec-path-from-shell
+  :demand
   :config
   (dolist (var '("JAVA_HOME" "SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE"))
     (add-to-list 'exec-path-from-shell-variables var)))
@@ -171,15 +172,6 @@
   :bind (("C-x C-b" . ibuffer)))
 
 (use-package ibuffer-vc)
-
-;; (use-package aggressive-indent
-;;   :diminish
-;;   :defer t
-;;   :hook ((emacs-lisp-mode . aggressive-indent-mode)
-;;          (scheme-mode . aggressive-indent-mode)
-;;          (lisp-mode . aggressive-indent-mode)
-;;          (clojure-mode . aggressive-indent-mode)))
-
 
 (use-package dired-quick-sort)
 
