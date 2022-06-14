@@ -54,6 +54,7 @@
         '((complete-symbol . ivy-posframe-display-at-point)
           (counsel-describe-function . nil)
           (counsel-describe-variable . nil)
+          (counsel-M-x . ivy-posframe-display-at-window-bottom-left)
           (t . ivy-posframe-display-at-frame-center))))
 
 (provide 'init-ivy)

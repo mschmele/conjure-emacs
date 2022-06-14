@@ -124,13 +124,14 @@
 (use-package exec-path-from-shell
   :demand
   :config
-  (dolist (var '("JAVA_HOME" "SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE"))
+  (dolist (var '("JAVA_HOME" "SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE" "SNYK_TOKEN"))
     (add-to-list 'exec-path-from-shell-variables var)))
 
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 
-(use-package diminish)
+(use-package diminish
+  :demand)
 
 (use-package hydra)
 (require 'hydra)
@@ -144,25 +145,42 @@
    ("=" (text-scale-set 0) "reset")
    ("q" nil "quit" :exit t)))
 
-(use-package beacon
-  :hook (after-init . beacon-mode))
-
-(use-package doom-themes
+(use-package pulsar
+  :demand
+  :bind (("C-x l" . pulsar-highlight-dwim))
   :init
-  (load-theme 'doom-one t)
+  (pulsar-global-mode 1)
+  :config
+  (setq pulsar-pulse-on-window-change t
+        pulsar-face 'pulsar-magenta
+        pulsar-highlight-face 'pulsar-yellow))
+
+;; better light theme
+(use-package modus-themes
+  :demand
+  :config
+  (setq modus-themes-mode-line '(accented borderless padded)
+        modus-themes-region  '(bg-only)
+        modus-themes-completions '((matches . (extrabold background))
+                                   (selection . (semibold accented))
+                                   (popup . (extrabold))))
+  :init
+  (load-theme 'modus-vivendi t))
+
+;; useful dark themes
+(use-package doom-themes
+  :demand
   :config
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
   (doom-themes-visual-bell-config)
   (doom-themes-org-config))
 
-(use-package doom-modeline
-  :init (doom-modeline-mode 1))
-
 (use-package rg
   :hook (after-init . rg-enable-default-bindings))
 
 (use-package flycheck
+  :diminish
   :init
   (setq flycheck-highlighting-mode 'symbols)
   :config
@@ -205,7 +223,9 @@
   :init
   (winum-mode))
 
-(use-package all-the-icons)
+(use-package all-the-icons
+  :diminish
+  :demand)
 
 (use-package counsel
   :diminish
@@ -278,6 +298,7 @@
   (global-set-key (kbd "TAB") #'company-indent-or-complete-common))
 
 (use-package company-box
+  :diminish
   :hook (company-mode . company-box-mode))
 
 (use-package company-statistics
@@ -285,10 +306,12 @@
   (company-statistics-mode 1))
 
 (use-package yasnippet
+  :diminish
   :config
   (yas-global-mode 1))
 
-(use-package yasnippet-snippets)
+(use-package yasnippet-snippets
+  :diminish)
 
 (use-package typescript-mode
   :mode "\\.ts\\'"
@@ -355,6 +378,7 @@
 (use-package feature-mode)
 (use-package yaml-mode)
 (use-package scala-mode)
+(use-package pug-mode)
 
 (use-package go-mode
   :config
@@ -386,5 +410,6 @@
               auto-mode-alist))
 
 (use-package elfeed)
+(use-package fontaine)
 
 ;;; init.el ends here
