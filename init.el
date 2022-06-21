@@ -115,8 +115,7 @@
   (package-install 'use-package))
 
 (require 'use-package)
-(setq use-package-always-ensure t
-      use-package-always-defer t)
+(setq use-package-always-ensure t)
 
 (use-package paradox
   :init (paradox-enable))
@@ -163,24 +162,23 @@
         modus-themes-region  '(bg-only)
         modus-themes-completions '((matches . (extrabold background))
                                    (selection . (semibold accented))
-                                   (popup . (extrabold))))
-  :init
-  (load-theme 'modus-vivendi t))
+                                   (popup . (extrabold)))))
 
-;; useful dark themes
+;; Useful dark themes
 (use-package doom-themes
   :demand
   :config
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
   (doom-themes-visual-bell-config)
-  (doom-themes-org-config))
+  (doom-themes-org-config)
+  :init
+  (load-theme 'doom-ayu-mirage t)) 
 
 (use-package rg
   :hook (after-init . rg-enable-default-bindings))
 
 (use-package flycheck
-  :diminish
   :init
   (setq flycheck-highlighting-mode 'symbols)
   :config
@@ -203,28 +201,23 @@
          (yaml-mode . highlight-indentation-mode)))
 
 (use-package highlight-numbers
-  :diminish
   :hook (prog-mode . highlight-numbers-mode))
 
 (use-package hl-todo
-  :diminish
   :hook (prog-mode . hl-todo-mode))
 
 (use-package lorem-ipsum)
 
 (use-package rainbow-delimiters
-  :diminish
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package uuidgen)
 
 (use-package winum
-  :diminish
   :init
   (winum-mode))
 
 (use-package all-the-icons
-  :diminish
   :demand)
 
 (use-package counsel
@@ -306,12 +299,11 @@
   (company-statistics-mode 1))
 
 (use-package yasnippet
-  :diminish
+  :diminish yas-minor-mode
   :config
   (yas-global-mode 1))
 
-(use-package yasnippet-snippets
-  :diminish)
+(use-package yasnippet-snippets)
 
 (use-package typescript-mode
   :mode "\\.ts\\'"
@@ -336,7 +328,7 @@
          (go-mode . lsp-deferred)
          (js-mode . lsp-deferred)
          (sgml-mode . lsp-deferred)
-         (python-mode . lsp-deferred)
+         ;; (python-mode . lsp-deferred)
          (java-mode . lsp-deferred)
          (elixir-mode . lsp-deferred)
          (terraform-mode . lsp-deferred)
@@ -354,7 +346,6 @@
   :config (dap-auto-configure-mode))
 
 (use-package whitespace-cleanup-mode
-  :diminish
   :config
   (whitespace-cleanup-mode t))
 
@@ -370,6 +361,31 @@
 (require 'init-java)
 (require 'init-clojure)
 (require 'init-org)
+(use-package org-roam
+  :init
+  (setq org-roam-v2-ack t)
+  :config
+  (org-roam-setup)
+  :custom
+  (org-roam-directory "~/RoamNotes")
+  (org-roam-completion-everywhere t)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert)
+         :map org-mode-map
+         ("C-M-i" . completion-at-point)))
+
+(use-package org-roam-ui
+  :after org-roam
+  ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+  ;;         a hookable mode anymore, you're advised to pick something yourself
+  ;;         if you don't care about startup time, use
+  ;;  :hook (after-init . org-roam-ui-mode)
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
 
 (use-package darkroom)
 (use-package terraform-mode)
