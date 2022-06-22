@@ -1,4 +1,4 @@
-;;; init-common.el -- common function
+;;; init-common.el -- common functions
 ;;; Commentary:
 ;;; Code:
 

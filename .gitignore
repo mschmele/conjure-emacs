@@ -7,6 +7,7 @@ projectile-bookmarks.eld
 *.log
 .lsp-session*
 bookmarks
+savefile
 
 # directories
 auto-save-list
@@ -17,7 +18,6 @@ backup
 .cache
 
 # backends
-# lsp
 eclipse.jdt.ls/
 
 custom-vars.el

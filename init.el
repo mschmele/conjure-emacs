@@ -3,146 +3,58 @@
 ;;; Code:
 (defconst emacs-start-time (current-time))
 (defconst *is-a-mac* (eq system-type 'darwin))
-(setq gc-cons-threshold (* 100 1024 1024)
+(defconst *is-linux* (eq system-type 'gnu/linux))
+
+(setq gc-cons-threshold (* 50 1024 1024)
       gc-cons-percentage 0.6)
 
-;; Setup directory for splitting out individual configurations
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(defvar conjure-user
+  (getenv (if (equal system-type 'windows-nt) "USERNAME" "USER")))
+
+(defvar conjure-savefile-dir (expand-file-name "savefile" user-emacs-directory)
+  "Folder for storing generated history files")
+
+(message "[conjure] Emacs is coming online...")
+
+(setq load-prefer-newer t)
+
+;; Setup directories for splitting out individual configurations
+(add-to-list 'load-path (expand-file-name "core" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "modules" user-emacs-directory))
 
 ;; Save customization variables to a separate file
 (setq custom-file (locate-user-emacs-file "custom-vars.el"))
 (load custom-file 'noerror 'nomessage)
 
-(require 'dired)
-(when *is-a-mac*
-  (setq dired-use-ls-dired nil))
-
-(if (display-graphic-p)
-    (progn
-      (setq initial-frame-alist `((left . 80)
-				  (top . 50)
-				  (height . 50)
-				  (width . 240)))
-
-      (setq default-frame-alist `((left . 80)
-				  (top . 50)
-				  (height . 50)
-				  (width . 240)))))
-
-(require 'time)
-(setq inhibit-startup-message t
-      display-time-24hr-format t
-      display-time-use-mail-icon t
-      visible-bell t
-      use-dialog-box nil)
-
-(setq-default electric-indent-inhibit t
-              cursor-type 'box)
-
-(scroll-bar-mode -1)   ; Disable visible scroll-bar
-(tool-bar-mode -1)     ; Disable the toolbar
-(tooltip-mode -1)      ; Disable tooltips
-(set-fringe-mode 10)   ; Make space on the left
-
-(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-
-(customize-set-variable 'global-auto-revert-non-file-buffers t)
-(global-auto-revert-mode 1)
-(setq-default indent-tabs-mode nil)
-(fset 'yes-or-no-p 'y-or-n-p)
-(column-number-mode)
-(global-display-line-numbers-mode t)
+;; Do not change order
+(require 'init-packages)
+(require 'init-custom)
+(require 'init-ui)
+(require 'init-common)
+(require 'init-editor)
+(require 'init-keybindings)
 
 (when *is-a-mac*
-  (setq mouse-wheel-scroll-amount '(1
-                                    ((shift) . 5)
-                                    ((control)))))
+  (require 'init-macos))
 
-(customize-set-variable 'kill-do-not-save-duplicates t)
+(when *is-linux*
+  (require 'init-linux))
 
-;; Make scrolling less stuttered
-(setq auto-window-vscroll nil)
-(customize-set-variable 'fast-but-imprecise-scrolling t)
-(customize-set-variable 'scroll-conservatively 101)
-(customize-set-variable 'scroll-margin 0)
-(customize-set-variable 'scroll-preserve-screen-position t)
-
-;; Better support for files with long lines
-(setq-default bidi-paragraph-direction 'left-to-right)
-(setq-default bidi-inhibit-bpa t)
-(global-so-long-mode 1)
+;; Modules
+(require 'init-ivy)
+(require 'init-emacs-lisp)
+(require 'init-clojure)
 
 ;; Make shbang (#!) file executable when saved
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
-
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-(global-set-key (kbd "<f5>") 'revert-buffer)
-
-(set-face-attribute 'default nil :font "MesloLGS NF" :height 140)
-
-(defun light ()
-  "Set a light theme."
-  (interactive)
-  (load-theme 'doom-one-light t))
-
-(defun dark ()
-  "Set a dark theme."
-  (interactive)
-  (load-theme 'doom-one t))
-
-(defun disable-active-themes ()
-  "Disable themes before switching."
-  (dolist (i custom-enabled-themes)
-    (disable-theme i)))
-
-(defadvice load-theme (before disable-themes-first activate)
-  "Update theme loading."
-  (disable-active-themes))
-
-;; Initialize Package Sources
-(require 'package)
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")
-                         ("elpa" . "https://elpa.gnu.org/packages/"))
-      gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-
-(package-initialize)
-(unless package-archive-contents
-  (package-refresh-contents))
-
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(require 'use-package)
-(setq use-package-always-ensure t)
 
 (use-package paradox
   :init (paradox-enable))
 
 (use-package exec-path-from-shell
-  :demand
   :config
-  (dolist (var '("JAVA_HOME" "SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE" "SNYK_TOKEN"))
+  (dolist (var '("JAVA_HOME"))
     (add-to-list 'exec-path-from-shell-variables var)))
-
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
-
-(use-package diminish
-  :demand)
-
-(use-package hydra)
-(require 'hydra)
-
-(global-set-key
- (kbd "<f2>")
- (defhydra hydra-text-scale (:timeout 4)
-   "scale text"
-   ("j" text-scale-increase "in")
-   ("k" text-scale-decrease "out")
-   ("=" (text-scale-set 0) "reset")
-   ("q" nil "quit" :exit t)))
 
 (use-package pulsar
   :demand
@@ -166,14 +78,11 @@
 
 ;; Useful dark themes
 (use-package doom-themes
-  :demand
   :config
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
   (doom-themes-visual-bell-config)
-  (doom-themes-org-config)
-  :init
-  (load-theme 'doom-ayu-mirage t)) 
+  (doom-themes-org-config))
 
 (use-package rg
   :hook (after-init . rg-enable-default-bindings))
@@ -184,15 +93,15 @@
   :config
   (setq-default flycheck-emacs-lisp-load-path 'inherit))
 
-(use-package ibuffer
-  :bind (("C-x C-b" . ibuffer)))
+;; (use-package ibuffer
+;;   :bind (("C-x C-b" . ibuffer)))
 
 (use-package ibuffer-vc)
 
 (use-package dired-quick-sort)
 
-(use-package hl-line
-  :hook (prog-mode . hl-line-mode))
+;; (use-package hl-line
+;;   :hook (prog-mode . hl-line-mode))
 
 (setq python-shell-interpreter "python3")
 
@@ -203,19 +112,10 @@
 (use-package highlight-numbers
   :hook (prog-mode . highlight-numbers-mode))
 
-(use-package hl-todo
-  :hook (prog-mode . hl-todo-mode))
-
-(use-package lorem-ipsum)
-
 (use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
+  :hook ((prog-mode) . rainbow-delimiters-mode))
 
 (use-package uuidgen)
-
-(use-package winum
-  :init
-  (winum-mode))
 
 (use-package all-the-icons
   :demand)
@@ -237,16 +137,7 @@
   :config
   (counsel-mode 1))
 
-(require 'init-ivy)
 
-(use-package projectile
-  :diminish
-  :bind (("C-c p" . #'projectile-command-map))
-  :init
-  (projectile-mode +1)
-  :config
-  (setq projectile-completion-system 'ivy
-        projectile-switch-project-action #'projectile-dired))
 
 (use-package amx
   :after ivy
@@ -264,12 +155,13 @@
   (which-key-mode)
   (setq which-key-idle-delay 0.3))
 
-(use-package paredit
+(use-package ace-window)
+
+(use-package super-save
   :diminish
-  :hook ((lisp-mode . paredit-mode)
-	 (clojure-mode . paredit-mode)
-	 (scheme-mode . paredit-mode)
-	 (emacs-lisp-mode . paredit-mode)))
+  :config
+  (add-to-list 'super-save-triggers 'ace-window)
+  (super-save-mode +1))
 
 (use-package helpful
   :after counsel
@@ -393,13 +285,9 @@
 (use-package markdown-mode)
 (use-package feature-mode)
 (use-package yaml-mode)
+(use-package ansible)
 (use-package scala-mode)
 (use-package pug-mode)
-
-(use-package go-mode
-  :config
-  (setq tab-width 4
-        indent-tabs-mode 1))
 
 (use-package vue-mode)
 (use-package async)
@@ -414,18 +302,10 @@
   (dashboard-setup-startup-hook)
   (setq dashboard-center-content t))
 
-(setq auto-mode-alist
-      (append '(("\\.native\\'" . nxml-mode)
-                ("\\.echo10\\'" . nxml-mode)
-                ("\\.dif\\'" . nxml-mode)
-                ("\\.dif10\\'" . nxml-mode)
-                ;; ISO may need pre-processing to not open in so-long-mode
-                ;; ("\\.iso\\'" . nxml-mode)
-                ;; ("\\.iso19115\\'" . nxml-mode)
-                ("\\.umm_json\\'" . js-mode))
-              auto-mode-alist))
-
 (use-package elfeed)
 (use-package fontaine)
+(use-package lorem-ipsum)
+
+(require 'init-go)
 
 ;;; init.el ends here

@@ -6,12 +6,8 @@
   :config
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
 
-(use-package git-gutter
-  :diminish
-  :hook (prog-mode . git-gutter-mode))
+(require 'diff-hl)
+(global-diff-hl-mode)
 
-(use-package forge)
-
-(message "Loaded Git configs")
 (provide 'init-git)
 ;;; init-git.el ends here

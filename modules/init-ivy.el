@@ -1,6 +1,11 @@
 ;;; init-ivy.el -- Ivy initialization
 ;;; Commentary:
 ;;; Code:
+(conjure-require-packages '(ivy))
+
+(require 'ivy)
+(require 'diminish)
+
 (use-package ivy
   :diminish
   :bind (("C-s" . swiper)

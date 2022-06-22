@@ -1,6 +1,8 @@
 ;;; init-clojure.el -- clojure-mode initialization
 ;;; Commentary:
 ;;; Code:
+(require 'init-lisp)
+
 (use-package clojure-mode
   :config
   (require 'flycheck-clj-kondo))
@@ -32,6 +34,5 @@
   (are3 1)
   (are2 1))
 
-(message "Loaded Clojure configs")
 (provide 'init-clojure)
 ;;; init-clojure.el ends here
