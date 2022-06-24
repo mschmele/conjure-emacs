@@ -28,15 +28,9 @@
 
   (setq conjure-cider-repl-mode-hook 'conjure-cider-repl-mode-defaults)
 
-  (setq cider-format-code-options
-      '(("indents" (("org.me/foo" (("inner" 0)))))
-        ("alias-map" (("me" "org.me")))))
-
   (add-hook 'cider-repl-mode-hook
             (lambda ()
-              (run-hooks 'conjure-cider-repl-mode-hook)))
-
-  (add-hook 'before-save-hook 'cider-format-buffer t t))
+              (run-hooks 'conjure-cider-repl-mode-hook))))
 
 ;; handle Compojure formatting as specified
 ;; https://github.com/weavejester/compojure/wiki/Emacs-indentation
@@ -52,10 +46,7 @@
   (PATCH 2)
   (rfn 2)
   (let-routes 1)
-  (context 2)
-  ;; add CMR specific indentation
-  (are3 1)
-  (are2 1))
+  (context 2))
 
 (provide 'init-clojure)
 ;;; init-clojure.el ends here
