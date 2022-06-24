@@ -71,12 +71,28 @@
 (setq ispell-program-name "aspell"
       ispell-extra-args '("--sug-mode=ultra"))
 
+(defun conjure-cleanup-maybe ()
+  "Invoke `whitespace-cleanup' if `conjure-clean-whitespace-on-save' is not nil."
+  (when conjure-clean-whitespace-on-save
+    (whitespace-cleanup)))
+
+(defun conjure-enable-whitespace ()
+  "Enable `whitespace-mode' if `conjure-whitespace' is not nil."
+  (when conjure-whitespace
+    ;; keep the whitespace decent all the time (in this buffer)
+    (add-hook 'before-save-hook 'conjure-cleanup-maybe nil t)
+    (whitespace-mode +1)))
+
 (defun conjure-enable-flyspell ()
   "Enable command 'flyspell-mode' if 'conjure-flyspell' is not nil."
   (when (and conjure-flyspell (executable-find ispell-program-name))
     (flyspell-mode +1)))
 
 (add-hook 'text-mode-hook 'conjure-enable-flyspell)
+
+(global-diff-hl-mode +1)
+(add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
 
 (provide 'init-editor)
 ;;; init-editor.el

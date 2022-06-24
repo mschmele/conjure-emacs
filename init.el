@@ -11,6 +11,15 @@
 (defvar conjure-user
   (getenv (if (equal system-type 'windows-nt) "USERNAME" "USER")))
 
+(defvar conjure-dir (file-name-directory load-file-name)
+  "The root dir of the Emacs Conjure distribution.")
+
+(defvar conjure-core-dir (expand-file-name "core" conjure-dir)
+  "The home of Conjure's core functionality.")
+
+(defvar conjure-modules-dir (expand-file-name  "modules" conjure-dir)
+  "This directory houses all of the built-in Prelude modules.")
+
 (defvar conjure-savefile-dir (expand-file-name "savefile" user-emacs-directory)
   "Folder for storing generated history files")
 
@@ -41,9 +50,12 @@
   (require 'init-linux))
 
 ;; Modules
+;; Enable or disable
 (require 'init-ivy)
 (require 'init-emacs-lisp)
 (require 'init-clojure)
+(require 'init-js)
+(require 'init-ts)
 
 ;; Make shbang (#!) file executable when saved
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
@@ -93,15 +105,12 @@
   :config
   (setq-default flycheck-emacs-lisp-load-path 'inherit))
 
-;; (use-package ibuffer
-;;   :bind (("C-x C-b" . ibuffer)))
+(use-package ibuffer
+  :bind (("C-x C-b" . ibuffer)))
 
 (use-package ibuffer-vc)
 
 (use-package dired-quick-sort)
-
-;; (use-package hl-line
-;;   :hook (prog-mode . hl-line-mode))
 
 (setq python-shell-interpreter "python3")
 
@@ -111,9 +120,6 @@
 
 (use-package highlight-numbers
   :hook (prog-mode . highlight-numbers-mode))
-
-(use-package rainbow-delimiters
-  :hook ((prog-mode) . rainbow-delimiters-mode))
 
 (use-package uuidgen)
 
@@ -136,8 +142,6 @@
          ("C-r" . 'counsel-minibuffer-history))
   :config
   (counsel-mode 1))
-
-
 
 (use-package amx
   :after ivy
@@ -187,6 +191,7 @@
   :hook (company-mode . company-box-mode))
 
 (use-package company-statistics
+  :defer 5
   :init
   (company-statistics-mode 1))
 
@@ -197,45 +202,33 @@
 
 (use-package yasnippet-snippets)
 
-(use-package typescript-mode
-  :mode "\\.ts\\'"
-  :config
-  (setq typescript-indent-level 2))
-
-(setq-default js-indent-level 2)
-
-;; Disable line numbers for some modes
-(dolist (mode '(org-mode-hook
-                term-mode-hook
-                eshell-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (use-package elixir-mode)
 (use-package haskell-mode)
 
-(use-package lsp-mode
-  :commands (lsp lsp-deferred)
-  :hook ((clojure-mode . lsp-deferred)
-         (ruby-mode . lsp-deferred)
-         (go-mode . lsp-deferred)
-         (js-mode . lsp-deferred)
-         (sgml-mode . lsp-deferred)
-         ;; (python-mode . lsp-deferred)
-         (java-mode . lsp-deferred)
-         (elixir-mode . lsp-deferred)
-         (terraform-mode . lsp-deferred)
-         (c-mode-common . lsp-deferred)
-         (lsp-mode . lsp-enable-which-key-integration))
-  :init
-  (setq lsp-keymap-prefix "C-c l"))
+;; (use-package lsp-mode
+;;   :commands (lsp lsp-deferred)
+;;   :hook ((clojure-mode . lsp-deferred)
+;;          (ruby-mode . lsp-deferred)
+;;          (go-mode . lsp-deferred)
+;;          (js-mode . lsp-deferred)
+;;          (sgml-mode . lsp-deferred)
+;;          ;; (python-mode . lsp-deferred)
+;;          (java-mode . lsp-deferred)
+;;          (elixir-mode . lsp-deferred)
+;;          (terraform-mode . lsp-deferred)
+;;          (c-mode-common . lsp-deferred)
+;;          (lsp-mode . lsp-enable-which-key-integration))
+;;   :init
+;;   (setq lsp-keymap-prefix "C-c l"))
 
-(use-package lsp-java)
-(use-package lsp-ivy
-  :commands lsp-ivy-workspace-symbol)
+;; (use-package lsp-java)
+;; (use-package lsp-ivy
+;;   :commands lsp-ivy-workspace-symbol)
 
-(use-package dap-mode
-  :after lsp-mode
-  :config (dap-auto-configure-mode))
+;; (use-package dap-mode
+;;   :after lsp-mode
+;;   :config (dap-auto-configure-mode))
 
 (use-package whitespace-cleanup-mode
   :config
@@ -253,23 +246,11 @@
 (require 'init-java)
 (require 'init-clojure)
 (require 'init-org)
-(use-package org-roam
-  :init
-  (setq org-roam-v2-ack t)
-  :config
-  (org-roam-setup)
-  :custom
-  (org-roam-directory "~/RoamNotes")
-  (org-roam-completion-everywhere t)
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n i" . org-roam-node-insert)
-         :map org-mode-map
-         ("C-M-i" . completion-at-point)))
 
 (use-package org-roam-ui
   :after org-roam
-  ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+  ;;         normally we'd recommend hooking orui after org-roam,
+  ;;         but since org-roam does not have
   ;;         a hookable mode anymore, you're advised to pick something yourself
   ;;         if you don't care about startup time, use
   ;;  :hook (after-init . org-roam-ui-mode)

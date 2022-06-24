@@ -24,6 +24,11 @@
       use-dialog-box nil
       ring-bell-function 'ignore)
 
+(setq frame-title-format
+      '((:eval (if (buffer-file-name)
+                   (abbreviate-file-name (buffer-file-name))
+                 "%b"))))
+
 ;; Make scrolling less stuttered
 (setq auto-window-vscroll nil)
 (customize-set-variable 'fast-but-imprecise-scrolling t)
@@ -35,14 +40,14 @@
 (if (display-graphic-p)
     (progn
       (setq initial-frame-alist `((left . 80)
-				  (top . 50)
-				  (height . 50)
-				  (width . 240)))
+                                  (top . 50)
+                                  (height . 50)
+                                  (width . 240)))
 
       (setq default-frame-alist `((left . 80)
-				  (top . 50)
-				  (height . 50)
-				  (width . 240)))))
+                                  (top . 50)
+                                  (height . 50)
+                                  (width . 240)))))
 
 (set-face-attribute 'default nil :font "MesloLGS NF" :height 140)
 
