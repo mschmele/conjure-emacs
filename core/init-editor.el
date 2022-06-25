@@ -26,6 +26,11 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
+
+;; smart tab behavior
+(setq tab-always-indent 'complete)
+
+;; smart pairs
 (require 'smartparens-config)
 (setq sp-base-key-bindings 'paredit)
 (setq sp-autoskip-closing-pair 'always)
@@ -37,16 +42,30 @@
 (require 'diminish)
 
 (require 'uniquify)
-(setq uniqify-buffer-name-style 'forward)
-(setq uniqify-separator "/")
-(setq uniqify-after-kill-buffer-p t) ; rename after killing unique
+(setq uniquify-buffer-name-style 'forward)
+(setq uniquify-separator "/")
+(setq uniquify-after-kill-buffer-p t) ; rename after killing unique
 (setq uniquify-ignore-buffers-re "^\\*") ; ignore special buffers
 
+(require 'saveplace)
 (setq save-place-file (expand-file-name "saveplace" conjure-savefile-dir))
 (save-place-mode 1)
 
 (require 'recentf)
-(setq recentf-save-file (expand-file-name "recentf" conjure-savefile-dir))
+(setq recentf-save-file (expand-file-name "recentf" conjure-savefile-dir)
+      recentf-max-saved-items 500
+      recentf-max-menu-items 15
+      recentf-auto-cleanup 'never)
+
+(defun confjure-recentf-exclude-p (file)
+  "A predicate to decide whether to exclude FILE from recentf."
+  (let ((file-dir (file-truename (file-name-directory file))))
+    (cl-some (lambda (dir)
+               (string-prefix-p dir file-dir))
+             (mapcar 'file-truename (list conjure-savefile-dir)))))
+
+(add-to-list 'recentf-exclude 'conjure-recentf-exclude-p)
+
 (recentf-mode +1)
 
 (require 'super-save)
@@ -86,12 +105,11 @@
 
 (put 'dired-find-alternate-file 'disabled nil)
 
+(require 'dired-x)
+
 (setq dired-recursive-deletes 'always)
 (setq dired-recursive-copies'always)
-
 (setq dired-dwim-target t)
-
-(require 'dired-x)
 
 (require 'ediff)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
@@ -156,4 +174,4 @@
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 (provide 'init-editor)
-;;; init-editor.el
+;;; init-editor.el ends here

@@ -21,7 +21,7 @@
   "This directory houses all of the built-in Prelude modules.")
 
 (defvar conjure-savefile-dir (expand-file-name "savefile" user-emacs-directory)
-  "Folder for storing generated history files")
+  "Folder for storing generated history files.")
 
 (message "[conjure] Emacs is coming online...")
 
@@ -100,8 +100,6 @@
 
 (use-package uuidgen)
 
-(use-package all-the-icons)
-
 ;; (use-package counsel
 ;;   :diminish
 ;;   :bind (("M-x" . counsel-M-x)
@@ -118,16 +116,6 @@
 ;;          ("C-r" . 'counsel-minibuffer-history))
 ;;   :config
 ;;   (counsel-mode 1))
-
-(use-package amx
-  :after ivy
-  :config
-  (setq amx-backend 'auto
-        amx-save-file (expand-file-name "amx-items" user-emacs-directory)
-        amx-history-length 50
-        amx-show-key-bindings nil)
-  :init
-  (amx-mode 1))
 
 (use-package which-key
   :diminish
@@ -180,18 +168,6 @@
 ;;   :after lsp-mode
 ;;   :config (dap-auto-configure-mode))
 
-;; (use-package whitespace-cleanup-mode
-;;   :config
-;;   (whitespace-cleanup-mode t))
-
-(use-package all-the-icons-dired
-  :requires all-the-icons
-  :hook (dired-mode . all-the-icons-dired-mode))
-
-(use-package all-the-icons-ibuffer
-  :requires all-the-icons
-  :init (all-the-icons-ibuffer-mode 1))
-
 (use-package darkroom)
 (use-package terraform-mode)
 (use-package dockerfile-mode)
@@ -200,7 +176,6 @@
 (use-package yaml-mode)
 (use-package pug-mode)
 (use-package vue-mode)
-(use-package async)
 
 ;; (use-package rust-mode
 ;;   :config
@@ -214,5 +189,4 @@
 
 (use-package elfeed)
 (use-package lorem-ipsum)
-
 ;;; init.el ends here

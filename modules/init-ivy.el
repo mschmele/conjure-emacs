@@ -3,6 +3,7 @@
 ;;; Code:
 (conjure-require-packages '(all-the-icons
                             all-the-icons-ivy-rich
+                            amx
                             counsel
                             counsel-projectile
                             ivy
@@ -11,6 +12,7 @@
                             swiper))
 
 (require 'ivy)
+(require 'amx)
 (require 'diminish)
 
 (ivy-mode 1)
@@ -63,6 +65,12 @@
 
 (all-the-icons-ivy-rich-mode 1)
 (ivy-rich-mode 1)
+
+(setq amx-backend 'auto
+          amx-save-file (expand-file-name "amx-items" conjure-savefile-dir)
+          amx-history-length 50
+          amx-show-key-bindings nil)
+(amx-mode 1)
 
 (provide 'init-ivy)
 ;;; init-ivy.el ends here

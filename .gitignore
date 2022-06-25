@@ -36,3 +36,4 @@ url
 *.sqlite
 amx-items
 org-roam.db
+/anaconda-mode/

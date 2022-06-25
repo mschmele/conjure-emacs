@@ -1,6 +1,11 @@
 ;;; init-ui.el -- ui settings
 ;;; Commentary:
 ;;; Code:
+
+(conjure-require-packages '(all-the-icons
+                            all-the-icons-dired
+                            all-the-icons-ibuffer))
+
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
 
@@ -54,5 +59,12 @@
 (when conjure-theme
   (load-theme conjure-theme t))
 
+(add-hook 'dired-mode-hook (lambda ()
+                             (all-the-icons-dired-mode)
+                             (diminish 'all-the-icons-dired-mode)))
+
+(add-hook 'ibuffer-mode-hook (lambda ()
+                               (all-the-icons-ibuffer-mode)))
+
 (provide 'init-ui)
-;; init-ui.el ends here
+;;; init-ui.el ends here
