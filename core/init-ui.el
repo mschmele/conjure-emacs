@@ -1,4 +1,4 @@
-;;; init-ui.el -- ui settings
+;;; init-ui.el --- ui settings
 ;;; Commentary:
 ;;; Code:
 
@@ -53,8 +53,6 @@
                                   (top . 50)
                                   (height . 50)
                                   (width . 240)))))
-
-(set-face-attribute 'default nil :font "MesloLGS NF" :height 140)
 
 (when conjure-theme
   (load-theme conjure-theme t))

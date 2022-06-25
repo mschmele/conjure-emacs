@@ -83,7 +83,6 @@
          ["Swap windows" crux-swap-windows])
         ("General"
          ["Visit term buffer" crux-visit-term-buffer]
-         ;; ["Search in Google" prelude-google]
          ["View URL" crux-view-url])))
     map)
   "Keymap for Conjure mode.")
@@ -97,4 +96,4 @@
   :global t)
 
 (provide 'conjure-mode)
-;;; init-conjure.el ends here
+;;; conjure-mode.el ends here

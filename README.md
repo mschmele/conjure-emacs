@@ -1,4 +1,11 @@
-# Emacs Config
+# Emacs Conjure
+
+Conjure is an Emacs distribution that takes inspiration from a number of excellent
+Emacs configurations. 
+
+
++ [Prelude](https://raw.githubusercontent.com/bbatsov/prelude)
++ [Emacs From Scratch](https://github.com/daviwil/emacs-from-scratch)
 
 ## Installation
 
@@ -12,18 +19,10 @@ Once downloaded, run Emacs. On first run it will attempt to install packages.
 Some packages need additional interactive steps to configure. Specifically
 any that require fonts and icons.
 
-Run the following and restart emacs.
+Run the following and restart Emacs.
 	
-    <M-x> install-package use-package
-    <M-x> install-pakcage paradox
     <M-x> all-the-icons-install-fonts
     
-    
-### Directory Customization
-
-You will need to modify the init.el script to point to your specific directory in the `(setq default-directory ...)` command.
-
-
 ### Prerequisites
 
 * [MesloLGS NF Fonts](https://github.com/romkatv/powerlevel10k/blob/master/font.md)
