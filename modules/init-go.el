@@ -1,6 +1,7 @@
 ;;; init-go.el -- go-mode initialization
 ;;; Commentary:
 ;;; Code:
+(require 'init-programming)
 
 (use-package go-mode
   :config

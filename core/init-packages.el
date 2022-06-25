@@ -5,7 +5,7 @@
 ;; Initialize Package Sources
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			 ("elpa" . "https://elpa.gnu.org/packages/")))
+                         ("elpa" . "https://elpa.gnu.org/packages/")))
 (defvar conjure-packages
   '(ace-window
     ag
@@ -28,6 +28,7 @@
     guru-mode
     hl-todo
     hydra
+    imenu-anywhere
     projectile
     magit
     move-text

@@ -40,6 +40,7 @@
 (require 'init-custom)
 (require 'init-ui)
 (require 'init-common)
+(require 'conjure-mode)
 (require 'init-editor)
 (require 'init-keybindings)
 
@@ -52,10 +53,13 @@
 ;; Modules
 ;; Enable or disable
 (require 'init-ivy)
+(require 'init-company)
 (require 'init-emacs-lisp)
 (require 'init-clojure)
 (require 'init-js)
 (require 'init-ts)
+(require 'init-org)
+;; (require 'init-go)
 
 ;; Make shbang (#!) file executable when saved
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
@@ -123,8 +127,7 @@
 
 (use-package uuidgen)
 
-(use-package all-the-icons
-  :demand)
+(use-package all-the-icons)
 
 (use-package counsel
   :diminish
@@ -178,23 +181,6 @@
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
 
-(use-package company
-  :diminish
-  :bind ("C-;" . company-complete-common)
-  :init
-  (global-company-mode t)
-  :config
-  (global-set-key (kbd "TAB") #'company-indent-or-complete-common))
-
-(use-package company-box
-  :diminish
-  :hook (company-mode . company-box-mode))
-
-(use-package company-statistics
-  :defer 5
-  :init
-  (company-statistics-mode 1))
-
 (use-package yasnippet
   :diminish yas-minor-mode
   :config
@@ -242,23 +228,9 @@
   :requires all-the-icons
   :init (all-the-icons-ibuffer-mode 1))
 
-(require 'init-git)
-(require 'init-java)
-(require 'init-clojure)
-(require 'init-org)
 
-(use-package org-roam-ui
-  :after org-roam
-  ;;         normally we'd recommend hooking orui after org-roam,
-  ;;         but since org-roam does not have
-  ;;         a hookable mode anymore, you're advised to pick something yourself
-  ;;         if you don't care about startup time, use
-  ;;  :hook (after-init . org-roam-ui-mode)
-  :config
-  (setq org-roam-ui-sync-theme t
-        org-roam-ui-follow t
-        org-roam-ui-update-on-save t
-        org-roam-ui-open-on-start t))
+(require 'init-java)
+
 
 (use-package darkroom)
 (use-package terraform-mode)
@@ -288,5 +260,4 @@
 (use-package lorem-ipsum)
 
 (require 'init-go)
-
 ;;; init.el ends here

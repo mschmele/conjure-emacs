@@ -1,58 +1,73 @@
 ;;; init-org.el -- Org Mode Initialization
 ;;; Commentary:
 ;;; Code:
-(conjure-require-packages '(org org-bullets org-roam))
+(conjure-require-packages '(org
+                            org-bullets
+                            org-roam))
 (require 'org)
-
+(require 'org-bullets)
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 
-(use-package org
-  :hook (org-mode . (lambda ()
-                      (linum-mode 0)
-                      (setq truncate-lines nil)))
-  :init
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((emacs-lisp . t)
-     (clojure . t)
-     (shell . t)
-     (ruby . t)
-     (python . t)))
-  :config
-  (setq org-babel-clojure-backend 'cider))
+(with-eval-after-load 'org
+  (defun conjure-org-mode-defaults ()
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((emacs-lisp . t)
+       (clojure . t)
+       (shell . t)
+       (ruby . t)
+       (python . t)))
 
-(use-package org-bullets
-  :hook (org-mode . org-bullets-mode))
+    (org-bullets-mode +1))
 
-(use-package org-roam
-  :init
-  (setq org-roam-v2-ack t)
-  :config
+  (setq org-babel-clojure-backend 'cider)
+  (setq conjure-org-mode-hook 'conjure-org-mode-defaults)
+
+  (add-hook 'outline-mode-hook
+            (lambda ()
+              (run-hooks 'conjure-org-mode-hook))))
+
+(require 'org-roam)
+(setq org-roam-v2-ack t)
+
+(setq org-roam-directory "~/RoamNotes")
+(setq org-roam-completion-everywhere t)
+(setq org-roam-capture-templates
+      '(("d" "default" plain
+         "%?\n\n* Related:"
+         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+         :unnarrowed t)
+        ("l" "programming language" plain
+         "* Characteristics:\n\n- Family: %?\n- Inspired by:\n\n* Reference:\n\n"
+         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+         :unnarrowed t)))
+
+(with-eval-after-load 'org-roam
+  (defun conjure-org-roam-defaults ()
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t)
+
+    (global-set-key (kbd "C-c m l") 'org-roam-buffer-toggle)
+    (global-set-key (kbd "C-c m f") 'org-roam-node-find)
+    (global-set-key (kbd "C-c m i") 'org-roam-node-insert)
+    (global-set-key (kbd "C-c m c") 'org-roam-capture)
+    (global-set-key (kbd "C-c m d d") 'org-roam-dailies-goto-today)
+    (global-set-key (kbd "C-c m d y") 'org-roam-dailies-goto-yesterday)
+    (global-set-key (kbd "C-c m d t") 'org-roam-dailies-goto-tomorrow)
+    (global-set-key (kbd "C-c m d b") 'org-roam-dailies-goto-previous-note)
+    (global-set-key (kbd "C-c m d c") 'org-roam-dailies-goto-date)
+
+    (define-key org-mode-map (kbd "C-M-i") 'completion-at-point)
+
+    (message "[conjure] Org-roam powering up..."))
+
+  (setq conjure-org-roam-hook 'conjure-org-roam-defaults)
+
   (org-roam-setup)
-  :custom
-  (org-roam-directory "~/RoamNotes")
-  (org-roam-completion-everywhere t)
-  (org-roam-capture-templates
-   '(("d" "default" plain
-      "%?\n\n* Related:"
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-      :unnarrowed t)
-     ("l" "programming language" plain
-      "* Characteristics:\n\n- Family: %?\n- Inspired by:\n\n* Reference:\n\n"
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-      :unnarrowed t)))
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n i" . org-roam-node-insert)
-         ("C-c n c" . org-roam-capture)
-         ("C-c n d d" . org-roam-dailies-find-today)
-         ("C-c n d y" . org-roam-dailies-find-yesterday)
-         ("C-c n d t" . org-roam-dailies-find-tomorrow)
-         ("C-c n d b" . org-roam-dailies-find-previous-note)
-         ("C-c n d c" . org-roam-dailies-find-date)
-         :map org-mode-map
-         ("C-M-i" . completion-at-point)))
+  (add-hook 'after-init-hook (lambda ()
+                               (run-hooks 'conjure-org-roam-hook))))
 
-(message "Loaded Org-Mode configs")
 (provide 'init-org)
 ;;; init-org.el ends here

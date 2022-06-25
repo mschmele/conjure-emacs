@@ -11,11 +11,11 @@
     (subword-mode +1)
     (run-hooks 'conjure-lisp-coding-hook))
 
-  (setq conjure-clojure-mode-hooks 'conjure-clojure-mode-defaults)
+  (setq conjure-clojure-mode-hook 'conjure-clojure-mode-defaults)
 
   (add-hook 'clojure-mode-hook
             (lambda ()
-              (run-hooks 'conjure-clojure-mode-hooks))))
+              (run-hooks 'conjure-clojure-mode-hook))))
 
 (with-eval-after-load 'cider
   (setq nrepl-log-messages t)

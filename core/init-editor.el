@@ -52,12 +52,8 @@
 (setq bookmark-default-file (expand-file-name "bookmarks" conjure-savefile-dir)
       bookmark-save-flag 1)
 
-(require 'ivy)
 (require 'projectile)
-(setq projectile-cache-file (expand-file-name "projectile.cache" conjure-savefile-dir)
-      projectile-completion-system 'ivy
-      projectile-switch-project-action #'projectile-dired)
-(define-key (current-global-map) (kbd "C-c p") 'projectile-command-map)
+(setq projectile-cache-file (expand-file-name "projectile.cache" conjure-savefile-dir))
 (projectile-mode t)
 
 ;; Better support for files with long lines
@@ -65,11 +61,43 @@
 (setq-default bidi-inhibit-bpa t)
 (global-so-long-mode 1)
 
+(require 'avy)
+(setq avy-background t)
+(setq avy-style 'at-full)
+
+(require 'anzu)
+(diminish 'anzu-mode)
+(global-anzu-mode)
+
+(global-set-key (kbd "M-%") 'anzu-query-replace)
+(global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
+
+(put 'dired-find-alternate-file 'disabled nil)
+
+(setq dired-recursive-deletes 'always)
+(setq dired-recursive-copies'always)
+
+(setq dired-dwim-target t)
+
+(require 'dired-x)
+
+(require 'ediff)
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+(require 'midnight)
+
+(require 'browse-kill-ring)
+(browse-kill-ring-default-keybindings)
+(global-set-key (kbd "s-y") 'browse-kill-ring)
+
 (customize-set-variable 'kill-do-not-save-duplicates t)
 
 (require 'flyspell)
 (setq ispell-program-name "aspell"
       ispell-extra-args '("--sug-mode=ultra"))
+
+(require 'eshell)
+(setq eshell-directory-name (expand-file-name "eshell" conjure-savefile-dir))
 
 (defun conjure-cleanup-maybe ()
   "Invoke `whitespace-cleanup' if `conjure-clean-whitespace-on-save' is not nil."
@@ -93,6 +121,23 @@
 (global-diff-hl-mode +1)
 (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
 (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+
+(setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
+
+(conjure-mode 1)
+
+(require 'undo-tree)
+;; autosave the undo-tree history
+(setq undo-tree-history-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq undo-tree-auto-save-history t)
+(global-undo-tree-mode)
+(diminish 'undo-tree-mode)
+
+(winner-mode +1)
+
+(global-set-key [remap kill-ring-save] 'easy-kill)
+(global-set-key [remap mark-sexp] 'easy-mark)
 
 (provide 'init-editor)
 ;;; init-editor.el

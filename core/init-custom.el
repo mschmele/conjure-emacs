@@ -11,6 +11,11 @@
   :type 'boolean
   :group 'conjure)
 
+(defcustom conjure-super-keybindings t
+  "Non-nil values enable super-key "
+  :type 'boolean
+  :group 'conjure)
+
 (defcustom conjure-guru t
   "Non-nil values enable 'guru-mode'."
   :type 'boolean
