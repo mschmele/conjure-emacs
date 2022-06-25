@@ -22,6 +22,9 @@
 (global-set-key (kbd "M-z") 'zop-up-to-char)
 (global-set-key (kbd "M-Z") 'zop-to-char)
 
+(global-set-key (kbd "s-w") 'ace-window)
+(global-set-key [remap other-window] 'ace-window)
+
 (require 'hydra)
 ;; (global-set-key
 ;;  (kbd "<f2>")

@@ -52,25 +52,17 @@
 
 ;; Modules
 ;; Enable or disable
-(require 'init-ivy)
 (require 'init-company)
-(require 'init-emacs-lisp)
 (require 'init-clojure)
+(require 'init-emacs-lisp)
+(require 'init-go)
+(require 'init-ivy)
+(require 'init-java)
 (require 'init-js)
 (require 'init-ts)
 (require 'init-org)
-;; (require 'init-go)
-
-;; Make shbang (#!) file executable when saved
-(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
-
-(use-package paradox
-  :init (paradox-enable))
-
-(use-package exec-path-from-shell
-  :config
-  (dolist (var '("JAVA_HOME"))
-    (add-to-list 'exec-path-from-shell-variables var)))
+(require 'init-python)
+(require 'init-ruby)
 
 (use-package pulsar
   :demand
@@ -93,58 +85,39 @@
                                    (popup . (extrabold)))))
 
 ;; Useful dark themes
-(use-package doom-themes
-  :config
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t)
-  (doom-themes-visual-bell-config)
-  (doom-themes-org-config))
-
-(use-package rg
-  :hook (after-init . rg-enable-default-bindings))
-
-(use-package flycheck
-  :init
-  (setq flycheck-highlighting-mode 'symbols)
-  :config
-  (setq-default flycheck-emacs-lisp-load-path 'inherit))
-
-(use-package ibuffer
-  :bind (("C-x C-b" . ibuffer)))
+;; (use-package doom-themes
+;;   :config
+;;   (setq doom-themes-enable-bold t
+;;         doom-themes-enable-italic t)
+;;   (doom-themes-visual-bell-config)
+;;   (doom-themes-org-config))
 
 (use-package ibuffer-vc)
 
 (use-package dired-quick-sort)
 
-(setq python-shell-interpreter "python3")
 
-(use-package highlight-indentation
-  :hook ((python-mode . highlight-indentation-mode)
-         (yaml-mode . highlight-indentation-mode)))
-
-(use-package highlight-numbers
-  :hook (prog-mode . highlight-numbers-mode))
 
 (use-package uuidgen)
 
 (use-package all-the-icons)
 
-(use-package counsel
-  :diminish
-  :bind (("M-x" . counsel-M-x)
-         ("C-x b" . counsel-ibuffer)
-         ("C-x C-f" . counsel-find-file)
-         ("C-c b" . counsel-bookmark)
-         ("C-c d" . counsel-descbinds)
-         ("C-c g" . counsel-git)
-         ("C-c o" . counsel-outline)
-         ("C-c t" . counsel-load-theme)
-         ("C-c F" . counsel-org-file)
-         ("C-c J" . counsel-file-jump)
-         :map minibuffer-local-map
-         ("C-r" . 'counsel-minibuffer-history))
-  :config
-  (counsel-mode 1))
+;; (use-package counsel
+;;   :diminish
+;;   :bind (("M-x" . counsel-M-x)
+;;          ("C-x b" . counsel-ibuffer)
+;;          ("C-x C-f" . counsel-find-file)
+;;          ("C-c b" . counsel-bookmark)
+;;          ("C-c d" . counsel-descbinds)
+;;          ("C-c g" . counsel-git)
+;;          ("C-c o" . counsel-outline)
+;;          ("C-c t" . counsel-load-theme)
+;;          ("C-c F" . counsel-org-file)
+;;          ("C-c J" . counsel-file-jump)
+;;          :map minibuffer-local-map
+;;          ("C-r" . 'counsel-minibuffer-history))
+;;   :config
+;;   (counsel-mode 1))
 
 (use-package amx
   :after ivy
@@ -162,14 +135,6 @@
   (which-key-mode)
   (setq which-key-idle-delay 0.3))
 
-(use-package ace-window)
-
-(use-package super-save
-  :diminish
-  :config
-  (add-to-list 'super-save-triggers 'ace-window)
-  (super-save-mode +1))
-
 (use-package helpful
   :after counsel
   :custom
@@ -181,13 +146,12 @@
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
 
-(use-package yasnippet
-  :diminish yas-minor-mode
-  :config
-  (yas-global-mode 1))
+;; (use-package yasnippet
+;;   :diminish yas-minor-mode
+;;   :config
+;;   (yas-global-mode 1))
 
-(use-package yasnippet-snippets)
-
+;; (use-package yasnippet-snippets)
 
 (use-package elixir-mode)
 (use-package haskell-mode)
@@ -216,9 +180,9 @@
 ;;   :after lsp-mode
 ;;   :config (dap-auto-configure-mode))
 
-(use-package whitespace-cleanup-mode
-  :config
-  (whitespace-cleanup-mode t))
+;; (use-package whitespace-cleanup-mode
+;;   :config
+;;   (whitespace-cleanup-mode t))
 
 (use-package all-the-icons-dired
   :requires all-the-icons
@@ -228,26 +192,19 @@
   :requires all-the-icons
   :init (all-the-icons-ibuffer-mode 1))
 
-
-(require 'init-java)
-
-
 (use-package darkroom)
 (use-package terraform-mode)
 (use-package dockerfile-mode)
 (use-package markdown-mode)
 (use-package feature-mode)
 (use-package yaml-mode)
-(use-package ansible)
-(use-package scala-mode)
 (use-package pug-mode)
-
 (use-package vue-mode)
 (use-package async)
 
-(use-package rust-mode
-  :config
-  (setq indent-tabs-mode nil))
+;; (use-package rust-mode
+;;   :config
+;;   (setq indent-tabs-mode nil))
 
 (use-package dashboard
   :demand
@@ -256,8 +213,6 @@
   (setq dashboard-center-content t))
 
 (use-package elfeed)
-(use-package fontaine)
 (use-package lorem-ipsum)
 
-(require 'init-go)
 ;;; init.el ends here

@@ -38,5 +38,10 @@ be formatted on save"
   :type 'boolean
   :group 'conjure)
 
+(defcustom conjure-theme 'zenburn
+  "The default theme of Conjure."
+  :type 'symbol
+  :group 'conjure)
+
 (provide 'init-custom)
 ;;; init-custom.el

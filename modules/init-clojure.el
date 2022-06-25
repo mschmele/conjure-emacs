@@ -1,4 +1,4 @@
-;;; init-clojure.el -- clojure-mode initialization
+;;; init-clojure.el --- clojure-mode initialization
 ;;; Commentary:
 ;;; Code:
 (require 'init-lisp)

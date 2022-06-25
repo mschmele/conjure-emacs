@@ -1,4 +1,4 @@
-;;; init-java.el -- java-mode initialization
+;;; init-java.el --- java-mode initialization
 ;;; Commentary:
 ;;; Code:
 (setq JAVA_BASE "/Library/Java/JavaVirtualMachines")

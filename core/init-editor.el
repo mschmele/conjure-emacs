@@ -47,6 +47,12 @@
 
 (require 'recentf)
 (setq recentf-save-file (expand-file-name "recentf" conjure-savefile-dir))
+(recentf-mode +1)
+
+(require 'super-save)
+(add-to-list 'super-save-triggers 'ace-window)
+(super-save-mode +1)
+(diminish 'super-save-mode)
 
 (require 'bookmark)
 (setq bookmark-default-file (expand-file-name "bookmarks" conjure-savefile-dir)
@@ -55,6 +61,12 @@
 (require 'projectile)
 (setq projectile-cache-file (expand-file-name "projectile.cache" conjure-savefile-dir))
 (projectile-mode t)
+
+(global-hl-line-mode +1)
+
+(require 'volatile-highlights)
+(volatile-highlights-mode t)
+(diminish 'volatile-highlights-mode)
 
 ;; Better support for files with long lines
 (setq-default bidi-paragraph-direction 'left-to-right)
@@ -124,6 +136,7 @@
 
 (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
 
+;; Conjure very own mode
 (conjure-mode 1)
 
 (require 'undo-tree)
@@ -138,6 +151,9 @@
 
 (global-set-key [remap kill-ring-save] 'easy-kill)
 (global-set-key [remap mark-sexp] 'easy-mark)
+
+;; Make shbang (#!) file executable when saved
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 (provide 'init-editor)
 ;;; init-editor.el

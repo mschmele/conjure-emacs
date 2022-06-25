@@ -51,7 +51,8 @@
 
 (set-face-attribute 'default nil :font "MesloLGS NF" :height 140)
 
-(load-theme 'zenburn t)
+(when conjure-theme
+  (load-theme conjure-theme t))
 
 (provide 'init-ui)
 ;; init-ui.el ends here

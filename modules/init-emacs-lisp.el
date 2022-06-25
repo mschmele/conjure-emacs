@@ -1,4 +1,4 @@
-;;; init-emacs-lisp.el -- emacs-lisp mode initialization
+;;; init-emacs-lisp.el --- emacs-lisp mode initialization
 ;;; Commentary:
 ;;; Code:
 (require 'init-lisp)

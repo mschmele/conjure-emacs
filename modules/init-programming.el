@@ -1,6 +1,8 @@
 ;;; init-programming.el -- core programming setup
 ;;; Commentary:
 ;;; Code:
+(conjure-require-packages '(highlight-numbers))
+
 (defun conjure-local-comment-auto-fill ()
   (set (make-local-variable 'comment-auto-fill-only-comments) t))
 
@@ -13,10 +15,12 @@
 (setq guru-warn-only t)
 
 (defun conjure-prog-mode-defaults ()
-  "Default coding hook"
+  "Default coding hook."
   (when conjure-guru
     (guru-mode +1)
     (diminish 'guru-mode))
+
+  (highlight-numbers-mode +1)
   (smartparens-mode +1)
   (conjure-enable-whitespace)
   (conjure-local-comment-auto-fill))
@@ -26,7 +30,12 @@
 (add-hook 'prog-mode-hook (lambda ()
                             (run-hooks 'conjure-prog-mode-hook)))
 
-(message "[conjure] Preparing space...")
+(setq-default flycheck-emacs-lisp-load-path 'inherit)
+(if (fboundp 'global-flycheck-mode)
+    (global-flycheck-mode +1)
+  (add-hook 'prog-mode-hook 'flycheck-mode))
+
+(message "[conjure] Preparing Unicorn Sparkles...")
 
 (provide 'init-programming)
 ;;; init-programming.el ends here
