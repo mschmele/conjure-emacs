@@ -3,7 +3,10 @@
 ;;; Code:
 (require 'init-programming)
 
-(conjure-require-packages '(inf-ruby yari))
+(conjure-require-packages '(inf-ruby
+                            lsp-mode
+                            lsp-ui
+                            yari))
 
 ;; ignore rubinius bytecode
 (add-to-list 'completion-ignored-extensions ".rbc")
@@ -19,7 +22,8 @@
   (setq conjure-ruby-mode-hook 'conjure-ruby-mode-defaults)
 
   (add-hook 'ruby-mode-hook (lambda ()
-                              (run-hooks 'conjure-ruby-mode-hok))))
+                              (run-hooks 'conjure-ruby-mode-hok)))
+  (add-hook 'ruby-mode-hook #'lsp-deferred))
 
 (provide 'init-ruby)
 ;;; init-ruby.el ends here

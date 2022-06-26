@@ -37,7 +37,6 @@
     smartrep
     super-save
     undo-tree
-    use-package
     volatile-highlights
     which-key
     zenburn-theme

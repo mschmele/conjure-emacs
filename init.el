@@ -64,8 +64,7 @@
   (require 'init-linux))
 
 (message "[conjure] Loading magic...")
-;; Modules
-;; Enable or disable
+;; Enable or disable as needed
 (require 'init-company)
 (require 'init-clojure)
 (require 'init-emacs-lisp)

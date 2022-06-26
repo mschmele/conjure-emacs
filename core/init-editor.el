@@ -5,8 +5,9 @@
 (setq-default tab-width 8)          ;; fake it with tabs
 
 (setq require-final-newline t)
+(setq use-dialog-box nil)
 
-(customize-set-variable 'global-auto-revert-non-file-buffers t)
+(setq global-auto-revert-non-file-buffers t)
 (global-auto-revert-mode 1)
 
 (setq auto-mode-alist
@@ -25,7 +26,6 @@
       `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
-
 
 ;; smart tab behavior
 (setq tab-always-indent 'complete)
@@ -65,7 +65,6 @@
              (mapcar 'file-truename (list conjure-savefile-dir)))))
 
 (add-to-list 'recentf-exclude 'conjure-recentf-exclude-p)
-
 (recentf-mode +1)
 
 (require 'super-save)
