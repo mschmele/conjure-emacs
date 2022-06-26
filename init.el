@@ -47,7 +47,7 @@
 (setq custom-file (locate-user-emacs-file "custom-vars.el"))
 (load custom-file 'noerror 'nomessage)
 
-(message "[conjure] Initializing core features...")
+(message "[conjure] Invoking the Deep Magic...")
 ;; Do not change order
 (require 'init-packages)
 (require 'init-custom)
@@ -63,7 +63,7 @@
 (when *is-linux*
   (require 'init-linux))
 
-(message "[conjure] Loading magic...")
+(message "[conjure] Configuring packages...")
 ;; Enable or disable as needed
 (require 'init-company)
 (require 'init-clojure)
@@ -79,6 +79,7 @@
 (require 'init-yaml)
 (require 'init-xml)
 
+;; One-offs that don't have their own setups yet
 (conjure-require-packages '(darkroom
                             dashboard
                             elfeed
