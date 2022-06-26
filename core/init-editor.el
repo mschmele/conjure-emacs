@@ -173,5 +173,8 @@
 ;; Make shbang (#!) file executable when saved
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
+(require 'which-key)
+(which-key-mode 1)
+
 (provide 'init-editor)
 ;;; init-editor.el ends here

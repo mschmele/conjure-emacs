@@ -6,6 +6,7 @@
                             amx
                             counsel
                             counsel-projectile
+                            helpful
                             ivy
                             ivy-rich
                             ivy-posframe
@@ -71,6 +72,16 @@
           amx-history-length 50
           amx-show-key-bindings nil)
 (amx-mode 1)
+
+(require 'counsel)
+(require 'helpful)
+(setq counsel-describe-function-function #'helpful-callable)
+(setq counsel-describe-variable-function #'helpful-variable)
+
+(global-set-key [remap describe-function] #'counsel-describe-function)
+(global-set-key [remap describe-command] #'helpful-command)
+(global-set-key [remap describe-variable] #'counsel-describe-variable)
+(global-set-key [remap describe-key] #'helpful-key)
 
 (provide 'init-ivy)
 ;;; init-ivy.el ends here

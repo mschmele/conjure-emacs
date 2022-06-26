@@ -1,4 +1,4 @@
-;;; init.el --- Emacs Initialization File
+;;; init.el --- Conjure Emacs Initialization File
 ;;; Commentary:
 ;;; Code:
 (defconst emacs-start-time (current-time))
@@ -23,18 +23,31 @@
 (defvar conjure-savefile-dir (expand-file-name "savefile" user-emacs-directory)
   "Folder for storing generated history files.")
 
+(unless (file-exists-p conjure-savefile-dir)
+  (make-directory conjure-savefile-dir))
+
+(defun conjure-add-subfolders-to-load-path (parent-dir)
+  "Add all level PARENT-DIR subdirs to the `load-path'."
+  (dolist (f (directory-files parent-dir))
+    (let ((name (expand-file-name f parent-dir)))
+      (when (and (file-directory-p name)
+                 (not (string-prefix-p "." f)))
+        (add-to-list 'load-path name)
+        (conjure-add-subfolders-to-load-path name)))))
+
 (message "[conjure] Emacs is coming online...")
 
 (setq load-prefer-newer t)
 
 ;; Setup directories for splitting out individual configurations
-(add-to-list 'load-path (expand-file-name "core" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name "modules" user-emacs-directory))
+(add-to-list 'load-path conjure-core-dir)
+(add-to-list 'load-path conjure-modules-dir)
 
 ;; Save customization variables to a separate file
 (setq custom-file (locate-user-emacs-file "custom-vars.el"))
 (load custom-file 'noerror 'nomessage)
 
+(message "[conjure] Initializing core features...")
 ;; Do not change order
 (require 'init-packages)
 (require 'init-custom)
@@ -50,6 +63,7 @@
 (when *is-linux*
   (require 'init-linux))
 
+(message "[conjure] Loading magic...")
 ;; Modules
 ;; Enable or disable
 (require 'init-company)
@@ -63,130 +77,18 @@
 (require 'init-org)
 (require 'init-python)
 (require 'init-ruby)
+(require 'init-yaml)
+(require 'init-xml)
 
-(use-package pulsar
-  :demand
-  :bind (("C-x l" . pulsar-highlight-dwim))
-  :init
-  (pulsar-global-mode 1)
-  :config
-  (setq pulsar-pulse-on-window-change t
-        pulsar-face 'pulsar-magenta
-        pulsar-highlight-face 'pulsar-yellow))
+(conjure-require-packages '(darkroom
+                            dashboard
+                            elfeed
+                            lorem-ipsum
+                            uuidgen
+                            yasnippet
+                            yasnippet-snippets))
 
-;; better light theme
-(use-package modus-themes
-  :demand
-  :config
-  (setq modus-themes-mode-line '(accented borderless padded)
-        modus-themes-region  '(bg-only)
-        modus-themes-completions '((matches . (extrabold background))
-                                   (selection . (semibold accented))
-                                   (popup . (extrabold)))))
-
-;; Useful dark themes
-;; (use-package doom-themes
-;;   :config
-;;   (setq doom-themes-enable-bold t
-;;         doom-themes-enable-italic t)
-;;   (doom-themes-visual-bell-config)
-;;   (doom-themes-org-config))
-
-(use-package ibuffer-vc)
-
-(use-package dired-quick-sort)
-
-
-
-(use-package uuidgen)
-
-;; (use-package counsel
-;;   :diminish
-;;   :bind (("M-x" . counsel-M-x)
-;;          ("C-x b" . counsel-ibuffer)
-;;          ("C-x C-f" . counsel-find-file)
-;;          ("C-c b" . counsel-bookmark)
-;;          ("C-c d" . counsel-descbinds)
-;;          ("C-c g" . counsel-git)
-;;          ("C-c o" . counsel-outline)
-;;          ("C-c t" . counsel-load-theme)
-;;          ("C-c F" . counsel-org-file)
-;;          ("C-c J" . counsel-file-jump)
-;;          :map minibuffer-local-map
-;;          ("C-r" . 'counsel-minibuffer-history))
-;;   :config
-;;   (counsel-mode 1))
-
-(use-package which-key
-  :diminish
-  :config
-  (which-key-mode)
-  (setq which-key-idle-delay 0.3))
-
-(use-package helpful
-  :after counsel
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable)
-  :bind
-  ([remap describe-function] . counsel-describe-function)
-  ([remap describe-command] . helpful-command)
-  ([remap describe-variable] . counsel-describe-variable)
-  ([remap describe-key] . helpful-key))
-
-;; (use-package yasnippet
-;;   :diminish yas-minor-mode
-;;   :config
-;;   (yas-global-mode 1))
-
-;; (use-package yasnippet-snippets)
-
-(use-package elixir-mode)
-(use-package haskell-mode)
-
-;; (use-package lsp-mode
-;;   :commands (lsp lsp-deferred)
-;;   :hook ((clojure-mode . lsp-deferred)
-;;          (ruby-mode . lsp-deferred)
-;;          (go-mode . lsp-deferred)
-;;          (js-mode . lsp-deferred)
-;;          (sgml-mode . lsp-deferred)
-;;          ;; (python-mode . lsp-deferred)
-;;          (java-mode . lsp-deferred)
-;;          (elixir-mode . lsp-deferred)
-;;          (terraform-mode . lsp-deferred)
-;;          (c-mode-common . lsp-deferred)
-;;          (lsp-mode . lsp-enable-which-key-integration))
-;;   :init
-;;   (setq lsp-keymap-prefix "C-c l"))
-
-;; (use-package lsp-java)
-;; (use-package lsp-ivy
-;;   :commands lsp-ivy-workspace-symbol)
-
-;; (use-package dap-mode
-;;   :after lsp-mode
-;;   :config (dap-auto-configure-mode))
-
-(use-package darkroom)
-(use-package terraform-mode)
-(use-package dockerfile-mode)
-(use-package markdown-mode)
-(use-package feature-mode)
-(use-package yaml-mode)
-(use-package pug-mode)
-(use-package vue-mode)
-
-;; (use-package rust-mode
-;;   :config
-;;   (setq indent-tabs-mode nil))
-
-(use-package dashboard
-  :demand
-  :config
-  (dashboard-setup-startup-hook)
-  (setq dashboard-center-content t))
-
-(use-package elfeed)
-(use-package lorem-ipsum)
+(require 'dashboard)
+(setq dashboard-center-content t)
+(dashboard-setup-startup-hook)
 ;;; init.el ends here

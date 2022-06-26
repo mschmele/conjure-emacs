@@ -4,7 +4,8 @@
 
 (conjure-require-packages '(all-the-icons
                             all-the-icons-dired
-                            all-the-icons-ibuffer))
+                            all-the-icons-ibuffer
+                            pulsar))
 
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
@@ -63,6 +64,12 @@
 
 (add-hook 'ibuffer-mode-hook (lambda ()
                                (all-the-icons-ibuffer-mode)))
+
+(require 'pulsar)
+(setq pulsar-pulse-on-window-change t
+      pulsar-face 'pulsar-magenta
+      pulsar-highlight-face 'pulsar-yellow)
+(pulsar-global-mode 1)
 
 (provide 'init-ui)
 ;;; init-ui.el ends here
