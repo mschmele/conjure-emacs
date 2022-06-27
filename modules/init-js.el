@@ -3,7 +3,9 @@
 ;;; Code:
 
 (require 'init-programming)
-(conjure-require-packages '(js2-mode json-mode))
+(conjure-require-packages '(js2-mode
+                            lsp-mode
+                            json-mode))
 
 (require 'js2-mode)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
@@ -22,7 +24,8 @@
 
   (setq conjure-js-mode-hook 'conjure-js-mode-defaults)
 
-  (add-hook 'js2-mode-hook (lambda () (run-hooks 'conjure-js-mode-hook))))
+  (add-hook 'js2-mode-hook (lambda () (run-hooks 'conjure-js-mode-hook)))
+  (add-hook 'js2-mode-hook #'lsp-deferred))
 
 (provide 'init-js)
 ;;; init-js.el ends here
