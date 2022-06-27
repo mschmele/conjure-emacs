@@ -3,7 +3,8 @@
 ;;; Code:
 (conjure-require-packages '(org
                             org-bullets
-                            org-roam))
+                            org-roam
+                            org-roam-ui))
 (require 'org)
 (require 'org-bullets)
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
@@ -46,8 +47,7 @@
   (defun conjure-org-roam-defaults ()
     (setq org-roam-ui-sync-theme t
           org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t)
+          org-roam-ui-update-on-save t)
 
     (global-set-key (kbd "C-c m l") 'org-roam-buffer-toggle)
     (global-set-key (kbd "C-c m f") 'org-roam-node-find)

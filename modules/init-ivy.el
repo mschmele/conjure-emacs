@@ -5,7 +5,6 @@
                             all-the-icons-ivy-rich
                             amx
                             counsel
-                            counsel-projectile
                             helpful
                             ivy
                             ivy-rich
@@ -61,8 +60,6 @@
 
 (ivy-posframe-mode)
 (diminish 'ivy-posframe-mode)
-
-(counsel-projectile-mode)
 
 (all-the-icons-ivy-rich-mode 1)
 (ivy-rich-mode 1)

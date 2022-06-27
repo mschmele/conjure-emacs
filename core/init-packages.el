@@ -38,6 +38,7 @@
     super-save
     undo-tree
     volatile-highlights
+    wgrep
     which-key
     zenburn-theme
     zop-to-char)
