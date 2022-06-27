@@ -71,5 +71,16 @@
       pulsar-highlight-face 'pulsar-yellow)
 (pulsar-global-mode 1)
 
+;; Setup window defaults
+(setq display-buffer-alist
+      '(("\\*e?shell\\*"
+         (display-buffer-in-side-window)
+         (setq-local window-height 0.25
+                     side 'bottom
+                     slot 0))))
+
+;; default to 12pt font and MesloLGS
+(set-face-attribute 'default nil :font "MesloLGS NF" :height 120)
+
 (provide 'init-ui)
 ;;; init-ui.el ends here

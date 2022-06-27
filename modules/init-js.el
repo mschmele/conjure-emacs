@@ -10,6 +10,8 @@
 (add-to-list 'auto-mode-alist '("\\.pac\\'" . js2-mode))
 (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
 
+(setq-default js-indent-level 2)
+
 (with-eval-after-load 'js2-mode
   (defun conjure-js-mode-defaults ()
     ;; prevent electric-layout from fighting with smartparens

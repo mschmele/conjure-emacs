@@ -137,6 +137,7 @@
   "Enable `whitespace-mode' if `conjure-whitespace' is not nil."
   (when conjure-whitespace
     ;; keep the whitespace decent all the time (in this buffer)
+    (setq whitespace-line-column 100)
     (add-hook 'before-save-hook 'conjure-cleanup-maybe nil t)
     (whitespace-mode +1)))
 
