@@ -18,7 +18,8 @@
               (run-hooks 'conjure-clojure-mode-hook))))
 
 (with-eval-after-load 'cider
-  (setq nrepl-log-messages t)
+  (setq nrepl-log-messages t
+        cider-repl-display-help-banner nil)
 
   (add-hook 'cider-mode-hook 'eldoc-mode)
 
@@ -27,6 +28,8 @@
     (run-hooks 'conjure-interactive-lisp-coding-hook))
 
   (setq conjure-cider-repl-mode-hook 'conjure-cider-repl-mode-defaults)
+
+  (define-key clojure-mode-map (kbd "C-c C-a") 'cider-format-buffer)
 
   (add-hook 'cider-repl-mode-hook
             (lambda ()

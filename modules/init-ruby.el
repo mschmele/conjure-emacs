@@ -5,7 +5,6 @@
 
 (conjure-require-packages '(inf-ruby
                             lsp-mode
-                            lsp-ui
                             yari))
 
 ;; ignore rubinius bytecode

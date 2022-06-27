@@ -7,7 +7,6 @@
 (conjure-require-packages '(go-mode
                             go-projectile
                             lsp-mode
-                            lsp-ui
                             company
                             gotest))
 (require 'go-projectile)

@@ -20,4 +20,4 @@
 (setq conjure-interactive-lisp-coding-hook 'conjure-interactive-lisp-coding-defaults)
 
 (provide 'init-lisp)
-;;; init-programming.el ends here
+;;; init-lisp.el ends here

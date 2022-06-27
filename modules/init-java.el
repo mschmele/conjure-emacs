@@ -1,6 +1,11 @@
 ;;; init-java.el --- java-mode initialization
 ;;; Commentary:
 ;;; Code:
+(require 'init-programming)
+
+(conjure-require-packages '(lsp-mode
+                            lsp-java))
+
 (setq JAVA_BASE "/Library/Java/JavaVirtualMachines")
 
 (defun switch-java--versions ()
@@ -51,6 +56,15 @@
   (interactive)
   ;; displays current java version
   (message (concat "Java HOME: " (getenv "JAVA_HOME"))))
+
+(defun conjure-java-mode-defaults ()
+  "Load sensible defaults for `java-mode'."
+  (subword-mode +1))
+
+(setq conjure-java-mode-hook 'conjure-java-mode-defaults)
+(add-hook 'java-mode-hook (lambda ()
+                            (run-hooks 'conjure-java-mode-hook)))
+(add-hook 'java-mode-hook #'lsp-deferred)
 
 (provide 'init-java)
 ;;; init-java.el ends here
