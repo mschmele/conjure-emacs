@@ -4,6 +4,7 @@
 (conjure-require-packages '(highlight-numbers))
 
 (defun conjure-local-comment-auto-fill ()
+  ""
   (set (make-local-variable 'comment-auto-fill-only-comments) t))
 
 (require 'hl-todo)
@@ -12,6 +13,7 @@
 (require 'which-func)
 (which-function-mode 1)
 
+;; Warn when using commands that aren't emacsy enough
 (setq guru-warn-only t)
 
 (defun conjure-prog-mode-defaults ()
@@ -29,6 +31,9 @@
 
 (add-hook 'prog-mode-hook (lambda ()
                             (run-hooks 'conjure-prog-mode-hook)))
+
+(add-hook 'prog-mode-hook (lambda () (add-hook 'before-save-hook 'conjure-cleanup-maybe nil t)))
+
 
 (setq-default flycheck-emacs-lisp-load-path 'inherit)
 (if (fboundp 'global-flycheck-mode)

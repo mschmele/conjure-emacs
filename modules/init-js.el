@@ -25,7 +25,7 @@
   (setq conjure-js-mode-hook 'conjure-js-mode-defaults)
 
   (add-hook 'js2-mode-hook (lambda () (run-hooks 'conjure-js-mode-hook)))
-  (add-hook 'js2-mode-hook #'lsp-deferred))
+  (add-hook 'js2-mode-hook #'lsp))
 
 (provide 'init-js)
 ;;; init-js.el ends here

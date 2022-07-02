@@ -76,6 +76,7 @@
 (require 'init-org)
 (require 'init-python)
 (require 'init-ruby)
+(require 'init-rust)
 (require 'init-terraform)
 (require 'init-yaml)
 (require 'init-xml)

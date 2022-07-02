@@ -27,7 +27,8 @@
 
   (add-hook 'typescript-mode-hook
             (lambda ()
-              (run-hooks 'conjure-js-mode-hook))))
+              (run-hooks 'conjure-js-mode-hook)))
+  (add-hook 'typescript-mode-hook #'lsp))
 
 (provide 'init-ts)
 ;;; init-ts.el ends here

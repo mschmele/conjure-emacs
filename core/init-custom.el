@@ -12,7 +12,7 @@
   :group 'conjure)
 
 (defcustom conjure-super-keybindings t
-  "Non-nil values enable super-key "
+  "Non-nil values enable super-key."
   :type 'boolean
   :group 'conjure)
 
@@ -21,7 +21,7 @@
   :type 'boolean
   :group 'conjure)
 
-(defcustom conjure-whitespace nil
+(defcustom conjure-whitespace t
   "Non-nil values enable whitespace visualization."
   :type 'boolean
   :group 'conjure)
@@ -33,8 +33,7 @@ Will only occur if `conjure-whitespace' is also enabled."
   :group 'conjure)
 
 (defcustom conjure-format-on-save t
-  "When set and supported in the current mode, the file will
-be formatted on save"
+  "When set and supported in the current mode, the file will be formatted on save."
   :type 'boolean
   :group 'conjure)
 
@@ -44,4 +43,4 @@ be formatted on save"
   :group 'conjure)
 
 (provide 'init-custom)
-;;; init-custom.el
+;;; init-custom.el ends here

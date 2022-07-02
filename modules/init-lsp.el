@@ -5,6 +5,8 @@
 
 (require 'lsp-mode)
 
+(setq lsp-lens-enable nil)
+
 (define-key lsp-mode-map (kbd "C-c C-l r") 'lsp-rename)
 (define-key lsp-mode-map (kbd "C-c C-l x") 'lsp-workspace-restart)
 (define-key lsp-mode-map (kbd "C-c C-l d") 'lsp-describe-thing-at-point)
