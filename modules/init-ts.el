@@ -11,6 +11,7 @@
 
 (with-eval-after-load 'typescript-mode
   (defun conjure-ts-mode-defaults ()
+    "Setup defaults for `ts-mode'."
     (interactive)
     (tide-setup)
     (flycheck-mode +1)

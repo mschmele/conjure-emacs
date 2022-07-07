@@ -2,7 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 (require 'init-programming)
-(conjure-require-packages '(web-mode))
+(conjure-require-packages '(tide
+                            web-mode))
 
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
@@ -28,7 +29,12 @@
 (with-eval-after-load 'web-mode
   (defun conjure-web-mode-defaults ()
     "Setup defaults for `web-mode'."
-    (message "[conjure] conjure-web-mode activated"))
+    (interactive)
+    (tide-setup)
+    (flycheck-mode +1)
+    (setq flycheck-check-syntax-automatically '(save mode-enabled))
+    (eldoc-mode +1)
+    (tide-hl-identifier-mode +1))
 
   (setq conjure-web-mode-hook 'conjure-web-mode-defaults)
 
