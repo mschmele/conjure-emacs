@@ -1,4 +1,4 @@
-;;; init-conjure.el -- Custom Conjuration Config
+;;; init-conjure.el --- Custom Conjuration Config
 ;;; Commentary:
 ;;; Code:
 (require 'easymenu)

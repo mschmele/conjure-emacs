@@ -25,15 +25,5 @@
 (global-set-key (kbd "s-w") 'ace-window)
 (global-set-key [remap other-window] 'ace-window)
 
-(require 'hydra)
-;; (global-set-key
-;;  (kbd "<f2>")
-;;  (defhydra hydra-text-scale (:timeout 4)
-;;    "scale text"
-;;    ("j" text-scale-increase "in")
-;;    ("k" text-scale-decrease "out")
-;;    ("=" (text-scale-set 0) "reset")
-;;    ("q" nil "quit" :exit t)))
-
 (provide 'init-keybindings)
 ;;; init-keybindings.el ends here

@@ -1,4 +1,4 @@
-;;; init-custom.el -- custom properties
+;;; init-custom.el --- custom properties
 ;;; Commentary:
 ;;; Code:
 (defgroup conjure nil

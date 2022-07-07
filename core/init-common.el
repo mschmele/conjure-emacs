@@ -1,4 +1,4 @@
-;;; init-common.el -- common functions
+;;; init-common.el --- conjure functions
 ;;; Commentary:
 ;;; Code:
 (defun conjure-abbreviate-file-path (file)

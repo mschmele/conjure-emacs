@@ -1,4 +1,4 @@
-;;; init-packages.el -- core packages
+;;; init-packages.el --- core packages
 ;;; Commentary:
 ;;; Code:
 

@@ -1,4 +1,4 @@
-;;; init-editor.el -- editor configuration
+;;; init-editor.el --- editor configuration
 ;;; Commentary:
 ;;; Code:
 (setq-default indent-tabs-mode nil) ;; no tabs
@@ -22,10 +22,8 @@
               auto-mode-alist))
 
 ;; store all backup and autosave files in the tmp dir
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
+(setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
 ;; smart tab behavior
 (setq tab-always-indent 'complete)
@@ -91,10 +89,13 @@
 (setq-default bidi-inhibit-bpa t)
 (global-so-long-mode 1)
 
+;; jump to char
 (require 'avy)
 (setq avy-background t)
 (setq avy-style 'at-full)
+(global-set-key (kbd "C-:") 'avy-goto-char)
 
+;; better find and replace
 (require 'anzu)
 (diminish 'anzu-mode)
 (global-anzu-mode)
