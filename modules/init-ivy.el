@@ -56,6 +56,7 @@
         '((complete-symbol . ivy-posframe-display-at-point)
           (counsel-describe-function . nil)
           (counsel-describe-variable . nil)
+          (swiper . ivy-display-function-fallback)
           (t . ivy-posframe-display-at-frame-center)))
 
 (ivy-posframe-mode)

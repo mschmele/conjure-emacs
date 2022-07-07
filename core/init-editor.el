@@ -143,7 +143,8 @@
 
 (defun conjure-enable-flyspell ()
   "Enable command 'flyspell-mode' if 'conjure-flyspell' is not nil."
-  (when (and conjure-flyspell (executable-find ispell-program-name))
+  (when (and conjure-flyspell
+             (executable-find ispell-program-name))
     (flyspell-mode +1)))
 
 (add-hook 'text-mode-hook 'conjure-enable-flyspell)

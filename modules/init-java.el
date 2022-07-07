@@ -64,7 +64,7 @@
 (setq conjure-java-mode-hook 'conjure-java-mode-defaults)
 (add-hook 'java-mode-hook (lambda ()
                             (run-hooks 'conjure-java-mode-hook)))
-(add-hook 'java-mode-hook #'lsp-deferred)
+(add-hook 'java-mode-hook #'lsp)
 
 (provide 'init-java)
 ;;; init-java.el ends here

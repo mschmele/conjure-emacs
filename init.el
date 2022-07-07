@@ -65,6 +65,7 @@
 
 (message "[conjure] Configuring packages...")
 ;; Enable or disable as needed
+(require 'init-c)
 (require 'init-company)
 (require 'init-clojure)
 (require 'init-emacs-lisp)
@@ -78,6 +79,7 @@
 (require 'init-ruby)
 (require 'init-rust)
 (require 'init-terraform)
+(require 'init-web)
 (require 'init-yaml)
 (require 'init-xml)
 
