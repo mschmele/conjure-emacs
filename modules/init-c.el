@@ -12,7 +12,7 @@
         c-basic-offset 4)
   (c-set-offset 'substatement-open 0))
 
-(setq conjure-js-mode-hook 'conjure-c-mode-defaults)
+(setq conjure-c-mode-common-hook 'conjure-c-mode-common-defaults)
 
 (add-hook 'c-mode-common-hook (lambda ()
                                 (run-hooks 'conjure-c-mode-common-hook)))

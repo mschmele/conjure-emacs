@@ -1,25 +1,26 @@
 ;;; init-ivy.el --- Ivy initialization
 ;;; Commentary:
 ;;; Code:
-(conjure-require-packages '(all-the-icons
-                            all-the-icons-ivy-rich
-                            amx
+(conjure-require-packages '(all-the-icons-ivy-rich
                             counsel
                             helpful
                             ivy
                             ivy-rich
-                            ivy-posframe
                             swiper))
 
 (require 'ivy)
-(require 'amx)
 (require 'diminish)
 
-(ivy-mode 1)
 (setq ivy-use-virtual-buffers t
-      ivy-count-format "(%d/%d) ")
+      ivy-count-format "(%d/%d) "
+      ivy-ignore-buffers '("\\` " "\\`\\*tramp/" "\\`\\*xref" "\\`\\*helpful "
+                             "\\`\\*.+-posframe-buffer\\*" "\\` ?\\*company-.+\\*"))
 
 (setq enable-recursive-minibuffers t)
+(ivy-mode 1)
+
+(require 'projectile)
+(setq projectile-completion-system 'ivy)
 
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key (kbd "<f6>") 'ivy-resume)
@@ -41,35 +42,20 @@
 (global-set-key (kbd "C-c l") 'counsel-locate)
 (global-set-key (kbd "M-y") 'counsel-yank-pop)
 
+(global-set-key (kbd "C-c c R") 'counsel-list-processes)
+
 (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
 
 (define-key ivy-minibuffer-map (kbd "TAB") 'ivy-alt-done)
 
-(require 'ivy-posframe)
-(setq ivy-posframe-parameters
-        '((left-fringe . 8)
-          (right-fringe . 8))
-        ivy-posframe-height-alist
-        '((swiper . 15)
-          (t . 10))
-        ivy-posframe-display-functions-alist
-        '((complete-symbol . ivy-posframe-display-at-point)
-          (counsel-describe-function . nil)
-          (counsel-describe-variable . nil)
-          (swiper . ivy-display-function-fallback)
-          (t . ivy-posframe-display-at-frame-center)))
+;; Make Ivy a bit prettier
+(require 'all-the-icons-ivy-rich)
+(require 'ivy-rich)
+(setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+(setq ivy-rich-path-style 'abbrev)
 
-(ivy-posframe-mode)
-(diminish 'ivy-posframe-mode)
-
-(all-the-icons-ivy-rich-mode 1)
+(all-the-icons-ivy-rich-mode)
 (ivy-rich-mode 1)
-
-(setq amx-backend 'auto
-          amx-save-file (expand-file-name "amx-items" conjure-savefile-dir)
-          amx-history-length 50
-          amx-show-key-bindings nil)
-(amx-mode 1)
 
 (require 'counsel)
 (require 'helpful)

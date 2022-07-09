@@ -75,7 +75,8 @@
       bookmark-save-flag 1)
 
 (require 'projectile)
-(setq projectile-cache-file (expand-file-name "projectile.cache" conjure-savefile-dir))
+(setq projectile-cache-file (expand-file-name "projectile.cache" conjure-savefile-dir)
+      projectile-create-missing-test-files t)
 (projectile-mode t)
 
 (global-hl-line-mode +1)
@@ -177,6 +178,10 @@
 
 (require 'which-key)
 (which-key-mode 1)
+
+;; handle colorized output in compiled windows (e.g. `dap-mode' output)
+(add-hook 'compilation-filter-hook
+          (lambda () (ansi-color-apply-on-region (point-min) (point-max))))
 
 (provide 'init-editor)
 ;;; init-editor.el ends here

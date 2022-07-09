@@ -48,7 +48,7 @@
 (load custom-file 'noerror 'nomessage)
 
 (message "[conjure] Invoking the Deep Magic...")
-;; Do not change order
+;; vvvvvv Do not change order vvvvvv
 (require 'init-packages)
 (require 'init-custom)
 (require 'init-ui)
@@ -56,6 +56,7 @@
 (require 'conjure-mode)
 (require 'init-editor)
 (require 'init-keybindings)
+;; ^^^^^ Do not change order ^^^^^
 
 (when *is-a-mac*
   (require 'init-macos))

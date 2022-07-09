@@ -8,6 +8,7 @@
 
 (with-eval-after-load 'clojure-mode
   (defun conjure-clojure-mode-defaults ()
+    "Setup defaults for `clojure-mode'."
     (subword-mode +1)
     (run-hooks 'conjure-lisp-coding-hook))
 
@@ -24,6 +25,7 @@
   (add-hook 'cider-mode-hook 'eldoc-mode)
 
   (defun conjure-cider-repl-mode-defaults ()
+    "Setup defaults for when `cider' loads."
     (subword-mode +1)
     (run-hooks 'conjure-interactive-lisp-coding-hook))
 

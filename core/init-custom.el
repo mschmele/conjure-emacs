@@ -21,7 +21,7 @@
   :type 'boolean
   :group 'conjure)
 
-(defcustom conjure-whitespace t
+(defcustom conjure-whitespace nil
   "Non-nil values enable whitespace visualization."
   :type 'boolean
   :group 'conjure)
