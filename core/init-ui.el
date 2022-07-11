@@ -56,6 +56,10 @@
                                   (width . 240)))))
 
 (when conjure-theme
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs nil
+        modus-themes-region '(bg-only no-extend))
+  (modus-themes-load-themes)
   (load-theme conjure-theme t))
 
 (add-hook 'dired-mode-hook (lambda ()

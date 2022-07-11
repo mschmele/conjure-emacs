@@ -67,22 +67,23 @@
 (message "[conjure] Configuring packages...")
 ;; Enable or disable as needed
 (require 'init-c)
-(require 'init-company)
 (require 'init-clojure)
+(require 'init-company)
 (require 'init-emacs-lisp)
 (require 'init-go)
 (require 'init-ivy)
 (require 'init-java)
 (require 'init-js)
-(require 'init-ts)
 (require 'init-org)
 (require 'init-python)
 (require 'init-ruby)
 (require 'init-rust)
+(require 'init-scala)
 (require 'init-terraform)
+(require 'init-ts)
 (require 'init-web)
-(require 'init-yaml)
 (require 'init-xml)
+(require 'init-yaml)
 
 ;; One-offs that don't have their own setups yet
 (conjure-require-packages '(darkroom

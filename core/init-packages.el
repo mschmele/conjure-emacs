@@ -135,6 +135,7 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
     ("\\.vue\\'" vue-mode vue-mode)
     ("\\.yml\\'" yaml-mode yaml-mode)
     ("\\.yaml\\'" yaml-mode yaml-mode)
+    ("\\.zig\\'" zig-mode zig-mode)
     ("Dockerfile\\'" dockerfile-mode dockerfile-mode)))
 
 ;; markdown doesn't have autoloads, manually ad them
