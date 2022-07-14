@@ -84,7 +84,7 @@
                      slot 0))))
 
 ;; default to 12pt font and MesloLGS
-(set-face-attribute 'default nil :font "MesloLGS NF" :height 120)
+(set-face-attribute 'default nil :family "MesloLGS NF" :height 120)
 
 (provide 'init-ui)
 ;;; init-ui.el ends here
