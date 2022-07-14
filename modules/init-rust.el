@@ -21,7 +21,7 @@
     (add-hook 'rust-mode-hook 'lsp)
     (add-hook 'rust-mode-hook 'racer-mode)
     (add-hook 'rust-mode-hook 'eldoc-mode))
-  
+
   (defun conjure-ruby-mode-defaults ()
     (unless (featurep 'init-lsp)
             (local-set-key (kbd "C-c C-d") 'racer-describe)

@@ -6,7 +6,7 @@
                             terraform-mode))
 
 (with-eval-after-load 'terraform-mode
-  (add-hook 'terraform-mode-hook #'lsp-deferred))
+  (add-hook 'terraform-mode-hook #'lsp))
 
 (provide 'init-terraform)
 ;;; init-terraform.el ends here

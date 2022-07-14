@@ -22,7 +22,7 @@
 
   (add-hook 'ruby-mode-hook (lambda ()
                               (run-hooks 'conjure-ruby-mode-hok)))
-  (add-hook 'ruby-mode-hook #'lsp-deferred))
+  (add-hook 'ruby-mode-hook #'lsp))
 
 (provide 'init-ruby)
 ;;; init-ruby.el ends here
