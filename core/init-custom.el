@@ -37,8 +37,13 @@ Will only occur if `conjure-whitespace' is also enabled."
   :type 'boolean
   :group 'conjure)
 
-(defcustom conjure-theme 'zenburn
-  "The default theme of Conjure."
+(defcustom conjure-theme 'modus-vivendi
+  "The default theme of Conjure.
+Available themes:
+* modus-vivendi - dark
+* modus-operandi - light
+* zenburn - classic
+Use `counsel-load-theme' to switch themes."
   :type 'symbol
   :group 'conjure)
 
