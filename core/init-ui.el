@@ -5,7 +5,10 @@
 (conjure-require-packages '(all-the-icons
                             all-the-icons-dired
                             all-the-icons-ibuffer
-                            pulsar))
+                            page-break-lines
+                            pulsar
+                            spaceline
+                            spaceline-all-the-icons))
 
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
@@ -56,10 +59,9 @@
                                   (width . 240)))))
 
 (when conjure-theme
-  (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs nil
-        modus-themes-region '(bg-only no-extend))
-  (modus-themes-load-themes)
+  ;; (setq modus-themes-italic-constructs t
+  ;;       modus-themes-bold-constructs nil
+  ;;       modus-themes-region '(bg-only no-extend))
   (load-theme conjure-theme t))
 
 (add-hook 'dired-mode-hook (lambda ()
@@ -85,6 +87,13 @@
 
 ;; default to 12pt font and MesloLGS
 (set-face-attribute 'default nil :family "MesloLGS NF" :height 120)
+
+(require 'spaceline-config)
+(spaceline-all-the-icons-theme)
+
+(setq treemacs--icon-size 15)
+
+(global-page-break-lines-mode)
 
 (provide 'init-ui)
 ;;; init-ui.el ends here

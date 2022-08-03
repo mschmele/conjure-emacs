@@ -25,5 +25,11 @@
 (when (fboundp 'set-fontset-font)
   (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
 
+;; handle nvm
+(when (file-exists-p "~/.nvm")
+  ;; TODO get the actual nvm executable to get current npm version
+  ;; (call-process "/bin/bash" nil t nil "-c" "nvm")
+  (setq exec-path (append exec-path '("~/.nvm/versions/node/v16.15.1/bin"))))
+
 (provide 'init-macos)
 ;;; init-macos.el ends here

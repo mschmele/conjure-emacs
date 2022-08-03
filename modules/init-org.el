@@ -2,11 +2,9 @@
 ;;; Commentary:
 ;;; Code:
 (conjure-require-packages '(org
-                            org-bullets
                             org-roam
                             org-roam-ui))
 (require 'org)
-(require 'org-bullets)
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 
 (with-eval-after-load 'org
@@ -17,9 +15,7 @@
        (clojure . t)
        (shell . t)
        (ruby . t)
-       (python . t)))
-
-    (org-bullets-mode +1))
+       (python . t))))
 
   (setq org-babel-clojure-backend 'cider)
   (setq conjure-org-mode-hook 'conjure-org-mode-defaults)
@@ -31,7 +27,9 @@
 (require 'org-roam)
 (setq org-roam-v2-ack t)
 
-(setq org-roam-directory "~/RoamNotes")
+(unless (file-exists-p conjure-org-dir)
+  (make-directory conjure-org-dir))
+
 (setq org-roam-completion-everywhere t)
 (setq org-roam-capture-templates
       '(("d" "default" plain

@@ -23,6 +23,9 @@
 (defvar conjure-savefile-dir (expand-file-name "savefile" user-emacs-directory)
   "Folder for storing generated history files.")
 
+(defvar conjure-org-dir (expand-file-name "org" (file-truename "~"))
+  "Folder for storing org notes.")
+
 (unless (file-exists-p conjure-savefile-dir)
   (make-directory conjure-savefile-dir))
 
@@ -95,6 +98,15 @@
                             yasnippet-snippets))
 
 (require 'dashboard)
-(setq dashboard-center-content t)
+(setq dashboard-center-content t
+      dashboard-banner-logo-title "Conjure Emacs"
+      dashboard-startup-banner (expand-file-name  "images/witch_hat.png" conjure-core-dir)
+      dashboard-items '((recents . 5)
+                        (bookmarks . 5)
+                        (projects . 5)
+                        (agenda . 5)))
 (dashboard-setup-startup-hook)
+
+(require 'server)
+(unless (server-running-p) (server-start))
 ;;; init.el ends here

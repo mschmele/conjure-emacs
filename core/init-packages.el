@@ -35,6 +35,7 @@
     operate-on-number
     smartparens
     smartrep
+    spaceline
     super-save
     undo-tree
     volatile-highlights
