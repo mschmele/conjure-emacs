@@ -36,6 +36,7 @@
     smartparens
     smartrep
     spaceline
+    spacemacs-theme
     super-save
     undo-tree
     volatile-highlights
@@ -129,6 +130,7 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
     ("\\.scss\\'" scss-mode scss-mode)
     ("\\.slim\\'" slim-mode slim-mode)
     ("\\.styl\\'" stylus-mode stylus-mode)
+    ("\\.svelte\\'" svelte-mode svelte-mode)
     ("\\.swift\\'" swift-mode swift-mode)
     ("\\.textile\\'" textile-mode textile-mode)
     ("\\.tf\\'" terraform-mode terraform-mode)
