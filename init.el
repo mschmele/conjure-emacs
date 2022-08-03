@@ -26,6 +26,9 @@
 (defvar conjure-org-dir (expand-file-name "org" (file-truename "~"))
   "Folder for storing org notes.")
 
+(defvar conjure-org-roam-dir (expand-file-name "roam" conjure-org-dir)
+  "Folder for storing org-roam notes.")
+
 (unless (file-exists-p conjure-savefile-dir)
   (make-directory conjure-savefile-dir))
 

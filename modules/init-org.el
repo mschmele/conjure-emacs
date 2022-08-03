@@ -30,8 +30,12 @@
 (unless (file-exists-p conjure-org-dir)
   (make-directory conjure-org-dir))
 
-(setq org-roam-completion-everywhere t)
-(setq org-roam-capture-templates
+(unless (file-exists-p conjure-org-roam-dir)
+  (make-directory conjure-org-roam-dir))
+
+(setq org-roam-completion-everywhere t
+      org-roam-directory conjure-org-roam-dir
+      org-roam-capture-templates
       '(("d" "default" plain
          "%?\n\n* Related:"
          :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
