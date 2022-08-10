@@ -5,6 +5,7 @@
 (conjure-require-packages '(all-the-icons
                             all-the-icons-dired
                             all-the-icons-ibuffer
+                            doom-modeline
                             page-break-lines
                             pulsar
                             spaceline
@@ -88,8 +89,7 @@
 ;; default to 12pt font and MesloLGS
 (set-face-attribute 'default nil :family "MesloLGS NF" :height 120)
 
-(require 'spaceline-config)
-(spaceline-all-the-icons-theme)
+(doom-modeline-mode 1)
 
 (setq treemacs--icon-size 15)
 

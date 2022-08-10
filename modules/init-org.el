@@ -1,14 +1,33 @@
 ;;; init-org.el -- Org Mode Initialization
 ;;; Commentary:
 ;;; Code:
-(conjure-require-packages '(org
+(conjure-require-packages '(htmlize
+                            org
+                            org-bullets
                             org-roam
-                            org-roam-ui))
+                            org-roam-ui
+                            org-wild-notifier
+                            ox-reveal))
 (require 'org)
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 
+(setq org-startup-with-inline-images t
+      org-clock-persist 'history
+      org-src-fontify-natively t
+      org-todo-keywords
+      '((sequence "TODO(t)"
+                  "WAIT(w@/!)"
+                  "ACTIVE(a@/!)"
+                  "PROJ(p)"
+                  "|"
+                  "DONE(d!)"
+                  "CANCELED(c@)")))
+
+(org-clock-persistence-insinuate)
+
 (with-eval-after-load 'org
   (defun conjure-org-mode-defaults ()
+
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((emacs-lisp . t)
@@ -24,6 +43,9 @@
             (lambda ()
               (run-hooks 'conjure-org-mode-hook))))
 
+;; TODO configure with flag
+(org-wild-notifier-mode)
+
 (require 'org-roam)
 (setq org-roam-v2-ack t)
 
@@ -36,12 +58,17 @@
 (setq org-roam-completion-everywhere t
       org-roam-directory conjure-org-roam-dir
       org-roam-capture-templates
-      '(("d" "default" plain
+      '(("d" "Default" plain
          "%?\n\n* Related:"
          :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
          :unnarrowed t)
-        ("l" "programming language" plain
-         "* Characteristics:\n\n- Family: %?\n- Inspired by:\n\n* Reference:\n\n"
+        ("t" "Ticket" plain
+         "%?\n* Time Tracking\n* Related:"
+         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+         :unnarrowed t)
+        ("m" "Meeting" entry
+         "* MEETING with %? :MEETING:\n%U"
+         :clock-in t :clock-resume t
          :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
          :unnarrowed t)))
 

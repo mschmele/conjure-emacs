@@ -29,7 +29,7 @@
 (when (file-exists-p "~/.nvm")
   ;; TODO get the actual nvm executable to get current npm version
   ;; (call-process "/bin/bash" nil t nil "-c" "nvm")
-  (setq exec-path (append exec-path '("~/.nvm/versions/node/v16.15.1/bin"))))
+  (setq exec-path (append exec-path '("~/.nvm/versions/node/v14.20.0/bin"))))
 
 (provide 'init-macos)
 ;;; init-macos.el ends here

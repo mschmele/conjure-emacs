@@ -20,7 +20,8 @@
 
 (with-eval-after-load 'cider
   (setq nrepl-log-messages t
-        cider-repl-display-help-banner nil)
+        cider-repl-display-help-banner nil
+        cider-print-fn 'fipp)
 
   (add-hook 'cider-mode-hook 'eldoc-mode)
 
