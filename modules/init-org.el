@@ -67,7 +67,7 @@
          :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
          :unnarrowed t)
         ("m" "Meeting" entry
-         "* MEETING with %? :MEETING:\n%U"
+         "* MEETING with %? :MEETING:\n%U\n\n** Location\n\n** Attendees\n+ [X] Self\n\n** Agenda\n\n** Notes\n\n** Actions\n\n"
          :clock-in t :clock-resume t
          :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
          :unnarrowed t)))
