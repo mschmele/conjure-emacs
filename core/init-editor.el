@@ -1,6 +1,8 @@
 ;;; init-editor.el --- editor configuration
 ;;; Commentary:
 ;;; Code:
+(require 'diminish)
+
 (setq-default indent-tabs-mode nil) ;; no tabs
 (setq-default tab-width 8)          ;; fake it with tabs
 
@@ -36,8 +38,7 @@
 (sp-use-paredit-bindings)
 
 (show-smartparens-global-mode +1)
-
-(require 'diminish)
+(diminish 'smartparens-mode)
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
@@ -178,6 +179,7 @@
 
 (require 'which-key)
 (which-key-mode 1)
+(diminish 'which-key-mode)
 
 ;; handle colorized output in compiled windows (e.g. `dap-mode' output)
 (add-hook 'compilation-filter-hook

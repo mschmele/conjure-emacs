@@ -1,7 +1,9 @@
 ;;; init-programming.el -- core programming setup
 ;;; Commentary:
 ;;; Code:
-(conjure-require-packages '(highlight-numbers))
+(conjure-require-packages '(highlight-numbers
+                            yasnippet
+                            yasnippet-snippets))
 
 (defun conjure-local-comment-auto-fill ()
   (set (make-local-variable 'comment-auto-fill-only-comments) t))
@@ -40,6 +42,12 @@
 (if (fboundp 'global-flycheck-mode)
     (global-flycheck-mode +1)
   (add-hook 'prog-mode-hook 'flycheck-mode))
+
+(require 'yasnippet)
+(yas-global-mode 1)
+(diminish 'yas-minor-mode)
+
+(with-eval-after-load 'subword (diminish 'subword-mode))
 
 (message "[conjure] Preparing Unicorn Sparkles...")
 

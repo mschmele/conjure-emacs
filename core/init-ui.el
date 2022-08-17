@@ -6,7 +6,6 @@
                             all-the-icons-dired
                             all-the-icons-ibuffer
                             doom-modeline
-                            page-break-lines
                             pulsar
                             spaceline
                             spaceline-all-the-icons))
@@ -86,14 +85,12 @@
                      side 'bottom
                      slot 0))))
 
-;; default to 12pt font and MesloLGS
-(set-face-attribute 'default nil :family "MesloLGS NF" :height 120)
+;; default to 12pt font and Source Code Pro
+(set-face-attribute 'default nil :family "Source Code Pro" :height 130)
 
-(doom-modeline-mode 1)
+;;(doom-modeline-mode 1)
 
 (setq treemacs--icon-size 15)
-
-(global-page-break-lines-mode)
 
 (provide 'init-ui)
 ;;; init-ui.el ends here

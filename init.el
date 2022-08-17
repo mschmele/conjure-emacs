@@ -96,9 +96,8 @@
                             dashboard
                             elfeed
                             lorem-ipsum
-                            uuidgen
-                            yasnippet
-                            yasnippet-snippets))
+                            uuidgen))
+
 
 (require 'dashboard)
 (setq dashboard-center-content t
