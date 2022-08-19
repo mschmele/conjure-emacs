@@ -96,8 +96,8 @@
                             dashboard
                             elfeed
                             lorem-ipsum
+                            restclient
                             uuidgen))
-
 
 (require 'dashboard)
 (setq dashboard-center-content t
