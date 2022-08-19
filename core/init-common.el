@@ -13,11 +13,11 @@
   "Pretty-print XML in a sensible manner."
   (interactive "r")
   (save-excursion
-      (nxml-mode)
-      (goto-char begin)
-      (while (search-forward-regexp "\>[ \\t]*\<" nil t)
-        (backward-char) (insert "\n"))
-      (indent-region begin end)))
+    (nxml-mode)
+    (goto-char begin)
+    (while (search-forward-regexp "\>[ \\t]*\<" nil t)
+      (backward-char) (insert "\n"))
+    (indent-region begin end)))
 
 (require 'ansi-color)
 (defun display-ansi-colors ()
