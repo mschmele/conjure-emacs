@@ -18,6 +18,7 @@
     diminish
     easy-kill
     editorconfig
+    ef-themes
     epl
     expand-region
     flycheck
@@ -35,14 +36,11 @@
     operate-on-number
     smartparens
     smartrep
-    spaceline
-    spacemacs-theme
     super-save
     undo-tree
     volatile-highlights
     wgrep
     which-key
-    zenburn-theme
     zop-to-char)
   "List of core packages to make sure are present.")
 

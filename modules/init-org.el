@@ -6,7 +6,6 @@
                             org-bullets
                             org-roam
                             org-roam-ui
-                            org-wild-notifier
                             ob-restclient
                             ox-reveal
                             restclient))
@@ -29,7 +28,7 @@
 
 (with-eval-after-load 'org
   (defun conjure-org-mode-defaults ()
-
+    "Defaults for `org-mode'"
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((emacs-lisp . t)
@@ -46,9 +45,6 @@
             (lambda ()
               (run-hooks 'conjure-org-mode-hook))))
 
-;; TODO configure with flag
-(org-wild-notifier-mode)
-
 (require 'org-roam)
 (require 'org-roam-dailies)
 
@@ -64,7 +60,7 @@
       org-roam-directory conjure-org-roam-dir
       org-roam-capture-templates
       '(("d" "Default" plain
-         "%?\n\n* Related:"
+         "%?\n"
          :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
          :unnarrowed t)
         ("m" "Meeting" entry

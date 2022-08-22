@@ -25,5 +25,8 @@
 (global-set-key (kbd "s-w") 'ace-window)
 (global-set-key [remap other-window] 'ace-window)
 
+(global-set-key (kbd "C-c h p") #'pulsar-pulse-line)
+(global-set-key (kbd "C-c h h") #'pulsar-highlight-line)
+
 (provide 'init-keybindings)
 ;;; init-keybindings.el ends here

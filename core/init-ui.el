@@ -5,10 +5,7 @@
 (conjure-require-packages '(all-the-icons
                             all-the-icons-dired
                             all-the-icons-ibuffer
-                            doom-modeline
-                            pulsar
-                            spaceline
-                            spaceline-all-the-icons))
+                            pulsar))
 
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
@@ -59,9 +56,6 @@
                                   (width . 240)))))
 
 (when conjure-theme
-  ;; (setq modus-themes-italic-constructs t
-  ;;       modus-themes-bold-constructs nil
-  ;;       modus-themes-region '(bg-only no-extend))
   (load-theme conjure-theme t))
 
 (add-hook 'dired-mode-hook (lambda ()
@@ -72,9 +66,16 @@
                                (all-the-icons-ibuffer-mode)))
 
 (require 'pulsar)
-(setq pulsar-pulse-on-window-change t
-      pulsar-face 'pulsar-magenta
-      pulsar-highlight-face 'pulsar-yellow)
+(setq pulsar-pulse t
+      pulsar-delay 0.055
+      pulsar-iterations 10
+      pulsar-pulse-on-window-change t)
+(add-hook 'next-error-hook #'pulsar-pulse-line)
+
+(when (fboundp 'ace-window)
+  ;; pulsar doesn't detect the override so we have to set it ourselves
+  (setq pulsar-pulse-functions (add-to-list 'pulsar-pulse-functions 'ace-window)))
+
 (pulsar-global-mode 1)
 
 ;; Setup window defaults
@@ -84,11 +85,6 @@
          (setq-local window-height 0.25
                      side 'bottom
                      slot 0))))
-
-;; default to 12pt font and Source Code Pro
-(set-face-attribute 'default nil :family "Source Code Pro" :height 130)
-
-;;(doom-modeline-mode 1)
 
 (setq treemacs--icon-size 15)
 
