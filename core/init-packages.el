@@ -29,6 +29,7 @@
     helpful
     hl-todo
     imenu-anywhere
+    lin
     projectile
     magit
     move-text

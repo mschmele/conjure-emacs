@@ -73,7 +73,7 @@
 (add-hook 'next-error-hook #'pulsar-pulse-line)
 
 (when (fboundp 'ace-window)
-  ;; pulsar doesn't detect the override so we have to set it ourselves
+  ;; pulsar doesn't detect the override because of ordering so we have to set it ourselves
   (setq pulsar-pulse-functions (add-to-list 'pulsar-pulse-functions 'ace-window)))
 
 (pulsar-global-mode 1)
@@ -86,7 +86,12 @@
                      side 'bottom
                      slot 0))))
 
+;; make the icons smaller for a more compact tree
 (setq treemacs--icon-size 15)
+
+;; improve `hl-line' highlighting
+(require 'lin)
+(lin-global-mode 1)
 
 (provide 'init-ui)
 ;;; init-ui.el ends here
