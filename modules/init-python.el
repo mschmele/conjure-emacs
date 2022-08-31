@@ -6,7 +6,9 @@
 
 (conjure-require-packages '(anaconda-mode))
 
-(setq python-shell-interpreter "python3")
+(setq python-shell-interpreter "python3"
+      python-shell-completion-native-enable t
+      python-shell-completion-native-disabled-interpreters '("python"))
 
 (when (boundp 'company-backends)
   (conjure-require-package 'company-anaconda)

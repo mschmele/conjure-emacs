@@ -62,6 +62,21 @@
                              (all-the-icons-dired-mode)
                              (diminish 'all-the-icons-dired-mode)))
 
+(setq all-the-icons-ibuffer-formats
+      '((mark modified read-only locked " "
+              (icon 2 2 :left :elide)
+              #(" " 0 1
+                (display
+                 (space :align-to 8)))
+              (name 30 30 :left :elide)
+              " "
+              (size-h 9 -1 :right)
+              " "
+              (mode+ 16 16 :left :elide)
+              " " filename-and-process+)
+        (mark " "
+              (name 30 -1)
+              " " filename)))
 (add-hook 'ibuffer-mode-hook (lambda ()
                                (all-the-icons-ibuffer-mode)))
 
