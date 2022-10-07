@@ -2,7 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 (require 'init-lisp)
-(conjure-require-packages '(clojure-mode cider))
+(conjure-require-packages '(clojure-mode cider flycheck-clj-kondo))
+(require 'flycheck-clj-kondo)
 
 (require 'clojure-mode)
 

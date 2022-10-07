@@ -32,17 +32,18 @@
   (message "[conjure] Linux distro java switching not implemented yet"))
 
 (defun switch-java--versions ()
-  "Return a list of installed JDK."
+  "Return a list of installed JDKs."
   (seq-remove
    (lambda (a) (or (equal a "." (equal a ".."))))
    (directory-files JAVA_BASE)))
 
-(defun switch-java--save-enf ()
+(defun switch-java--save-env ()
   "Store original PATH and JAVA_HOME."
   (when (not (boundp 'SW_JAVA_PATH))
     (setq SW_JAVA_PATH (getenv "PATH")))
   (when (not (boundp 'SW_JAVA_HOME))
     (setq SW_JAVA_HOME (getenv "JAVA_HOME"))))
+
 
 (defun switch-java ()
   "List installed JDKs and switch to one."

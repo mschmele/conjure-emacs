@@ -12,6 +12,7 @@
 (require 'diminish)
 
 (setq ivy-use-virtual-buffers t
+      ivy-height 15
       ivy-count-format "(%d/%d) "
       ivy-ignore-buffers '("\\` " "\\`\\*tramp/" "\\`\\*xref" "\\`\\*helpful "
                              "\\`\\*.+-posframe-buffer\\*" "\\` ?\\*company-.+\\*"))

@@ -112,6 +112,9 @@
                  (when (equal org-state "DONE")
                    (conjure/org-roam-copy-todo-to-today))))
 
+(add-hook 'org-mode-hook (lambda ()
+                           (electric-indent-local-mode -1)))
+
 ;; Build the agenda
 (conjure/org-roam-refresh-agenda-list)
 
