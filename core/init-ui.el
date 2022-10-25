@@ -13,7 +13,7 @@
 (scroll-bar-mode -1)   ; Disable visible scroll-bar
 (tool-bar-mode -1)     ; Disable the toolbar
 (tooltip-mode -1)      ; Disable tooltips
-(blink-cursor-mode -1) ; no blinky
+(blink-cursor-mode -1) ; no blinky cursor
 
 (setq-default cursor-type 'box)
 
@@ -24,8 +24,6 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (setq inhibit-startup-message t ; disable startup
-      display-time-24hr-format t
-      display-time-use-mail-icon t
       visible-bell t
       use-dialog-box nil
       ring-bell-function 'ignore)
@@ -83,8 +81,7 @@
 (require 'pulsar)
 (setq pulsar-pulse t
       pulsar-delay 0.055
-      pulsar-iterations 10
-      pulsar-pulse-on-window-change t)
+      pulsar-iterations 10)
 (add-hook 'next-error-hook #'pulsar-pulse-line)
 
 (when (fboundp 'ace-window)
@@ -102,11 +99,14 @@
                      slot 0))))
 
 ;; make the icons smaller for a more compact tree
+(require 'treemacs)
 (setq treemacs--icon-size 15)
 
 ;; improve `hl-line' highlighting
 (require 'lin)
 (lin-global-mode 1)
+
+(set-face-attribute 'default nil :font "Source Code Pro")
 
 (provide 'init-ui)
 ;;; init-ui.el ends here

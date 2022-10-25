@@ -6,43 +6,56 @@
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("elpa" . "https://elpa.gnu.org/packages/")))
-(defvar conjure-packages
+
+(defvar conjure-ui-packages
   '(ace-window
-    ag
-    avy
-    anzu
-    browse-kill-ring
+    ef-themes))
+
+(defvar conjure-nav-packages
+  '(avy
+    imenu-anywhere
+    projectile))
+
+(defvar conjure-editor-packages
+  '(anzu
     crux
-    discover-my-major
     diff-hl
-    diminish
     easy-kill
     editorconfig
-    ef-themes
-    epl
     expand-region
+    hl-todo
+    lin
+    move-text
+    nlinum
+    operate-on-number
+    smartparens
+    volatile-highlights
+    wgrep
+    zop-to-char))
+
+(defvar conjure-utility-packages
+  '(ag
+    browse-kill-ring
+    discover-my-major
+    diminish
+    epl
     flycheck
     gist
     git-timemachine
     git-modes
     guru-mode
     helpful
-    hl-todo
-    imenu-anywhere
-    lin
-    projectile
     magit
-    move-text
-    nlinum
-    operate-on-number
-    smartparens
     smartrep
     super-save
     undo-tree
-    volatile-highlights
-    wgrep
-    which-key
-    zop-to-char)
+    which-key))
+
+(defvar conjure-packages
+  (append conjure-ui-packages
+          conjure-nav-packages
+          conjure-editor-packages
+          conjure-utility-packages)
   "List of core packages to make sure are present.")
 
 (defun conjure-packages-installed-p ()

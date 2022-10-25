@@ -22,7 +22,7 @@
 (with-eval-after-load 'cider
   (setq nrepl-log-messages t
         cider-repl-display-help-banner nil
-        cider-print-fn 'fipp)
+        cider-print-fn 'puget)
 
   (add-hook 'cider-mode-hook 'eldoc-mode)
 

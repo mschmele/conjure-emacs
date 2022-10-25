@@ -77,6 +77,7 @@
 (require 'init-company)
 (require 'init-emacs-lisp)
 (require 'init-go)
+(require 'init-graphql)
 (require 'init-ivy)
 (require 'init-java)
 (require 'init-js)
@@ -86,7 +87,6 @@
 (require 'init-rust)
 (require 'init-scala)
 (require 'init-terraform)
-(require 'init-ts)
 (require 'init-web)
 (require 'init-xml)
 (require 'init-yaml)
@@ -99,6 +99,9 @@
                             restclient
                             uuidgen))
 
+(require 'darkroom)
+(define-key global-map [f12] 'darkroom-mode)
+
 (require 'dashboard)
 (setq dashboard-center-content t
       dashboard-banner-logo-title "Conjure Emacs"
@@ -108,6 +111,9 @@
                         (projects . 5)
                         (agenda . 5)))
 (dashboard-setup-startup-hook)
+
+;; TODO this should be determined by the system
+(setq datetime-timezone 'US/Eastern)
 
 (require 'server)
 (unless (server-running-p) (server-start))

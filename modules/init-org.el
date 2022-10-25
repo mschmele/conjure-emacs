@@ -33,6 +33,7 @@
      'org-babel-load-languages
      '((emacs-lisp . t)
        (clojure . t)
+       (graphql . t)
        (shell . t)
        (ruby . t)
        (python . t)
@@ -70,6 +71,8 @@
          :unnarrowed t)))
 
 (defun org-roam-insert-node-immediate (arg &rest args)
+  "Insert a node without prompting for additional information.
+Takes ARG and optionally ARGS as pass-thrus."
   (interactive "P")
   (let ((args (cons arg args))
         (org-roam-capture-templates (list (append (car org-roam-capture-templates)
@@ -77,20 +80,24 @@
     (apply #'org-roam-node-insert args)))
 
 (defun conjure/org-roam-filter-by-tag (tag-name)
+  "Return a function that filters by TAG-NAME."
   (lambda (node)
     (member tag-name (org-roam-node-tags node))))
 
 (defun conjure/org-roam-list-notes-by-tag (tag-name)
+  "Return a list of nodes with TAG-NAME."
   (mapcar #'org-roam-node-file
           (seq-filter
            (conjure/org-roam-filter-by-tag tag-name)
            (org-roam-node-list))))
 
 (defun conjure/org-roam-refresh-agenda-list ()
+  "Filter org-agenda-files by Project."
   (interactive)
   (setq org-agenda-files (conjure/org-roam-list-notes-by-tag "Project")))
 
 (defun conjure/org-roam-copy-todo-to-today ()
+  "Move tasks accomplished today to tadays org-roam node."
   (interactive)
   (let ((org-refile-keep t)
         (org-roam-dailies-capture-templates

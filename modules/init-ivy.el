@@ -1,6 +1,9 @@
 ;;; init-ivy.el --- Ivy initialization
 ;;; Commentary:
 ;;; Code:
+(unless (executable-find "ag")
+  (message "%s" "executable: ag not found!, counsel-ag will not work"))
+
 (conjure-require-packages '(all-the-icons-ivy-rich
                             counsel
                             helpful

@@ -30,6 +30,7 @@
 
   (highlight-numbers-mode +1)
   (smartparens-mode +1)
+  (rainbow-delimiters-mode +1)
   (conjure-enable-whitespace)
   (conjure-local-comment-auto-fill))
 

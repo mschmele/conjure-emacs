@@ -1,31 +1,43 @@
 ;;; init-js.el --- javascript mode configuration
 ;;; Commentary:
 ;;; Code:
-
 (require 'init-programming)
-(conjure-require-packages '(js2-mode
+(conjure-require-packages '(prettier-js
+                            rjsx-mode
+                            typescript-mode
                             lsp-mode
-                            json-mode))
+                            tide
+                            web-mode))
 
-(require 'js2-mode)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.pac\\'" . js2-mode))
-(add-to-list 'interpreter-mode-alist '("node" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.[mc]?js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.pac\\'" . rjsx-mode))
 
-(setq-default js-indent-level 2)
+(setq js-chain-indent t
+      js2-basic-offset 2
+      js2-skip-preprocessor-directives t
+      ;; flycheck handles these
+      js2-mode-show-parse-errors nil
+      js2-mode-show-strict-warnings nil
+      js2-strict-missing-semi-warning nil
+      js2-highlight-level 3
+      js2-idle-timer-delay 0.15)
 
-(with-eval-after-load 'js2-mode
-  (defun conjure-js-mode-defaults ()
-    ;; prevent electric-layout from fighting with smartparens
-    (setq-local electric-layout-rules '((?\; . after)))
-    (setq mode-name "JS2")
-    (js2-imenu-extras-mode +1)
-    (subword-mode +1))
+(defun conjure-js-mode-defaults ()
+  "Configure sensible defaults for JS development."
+  (rainbow-delimiters-mode +1))
 
-  (setq conjure-js-mode-hook 'conjure-js-mode-defaults)
+(setq conjure-js-mode-hook 'conjure-js-mode-defaults)
 
-  (add-hook 'js2-mode-hook (lambda () (run-hooks 'conjure-js-mode-hook)))
-  (add-hook 'js2-mode-hook #'lsp))
+(add-hook 'rjsx-mode-hook (lambda() (run-hooks 'conjure-js-mode-hook)))
+(add-hook 'rjsx-mode-hook #'lsp)
+
+;; TODO handle switch-case indentation conditionally
+;; setq-hook
+;; (setq js-switch-indent-offset js2-basic-offset)
+
+;; TODO handle .tsx separate if web-mode and typescript-mode fight over who wins
+
+;;(add-hook 'rjsx-mode-hook 'prettier-js-mode)
 
 (provide 'init-js)
 ;;; init-js.el ends here
