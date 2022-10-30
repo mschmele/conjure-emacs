@@ -37,7 +37,7 @@ Will only occur if `conjure-whitespace' is also enabled."
   :type 'boolean
   :group 'conjure)
 
-(defcustom conjure-theme 'ef-autumn
+(defcustom conjure-theme 'ef-bio
   "When set specifies default theme of Conjure.
 Use `counsel-load-theme' to switch themes."
   :type 'symbol

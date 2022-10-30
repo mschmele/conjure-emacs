@@ -46,6 +46,7 @@
     guru-mode
     helpful
     magit
+    prescient
     smartrep
     super-save
     undo-tree
@@ -154,7 +155,7 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
     ("\\.zig\\'" zig-mode zig-mode)
     ("Dockerfile\\'" dockerfile-mode dockerfile-mode)))
 
-;; markdown doesn't have autoloads, manually ad them
+;; markdown doesn't have autoloads, manually add them
 (when (package-installed-p 'markdown-mode)
   (add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
   (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode)))
@@ -168,6 +169,7 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
 (when (package-installed-p 'pkgbuild-mode)
   (add-to-list 'auto-mode-alist '("PKGBUILD\\'" . pkgbuild-mode)))
 
+;; now register
 (mapc (lambda (entry)
         (let ((extension (car entry))
               (package (cadr entry))

@@ -15,11 +15,13 @@
 (which-function-mode 1)
 
 ;; smart curly braces
+(require 'smartparens)
 (sp-pair "{" nil :post-handlers
          '(((lambda (&rest _ignored)
               (crux-smart-open-line-above)) "RET")))
 
 ;; Warn when using commands that aren't emacsy enough
+(require 'guru-mode)
 (setq guru-warn-only t)
 
 (defun conjure-prog-mode-defaults ()

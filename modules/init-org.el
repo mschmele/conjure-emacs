@@ -1,19 +1,20 @@
-;;; init-org.el -- Org Mode Initialization
+;;; init-org.el --- Org Mode Initialization
 ;;; Commentary:
 ;;; Code:
 (conjure-require-packages '(htmlize
                             org
                             org-bullets
+                            org-modern
                             org-roam
                             org-roam-ui
                             ob-restclient
                             ox-reveal
                             restclient))
-(require 'org)
+
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 
+(require 'org)
 (setq org-startup-with-inline-images t
-      org-clock-persist 'history
       org-src-fontify-natively t
       org-todo-keywords
       '((sequence "TODO(t)"
@@ -24,12 +25,14 @@
                   "DONE(d!)"
                   "CANCELED(c@)")))
 
+;; persist org-clock across session
+(require 'org-clock)
+(setq org-clock-persist 'history
+      org-clock-persist-file (expand-file-name "org-clock-save.el" conjure-savefile-dir))
 (org-clock-persistence-insinuate)
 
 (with-eval-after-load 'org
-  (defun conjure-org-mode-defaults ()
-    "Defaults for `org-mode'"
-    (org-babel-do-load-languages
+  (org-babel-do-load-languages
      'org-babel-load-languages
      '((emacs-lisp . t)
        (clojure . t)
@@ -39,17 +42,8 @@
        (python . t)
        (restclient . t))))
 
-  (setq org-babel-clojure-backend 'cider)
-  (setq conjure-org-mode-hook 'conjure-org-mode-defaults)
-
-  (add-hook 'outline-mode-hook
-            (lambda ()
-              (run-hooks 'conjure-org-mode-hook))))
-
 (require 'org-roam)
 (require 'org-roam-dailies)
-
-(setq org-roam-v2-ack t)
 
 (unless (file-exists-p conjure-org-dir)
   (make-directory conjure-org-dir))
@@ -94,7 +88,8 @@ Takes ARG and optionally ARGS as pass-thrus."
 (defun conjure/org-roam-refresh-agenda-list ()
   "Filter org-agenda-files by Project."
   (interactive)
-  (setq org-agenda-files (conjure/org-roam-list-notes-by-tag "Project")))
+  (setq org-agenda-files (cons (expand-file-name "agenda.org" conjure-org-dir)
+                               (conjure/org-roam-list-notes-by-tag "Project"))))
 
 (defun conjure/org-roam-copy-todo-to-today ()
   "Move tasks accomplished today to tadays org-roam node."
@@ -121,37 +116,41 @@ Takes ARG and optionally ARGS as pass-thrus."
 
 (add-hook 'org-mode-hook (lambda ()
                            (electric-indent-local-mode -1)))
+(add-hook 'org-mode-hook #'org-modern-mode)
+(add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
 
 ;; Build the agenda
 (conjure/org-roam-refresh-agenda-list)
 
-(with-eval-after-load 'org-roam
-  (defun conjure-org-roam-defaults ()
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t)
+(setq org-roam-ui-open-on-start nil
+      org-roam-ui-sync-theme t
+      org-roam-ui-follow t
+      org-roam-ui-update-on-save t)
 
-    (global-set-key (kbd "C-c m l") 'org-roam-buffer-toggle)
-    (global-set-key (kbd "C-c m f") 'org-roam-node-find)
-    (global-set-key (kbd "C-c m i") 'org-roam-node-insert)
-    (global-set-key (kbd "C-c m I") 'org-roam-insert-node-immediate)
-    (global-set-key (kbd "C-c m c") 'org-roam-capture)
-    (global-set-key (kbd "C-c m d d") 'org-roam-dailies-goto-today)
-    (global-set-key (kbd "C-c m d y") 'org-roam-dailies-goto-yesterday)
-    (global-set-key (kbd "C-c m d t") 'org-roam-dailies-goto-tomorrow)
-    (global-set-key (kbd "C-c m d b") 'org-roam-dailies-goto-previous-note)
-    (global-set-key (kbd "C-c m d c") 'org-roam-dailies-goto-date)
+(defun conjure-org-roam-defaults ()
+  "Configure sensible defaults for `org-roam'."
+  (global-set-key (kbd "C-c m l") 'org-roam-buffer-toggle)
+  (global-set-key (kbd "C-c m f") 'org-roam-node-find)
+  (global-set-key (kbd "C-c m i") 'org-roam-node-insert)
+  (global-set-key (kbd "C-c m I") 'org-roam-insert-node-immediate)
+  (global-set-key (kbd "C-c m c") 'org-roam-capture)
+  (global-set-key (kbd "C-c m d d") 'org-roam-dailies-goto-today)
+  (global-set-key (kbd "C-c m d y") 'org-roam-dailies-goto-yesterday)
+  (global-set-key (kbd "C-c m d t") 'org-roam-dailies-goto-tomorrow)
+  (global-set-key (kbd "C-c m d b") 'org-roam-dailies-goto-previous-note)
+  (global-set-key (kbd "C-c m d c") 'org-roam-dailies-goto-date)
 
-    (define-key org-mode-map (kbd "C-M-i") 'completion-at-point)
+  (define-key org-mode-map (kbd "C-M-i") 'completion-at-point)
 
-    (message "[conjure] Org-roam powering up..."))
+  (message "[conjure] Org-roam powering up..."))
 
-  (org-roam-db-autosync-mode)
-  (setq conjure-org-roam-hook 'conjure-org-roam-defaults)
+(org-roam-db-autosync-mode)
 
-  (org-roam-setup)
-  (add-hook 'after-init-hook (lambda ()
-                               (run-hooks 'conjure-org-roam-hook))))
+(setq conjure-org-roam-hook 'conjure-org-roam-defaults)
+
+(org-roam-setup)
+(add-hook 'after-init-hook (lambda ()
+                             (run-hooks 'conjure-org-roam-hook)))
 
 (provide 'init-org)
 ;;; init-org.el ends here

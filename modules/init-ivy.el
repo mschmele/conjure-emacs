@@ -4,10 +4,10 @@
 (unless (executable-find "ag")
   (message "%s" "executable: ag not found!, counsel-ag will not work"))
 
-(conjure-require-packages '(all-the-icons-ivy-rich
-                            counsel
+(conjure-require-packages '(counsel
                             helpful
                             ivy
+                            ivy-prescient
                             ivy-rich
                             swiper))
 
@@ -43,7 +43,6 @@
 (global-set-key (kbd "C-c g") 'counsel-git)
 (global-set-key (kbd "C-c j") 'counsel-git-grep)
 (global-set-key (kbd "C-c a") 'counsel-ag)
-(global-set-key (kbd "C-c l") 'counsel-locate)
 (global-set-key (kbd "M-y") 'counsel-yank-pop)
 
 (global-set-key (kbd "C-c c R") 'counsel-list-processes)
@@ -53,12 +52,10 @@
 (define-key ivy-minibuffer-map (kbd "TAB") 'ivy-alt-done)
 
 ;; Make Ivy a bit prettier
-(require 'all-the-icons-ivy-rich)
 (require 'ivy-rich)
 (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
 (setq ivy-rich-path-style 'abbrev)
 
-(all-the-icons-ivy-rich-mode)
 (ivy-rich-mode 1)
 
 (require 'counsel)
@@ -70,6 +67,8 @@
 (global-set-key [remap describe-command] #'helpful-command)
 (global-set-key [remap describe-variable] #'counsel-describe-variable)
 (global-set-key [remap describe-key] #'helpful-key)
+
+(ivy-prescient-mode +1)
 
 (provide 'init-ivy)
 ;;; init-ivy.el ends here

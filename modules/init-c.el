@@ -1,7 +1,6 @@
 ;;; init-c.el --- c-mode configuration
 ;;; Commentary:
 ;;; Code:
-
 (require 'init-programming)
 
 (setq-default js-indent-level 2)

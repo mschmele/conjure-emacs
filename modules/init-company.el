@@ -1,7 +1,8 @@
 ;;; init-company.el --- company-mode setup
 ;;; Commentary:
 ;;; Code:
-(conjure-require-packages '(company))
+(conjure-require-packages '(company
+                            company-prescient))
 
 (require 'company)
 (require 'diminish)
@@ -11,6 +12,8 @@
       company-minimum-prefix-length 2
       company-tooltip-align-annotations t
       company-tooltip-flip-when-above t)
+
+(company-prescient-mode +1)
 
 (global-company-mode 1)
 (diminish 'company-mode)

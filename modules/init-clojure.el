@@ -20,9 +20,13 @@
               (run-hooks 'conjure-clojure-mode-hook))))
 
 (with-eval-after-load 'cider
-  (setq nrepl-log-messages t
+  (setq nrepl-log-messages nil
+        nrepl-hide-special-buffers t
         cider-repl-display-help-banner nil
-        cider-print-fn 'puget)
+        cider-repl-result-prefix ";; => "
+        cider-repl-buffer-size-limit 100000
+        cider-print-options '(("print-length" 100))
+        cider-print-fn `puget)
 
   (add-hook 'cider-mode-hook 'eldoc-mode)
 

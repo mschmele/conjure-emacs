@@ -1,16 +1,26 @@
 ;;; init-lsp.el --- lsp-mode config
 ;;; Commentary:
 ;;; Code:
-(conjure-require-packages '(lsp-mode))
-
+(conjure-require-packages '(lsp-mode
+                            lsp-treemacs))
 (require 'lsp-mode)
+(lsp-enable-which-key-integration +1)
 
-(setq lsp-lens-enable nil)
+(defun conjure/lsp-treemacs-symbols-toggle ()
+  "Toggle lsp-treemacs-symbols buffer."
+  (interactive)
+  (if (get-buffer "*LSP Symbols List*")
+      (kill-buffer "*LSP Symbols List*")
+    (progn (lsp-treemacs-symbols)
+           (other-window -1))))
 
-(define-key lsp-mode-map (kbd "C-c C-l r") 'lsp-rename)
-(define-key lsp-mode-map (kbd "C-c C-l x") 'lsp-workspace-restart)
-(define-key lsp-mode-map (kbd "C-c C-l d") 'lsp-describe-thing-at-point)
-(define-key lsp-mode-map (kbd "C-c C-l e") 'lsp-execute-code-action)
+(defun conjure/lsp-treemacs-errors-toggle ()
+  "Toggle lsp-treemacs-error buffer."
+  (interactive)
+  (if (get-buffer "*LSP Error List*")
+      (kill-buffer "*LSP Error List*")
+    (progn (lsp-treemacs-errors-list)
+           (other-window -1))))
 
 (provide 'init-lsp)
 ;;; init-lsp.el ends here

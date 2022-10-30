@@ -28,8 +28,13 @@
 
 (setq conjure-js-mode-hook 'conjure-js-mode-defaults)
 
-(add-hook 'rjsx-mode-hook (lambda() (run-hooks 'conjure-js-mode-hook)))
-(add-hook 'rjsx-mode-hook #'lsp)
+(add-hook 'rjsx-mode-hook
+          (lambda()
+            (run-hooks 'conjure-js-mode-hook)))
+(add-hook 'rjsx-mode-hook #'lsp-deferred)
+
+(require 'typescript-mode)
+(setq typescript-indent-level 2)
 
 ;; TODO handle switch-case indentation conditionally
 ;; setq-hook

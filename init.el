@@ -5,8 +5,8 @@
 (defconst *is-a-mac* (eq system-type 'darwin))
 (defconst *is-linux* (eq system-type 'gnu/linux))
 
-(setq gc-cons-threshold (* 50 1024 1024)
-      gc-cons-percentage 0.6)
+;; Bump GC during startup
+(setq gc-cons-threshold (* 50 1024 1024))
 
 (defvar conjure-user
   (getenv (if (equal system-type 'windows-nt) "USERNAME" "USER")))
@@ -81,11 +81,11 @@
 (require 'init-ivy)
 (require 'init-java)
 (require 'init-js)
+(require 'init-lsp)
 (require 'init-org)
 (require 'init-python)
 (require 'init-ruby)
 (require 'init-rust)
-(require 'init-scala)
 (require 'init-terraform)
 (require 'init-web)
 (require 'init-xml)
@@ -117,4 +117,8 @@
 
 (require 'server)
 (unless (server-running-p) (server-start))
+
+;; Restore GC to normal
+(setq gc-cons-threshold (* 2 1024 1024))
+
 ;;; init.el ends here

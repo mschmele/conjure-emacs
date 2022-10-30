@@ -60,21 +60,6 @@
                              (all-the-icons-dired-mode)
                              (diminish 'all-the-icons-dired-mode)))
 
-(setq all-the-icons-ibuffer-formats
-      '((mark modified read-only locked " "
-              (icon 2 2 :left :elide)
-              #(" " 0 1
-                (display
-                 (space :align-to 8)))
-              (name 30 30 :left :elide)
-              " "
-              (size-h 9 -1 :right)
-              " "
-              (mode+ 16 16 :left :elide)
-              " " filename-and-process+)
-        (mark " "
-              (name 30 -1)
-              " " filename)))
 (add-hook 'ibuffer-mode-hook (lambda ()
                                (all-the-icons-ibuffer-mode)))
 
@@ -90,23 +75,15 @@
 
 (pulsar-global-mode 1)
 
-;; Setup window defaults
-(setq display-buffer-alist
-      '(("\\*e?shell\\*"
-         (display-buffer-in-side-window)
-         (setq-local window-height 0.25
-                     side 'bottom
-                     slot 0))))
-
-;; make the icons smaller for a more compact tree
-(require 'treemacs)
-(setq treemacs--icon-size 15)
-
 ;; improve `hl-line' highlighting
 (require 'lin)
 (lin-global-mode 1)
 
-(set-face-attribute 'default nil :font "Source Code Pro")
+(set-face-attribute 'default nil :font "Iosevka Comfy" :height 130)
+(setq goto-address-url-face 'link
+      goto-address-url-mouse-face 'highlight
+      goto-address-mail-face 'link
+      goto-address-mail-mouse-face 'highlight)
 
 (provide 'init-ui)
 ;;; init-ui.el ends here

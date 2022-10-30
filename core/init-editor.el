@@ -77,7 +77,8 @@
 
 (require 'projectile)
 (setq projectile-cache-file (expand-file-name "projectile.cache" conjure-savefile-dir)
-      projectile-create-missing-test-files t)
+      projectile-create-missing-test-files t
+      projectile-require-project-root t)
 (projectile-mode t)
 
 (global-hl-line-mode +1)
@@ -159,7 +160,7 @@
 (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
 
 ;; Conjure very own mode
-(conjure-mode 1)
+(conjure-mode +1)
 
 (require 'undo-tree)
 ;; autosave the undo-tree history
@@ -184,6 +185,12 @@
 ;; handle colorized output in compiled windows (e.g. `dap-mode' output)
 (add-hook 'compilation-filter-hook
           (lambda () (ansi-color-apply-on-region (point-min) (point-max))))
+
+(require 'prescient)
+(setq-default history-length 1000)
+(setq-default prescient-history-length 1000)
+(setq prescient-save-file (expand-file-name "prescient-save.el" conjure-savefile-dir))
+(prescient-persist-mode +1)
 
 (provide 'init-editor)
 ;;; init-editor.el ends here
