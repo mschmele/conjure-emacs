@@ -7,7 +7,7 @@
 (conjure-require-packages '(counsel
                             helpful
                             ivy
-                            ivy-prescient
+                            ivy-posframe
                             ivy-rich
                             swiper))
 
@@ -33,6 +33,7 @@
 
 (global-set-key "\C-s" 'swiper)
 
+(require 'counsel)
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
 (global-set-key (kbd "<f1> f") 'counsel-describe-function)
@@ -58,7 +59,6 @@
 
 (ivy-rich-mode 1)
 
-(require 'counsel)
 (require 'helpful)
 (setq counsel-describe-function-function #'helpful-callable)
 (setq counsel-describe-variable-function #'helpful-variable)
@@ -68,7 +68,19 @@
 (global-set-key [remap describe-variable] #'counsel-describe-variable)
 (global-set-key [remap describe-key] #'helpful-key)
 
-(ivy-prescient-mode +1)
+(require 'ivy-posframe)
+
+(setq ivy-posframe-border-width 4
+      ivy-posframe-parameters '((left-fringe . 8)
+                                (right-fringe . 8 ))
+      ivy-posframe-height-alist '((swiper . 15)
+                                  (t . 25))
+      ivy-posframe-display-functions-alist
+      '((swiper . ivy-display-function-fallback)
+        (complete-symbol . ivy-posframe-display-at-point)
+        (t . ivy-posframe-display)))
+
+(ivy-posframe-mode +1)
 
 (provide 'init-ivy)
 ;;; init-ivy.el ends here

@@ -22,5 +22,7 @@
     (progn (lsp-treemacs-errors-list)
            (other-window -1))))
 
+(setq lsp-treemacs-symbols-sort-functions '(lsp-treemacs-sort-by-kind lsp-treemacs-sort-by-name))
+
 (provide 'init-lsp)
 ;;; init-lsp.el ends here

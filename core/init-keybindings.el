@@ -28,5 +28,16 @@
 (global-set-key (kbd "C-c h p") #'pulsar-pulse-line)
 (global-set-key (kbd "C-c h h") #'pulsar-highlight-line)
 
+
+(global-set-key (kbd "C-:") 'avy-goto-char)
+
+(global-set-key (kbd "M-%") 'anzu-query-replace)
+(global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
+
+(browse-kill-ring-default-keybindings)
+(global-set-key (kbd "s-y") 'browse-kill-ring)
+
+(global-set-key [remap kill-ring-save] 'easy-kill)
+(global-set-key [remap mark-sexp] 'easy-mark)
 (provide 'init-keybindings)
 ;;; init-keybindings.el ends here

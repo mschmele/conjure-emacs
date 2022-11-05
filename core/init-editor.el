@@ -96,15 +96,11 @@
 (require 'avy)
 (setq avy-background t)
 (setq avy-style 'at-full)
-(global-set-key (kbd "C-:") 'avy-goto-char)
 
 ;; better find and replace
 (require 'anzu)
 (diminish 'anzu-mode)
 (global-anzu-mode)
-
-(global-set-key (kbd "M-%") 'anzu-query-replace)
-(global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
 
 (put 'dired-find-alternate-file 'disabled nil)
 
@@ -120,8 +116,6 @@
 (require 'midnight)
 
 (require 'browse-kill-ring)
-(browse-kill-ring-default-keybindings)
-(global-set-key (kbd "s-y") 'browse-kill-ring)
 
 (customize-set-variable 'kill-do-not-save-duplicates t)
 
@@ -159,7 +153,7 @@
 
 (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
 
-;; Conjure very own mode
+;; Conjures very own mode
 (conjure-mode +1)
 
 (require 'undo-tree)
@@ -172,9 +166,6 @@
 
 (winner-mode +1)
 
-(global-set-key [remap kill-ring-save] 'easy-kill)
-(global-set-key [remap mark-sexp] 'easy-mark)
-
 ;; Make shbang (#!) file executable when saved
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
@@ -186,11 +177,8 @@
 (add-hook 'compilation-filter-hook
           (lambda () (ansi-color-apply-on-region (point-min) (point-max))))
 
-(require 'prescient)
-(setq-default history-length 1000)
-(setq-default prescient-history-length 1000)
-(setq prescient-save-file (expand-file-name "prescient-save.el" conjure-savefile-dir))
-(prescient-persist-mode +1)
+(autoload 'wgrep-ag-setup "wgrep-ag")
+(add-hook 'ag-mode-hook 'wgrep-ag-setup)
 
 (provide 'init-editor)
 ;;; init-editor.el ends here

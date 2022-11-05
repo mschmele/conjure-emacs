@@ -46,7 +46,6 @@
     guru-mode
     helpful
     magit
-    prescient
     smartrep
     super-save
     undo-tree

@@ -6,6 +6,7 @@
                             rjsx-mode
                             typescript-mode
                             lsp-mode
+                            dap-mode
                             tide
                             web-mode))
 
@@ -36,13 +37,14 @@
 (require 'typescript-mode)
 (setq typescript-indent-level 2)
 
-;; TODO handle switch-case indentation conditionally
-;; setq-hook
-;; (setq js-switch-indent-offset js2-basic-offset)
+(require 'dap-node)
+(dap-node-setup)
 
-;; TODO handle .tsx separate if web-mode and typescript-mode fight over who wins
+(require 'dap-firefox)
+(dap-firefox-setup)
 
-;;(add-hook 'rjsx-mode-hook 'prettier-js-mode)
+(require 'dap-chrome)
+(dap-chrome-setup)
 
 (provide 'init-js)
 ;;; init-js.el ends here
