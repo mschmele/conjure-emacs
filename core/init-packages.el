@@ -23,6 +23,7 @@
     easy-kill
     editorconfig
     expand-region
+    helm
     hl-todo
     lin
     move-text
@@ -48,6 +49,7 @@
     magit
     smartrep
     super-save
+    treemacs
     undo-tree
     which-key))
 
