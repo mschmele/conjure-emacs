@@ -152,5 +152,23 @@ Takes ARG and optionally ARGS as pass-thrus."
 (add-hook 'after-init-hook (lambda ()
                              (run-hooks 'conjure-org-roam-hook)))
 
+;; Add org-babel support
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (shell      . t)
+   (sql        . t)
+   (dot        . t)
+   (gnuplot    . t)
+   (clojure    . t)))
+(setq org-src-window-setup         'current-window
+      org-src-fontify-natively     t
+      org-confirm-babel-evaluate   nil
+      org-src-preserve-indentation t)
+
+;; Use CIDER for evaluating clojure code blocks
+(require 'cider)
+(setq org-babel-clojure-backend 'cider)
+
 (provide 'init-org)
 ;;; init-org.el ends here
