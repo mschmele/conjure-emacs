@@ -6,6 +6,7 @@
 (require 'flycheck-clj-kondo)
 
 (require 'clojure-mode)
+(require 'init-portal)
 
 (with-eval-after-load 'clojure-mode
   (defun conjure-clojure-mode-defaults ()
@@ -39,6 +40,11 @@
 
   (define-key clojure-mode-map (kbd "C-c C-a") 'cider-format-buffer)
 
+  ;; Portal key commands
+  (define-key clojure-mode-map (kbd "M-p o") 'portal-open)
+  (define-key clojure-mode-map (kbd "M-p q") 'portal-quit)
+  (define-key clojure-mode-map (kbd "M-p c") 'portal-clear)
+
   (add-hook 'cider-repl-mode-hook
             (lambda ()
               (run-hooks 'conjure-cider-repl-mode-hook))))
@@ -58,27 +64,6 @@
   (rfn 2)
   (let-routes 1)
   (context 2))
-
-;; Leverage an existing cider nrepl connection to evaluate portal.api functions
-;; and map them to convenient key bindings.
-
-;; def portal to the dev namespace to allow dereferencing via @dev/portal
-(defun portal-open ()
-  (interactive)
-  (cider-nrepl-sync-request:eval
-    "(do (ns dev) (def portal ((requiring-resolve 'portal.api/open))) (add-tap (requiring-resolve 'portal.api/submit)))"))
-
-(defun portal-clear ()
-  (interactive)
-  (cider-nrepl-sync-request:eval "(portal.api/clear)"))
-
-(defun portal-close ()
-  (interactive)
-  (cider-nrepl-sync-request:eval "(portal.api/close)"))
-
-;; NOTE: You do need to have portal on the class path and the easiest way I know
-;; how is via a clj user or project alias.
-(setq cider-clojure-cli-global-options "-A:portal")
 
 (provide 'init-clojure)
 ;;; init-clojure.el ends here
