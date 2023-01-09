@@ -7,6 +7,7 @@
 
 (require 'clojure-mode)
 (require 'init-portal)
+(require 'cider-hydra)
 
 (with-eval-after-load 'clojure-mode
   (defun conjure-clojure-mode-defaults ()
@@ -19,6 +20,9 @@
   (add-hook 'clojure-mode-hook
             (lambda ()
               (run-hooks 'conjure-clojure-mode-hook))))
+
+(eval-after-load 'clojure-mode
+  '(sayid-setup-package))
 
 (with-eval-after-load 'cider
   (setq nrepl-log-messages nil
@@ -44,6 +48,7 @@
   (define-key clojure-mode-map (kbd "M-p o") 'portal-open)
   (define-key clojure-mode-map (kbd "M-p q") 'portal-quit)
   (define-key clojure-mode-map (kbd "M-p c") 'portal-clear)
+  (define-key clojure-mode-map (kbd "M-p M-t a") 'portal-tap-function-arguments)
 
   (add-hook 'cider-repl-mode-hook
             (lambda ()
