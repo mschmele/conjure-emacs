@@ -7,7 +7,6 @@
 
 (require 'clojure-mode)
 (require 'init-portal)
-(require 'cider-hydra)
 
 (with-eval-after-load 'clojure-mode
   (defun conjure-clojure-mode-defaults ()
@@ -20,9 +19,6 @@
   (add-hook 'clojure-mode-hook
             (lambda ()
               (run-hooks 'conjure-clojure-mode-hook))))
-
-(eval-after-load 'clojure-mode
-  '(sayid-setup-package))
 
 (with-eval-after-load 'cider
   (setq nrepl-log-messages nil

@@ -73,7 +73,7 @@
 (require 'cider-inspector)
 (require 'hydra)
 
-
+
 ;;;; Customize
 
 (defgroup cider-hydra nil
@@ -81,7 +81,7 @@
   :prefix "cider-hydra-"
   :group 'cider)
 
-
+
 ;;;; Documentation
 
 (defhydra cider-hydra-doc (:color blue)
@@ -106,7 +106,7 @@ _r_: ClojureDocs                        _h_: ClojureDocs in browser
   ("r" cider-clojuredocs nil)
   ("h" cider-clojuredocs-web nil))
 
-
+
 ;;;; Loading and evaluation
 
 (defhydra cider-hydra-eval (:color blue)
@@ -142,7 +142,7 @@ _m_: Macroexpand-1                      _M_: Macroexpand all
   ("m" cider-macroexpand-1 nil)
   ("M" cider-macroexpand-all nil))
 
-
+
 ;;;; Testing and debugging
 
 (defhydra cider-hydra-test (:color blue)
@@ -166,7 +166,7 @@ _s_: Show test report
   ("p" cider-test-run-project-tests nil)
   ("s" cider-test-show-report nil))
 
-
+
 ;;;; REPL
 
 (defhydra cider-hydra-repl (:color blue)
@@ -194,7 +194,7 @@ _b_: Interrupt pending evaluations      _Q_: Quit CIDER
   ("b" cider-interrupt nil)
   ("Q" cider-quit nil))
 
-
+
 ;;;; Key bindings and minor mode
 
 (defvar cider-hydra-map
@@ -213,6 +213,6 @@ _b_: Interrupt pending evaluations      _Q_: Quit CIDER
   :keymap cider-hydra-map
   :require 'cider)
 
-
+
 (provide 'cider-hydra)
 ;;; cider-hydra.el ends here

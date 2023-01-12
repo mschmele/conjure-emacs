@@ -19,15 +19,6 @@
   (interactive)
   (cider-nrepl-sync-request:eval "(portal.api/close)"))
 
-(defun portal-tap-function-arguments ()
-  (interactive)
-  (let* ((current-ns (clojure-find-ns))
-         (this-var   (word-at-point))
-         (this-fn    (cider-defun-at-point))
-         (dict       (cider-resolve-var current-ns this-fn))
-         (arglists   (nrepl-dict-get dict "arglists")))
-    (message "Var %s/%s has arglists %s" current-ns this-fn arglists)))
-
 (defun portal-inspect-expr (expr ns)
   "Evaluate EXPR in NS and inspect its value.
 Interactively, EXPR is read from the minibuffer, and NS the
@@ -42,14 +33,26 @@ current buffer's namespace."
                       cider-inspector-max-coll-size)))
     value))
 
-;; (defun portal-tap-function-arguments ()
-;;   "Get all function arguments at current expr and put em' into a tap>"
-;;   (interactive)
-;;   (setq value (portal-inspect-expr (cider-defun-at-point) (cider-current-ns)))
+(setq signature-regex "(defn-? \\([^\s\n]*\\)[\n ]+\\(\\\".+\[\n ]*\\)?\\[\\(.+\\)\\]")
 
-;;   (print value)
-;;   ;;(concat "(tap>" value ")")
-;;   )
+(defun extract-function-signature (regexp string)
+  (message "%s" string)
+  (if (string-match regexp string)
+
+      (list (match-string 1 string)
+            (string-split (match-string 3 string)))))
+
+(defun tap-in-buffer (form tap-me)
+  (let* ((buffer-content (with-current-buffer buffer (buffer-string)))
+         (start-point (string-match form buffer-content)))
+    ()))
+
+(defun portal-tap-function-arguments (&optional form)
+  (interactive (list (cider-defun-at-point)))
+  (let ((current-ns (clojure-find-ns))
+        (signature  (extract-function-signature signature-regex form)))
+    (cl-destructuring-bind (name . args) signature
+      (message "Namespace: %s (%s [%s])" current-ns name args))))
 
 ;; NOTE: You do need to have portal on the class path and the easiest way I know
 ;; how is via a clj user or project alias.
