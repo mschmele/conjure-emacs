@@ -79,7 +79,7 @@
 (require 'lin)
 (lin-global-mode 1)
 
-(set-face-attribute 'default nil :font "Iosevka Comfy" :height 130)
+(set-face-attribute 'default nil :font "Iosevka" :height 130)
 (setq goto-address-url-face 'link
       goto-address-url-mouse-face 'highlight
       goto-address-mail-face 'link

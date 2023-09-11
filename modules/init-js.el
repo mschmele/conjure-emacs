@@ -6,7 +6,7 @@
                             rjsx-mode
                             typescript-mode
                             lsp-mode
-                            dap-mode
+                            ;; dap-mode
                             tide
                             web-mode))
 
@@ -37,14 +37,14 @@
 (require 'typescript-mode)
 (setq typescript-indent-level 2)
 
-(require 'dap-node)
-(dap-node-setup)
+;; (require 'dap-node)
+;; (dap-node-setup)
 
-(require 'dap-firefox)
-(dap-firefox-setup)
+;; (require 'dap-firefox)
+;; (dap-firefox-setup)
 
-(require 'dap-chrome)
-(dap-chrome-setup)
+;; (require 'dap-chrome)
+;; (dap-chrome-setup)
 
 (provide 'init-js)
 ;;; init-js.el ends here
